@@ -36,7 +36,7 @@ var styles = {
     title: {
         fontSize: 25,
         fontWeight: 'bold',
-        color: '#000000'
+        color: '#48BBEC'
     },
     rowContainer: {
         flexDirection: 'row',
@@ -80,7 +80,8 @@ class SearchResults extends Component {
                     <View style={styles.rowContainer}>
                         <Image source={require('./Resources/restaurant.png')} style={styles.image}/>
                         <View  style={styles.textContainer}>
-                            <Text style={styles.title} numberOfLines={1}>{rowData.name}</Text>
+                            <Text style={styles.title}>{rowData.name}</Text>
+                            <Text numberOfLines={1}>{rowData.location}</Text>
                         </View>
                     </View>
                     <View style={styles.separator}/>
