@@ -2,9 +2,8 @@
 
 ## Setup
 ```
-$ git clone https://github.com/yingjia987/connoisseur.git
+$ git clone https://github.com/tygiacalone/connoisseuriOS.git
 $ git pull
-$ cd connoisseuriOS
 $ sudo npm install
 ```
 
