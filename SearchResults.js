@@ -36,7 +36,7 @@ var styles = {
     title: {
         fontSize: 25,
         fontWeight: 'bold',
-        color: '#000000'
+        color: '#48BBEC'
     },
     rowContainer: {
         flexDirection: 'row',
