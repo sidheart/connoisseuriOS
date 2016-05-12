@@ -36,9 +36,10 @@ var styles = StyleSheet.create({
         alignItems: 'center'
     },
     title: {
-        fontSize: 25,
+        fontSize: 35,
         fontWeight: 'bold',
-        color: '#48BBEC'
+        color: '#48BBEC',
+        padding: 10
     },
     h1: {
         fontSize: 22,
@@ -89,9 +90,9 @@ class RestaurantView extends Component {
                 <Image source={require('./Resources/restaurant.png')} style={styles.image}/>
                 <View style={styles.mainText}>
                     <Text style={styles.title}>{data.name}</Text>
-                    <Text style={styles.h1}>{price}</Text>
-                    <Text style={styles.h1}>{location}</Text>
                     <Text style={styles.h1}>{data.phone_number}</Text>
+                    <Text style={styles.h1}>${price}</Text>
+                    <Text style={styles.h1}>{location}</Text>
                     <View style={styles.separator}/>
                 </View>
                 <View style={styles.supportText}>
