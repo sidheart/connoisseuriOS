@@ -229,7 +229,7 @@ const AccordionList = [
     title: 'I want to spend...Per Person',
     identifier: 'budget'
   }
-]
+];
 
 const AccordionContent = {
   day: {

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import SearchPage from './SearchPage';
+import SearchPage from './SearchPageAccordion';
+import SearchPageOld from './SearchPageOld';
 
 import {
   StyleSheet,
@@ -84,8 +85,8 @@ class WelcomePage extends Component {
 
   _onSignUpPressed() {
     this.props.navigator.push({
-      title: 'Search',
-      component: SearchPage
+      title: 'SearchOld',
+      component: SearchPageOld
     });
   }
 
