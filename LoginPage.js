@@ -4,6 +4,11 @@ import Collapsible from 'react-native-collapsible';
 import Accordion from 'react-native-collapsible/Accordion';
 import SearchResults from './SearchResults';
 import SearchPage from './SearchPageAccordion';
+import FBSDK from 'react-native-fbsdk';
+
+const {
+    LoginButton,
+    } = FBSDK;
 
 import {
     StyleSheet,
@@ -70,6 +75,30 @@ var styles = StyleSheet.create({
   image: {
     width: 217,
     height: 138
+  }
+});
+
+
+var Login = React.createClass({
+  render: function() {
+    return (
+        <View>
+          <LoginButton
+              publishPermissions={["publish_actions"]}
+              onLoginFinished={
+            (error, result) => {
+              if (error) {
+                alert("Login failed with error: " + result.error);
+              } else if (result.isCancelled) {
+                alert("Login was cancelled");
+              } else {
+                alert("Login was successful with permissions: " + result.grantedPermissions)
+              }
+            }
+          }
+              onLogoutFinished={() => alert("User logged out")}/>
+        </View>
+    );
   }
 });
 
@@ -182,6 +211,7 @@ class SearchPageOld extends Component {
               <Text style={styles.buttonText}>Go</Text>
             </TouchableHighlight>
           </View>
+          <Login />
           {spinner}
           <Text style={styles.description}>{this.state.message}</Text>
         </View>
