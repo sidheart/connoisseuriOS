@@ -41,46 +41,39 @@ var styles = StyleSheet.create({
     }
 });
 
-class PropertyView extends Component {
+class RestaurantView extends Component {
 
     render () {
-        var property = this.props.property;
-        var tags = property.tags;
-        var stats = 0;//property.bedroom_number + ' bed ' + property.property_type;
-        var isUpscale = "No";
-        var location = "No location is available for this restaurant";
+        var data = this.props.data;
+        var food_types = "";
+        var meals = "";
+        var tags = "";
 
-        if (property.location !== undefined) {
-            location = property.location;
+        var location = (data.location === undefined) ?
+            "No location is available for this restaurant" : data.location;
+        var price = (data.price === undefined) ?
+            "No pricing is available for this restaurant" : data.price;
+
+        if (data.tags[0] !== undefined) {
+            for(var propertyName in data.tags[0]) {
+                if (data.tags[0] === true)
+                    tags += propertyName;
+            }
         }
-
-        if (tags[0] !== undefined) {
-            isUpscale = tags[0].upscale === true ? "Yes" : "No";
-        }
-
-
-
-        if (property.bathroom_number) {
-            stats += 1;//', ' + property.bathroom_number + ' ' + (property.bathroom_number > 1 ? 'bathrooms' : 'bathroom');
-        }
-
-        var price = 0;//property.price_formatted.split(' ')[0];
 
         return (
             <View style={styles.container}>
                 <Image source={require('./Resources/restaurant.png')} style={styles.image}/>
                 <View style={styles.heading}>
+                    <Text style={styles.title}>{data.name}</Text>
                     <Text style={styles.price}>{price}</Text>
-                    <Text style={styles.title}>{property.name}</Text>
+                    <Text style={styles.title}>{data.location}</Text>
+                    <Text style={styles.title}>{data.phone_number}</Text>
                     <View style={styles.separator}/>
                 </View>
-                <Text style={styles.description}>{stats}</Text>
-                <Text style={styles.description}>Created at: {property.created_at}</Text>
-                <Text style={styles.description}>Upscale: {isUpscale}</Text>
-                <Text style={styles.description}>Location: {location}</Text>
             </View>
         );
     }
 }
 
-module.exports = PropertyView;
+module.exports = RestaurantView;

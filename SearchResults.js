@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PropertyView from './RestaurantView';
+import RestaurantView from './RestaurantView';
 
 import {
   StyleSheet,
@@ -13,29 +13,35 @@ import {
 } from 'react-native';
 
 var styles = {
-    thumb: {
-        width: 80,
-        height: 80,
-        marginRight: 10
+    image: {
+        width: 115,
+        height: 115,
+        marginRight: 5
     },
     textContainer: {
-        flex: 1
+        flex: 1,
+        justifyContent: 'center',
+        flexDirection: 'column',
+        flexWrap: 'wrap'
     },
     separator: {
         height: 1,
         backgroundColor: '#dddddd'
     },
-    price: {
-        fontSize: 25,
+    /*price: {
+        fontSize: 15,
         fontWeight: 'bold',
         color: '#48BBEC'
-    },
+    },*/
     title: {
-        fontSize: 20,
-        color: '#656565'
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: '#000000'
     },
     rowContainer: {
         flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
         padding: 10
     }
 };
@@ -60,24 +66,21 @@ class SearchResults extends Component {
 
         this.props.navigator.push({
             title: 'Restaurant',
-            component: PropertyView,
-            passProps: {property: property}
+            component: RestaurantView,
+            passProps: {data: property}
         });
     }
 
     renderRow(rowData, sectionID, rowID) {
         var price = 0;//rowData.price_formatted.split(' ')[0];
-        console.log(rowData);
+        //console.log(rowData);
         return (
-            <TouchableHighlight onPress={() => this.rowPressed(rowData.username)}
-                    underlayColor='#dddddd'>
+            <TouchableHighlight onPress={() => this.rowPressed(rowData.username)} underlayColor='#dddddd'>
                 <View>
                     <View style={styles.rowContainer}>
-                        <Image source={require('./Resources/restaurant.png')} style={styles.thumb}/>
+                        <Image source={require('./Resources/restaurant.png')} style={styles.image}/>
                         <View  style={styles.textContainer}>
-                            <Text style={styles.price}>{price}</Text>
-                            <Text style={styles.title}
-                                  numberOfLines={1}>{rowData.name}</Text>
+                            <Text style={styles.title} numberOfLines={1}>{rowData.name}</Text>
                         </View>
                     </View>
                     <View style={styles.separator}/>
