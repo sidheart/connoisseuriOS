@@ -16,6 +16,7 @@ import {
   Component,
   AlertIOS
 } from 'react-native';
+
  var styles = StyleSheet.create({
    description: {
      fontFamily: 'Cochin',

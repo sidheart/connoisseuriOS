@@ -79,15 +79,15 @@ class WelcomePage extends Component {
 
   _onLoginPressed() {
     this.props.navigator.push({
-      title: 'Search',
+      title: 'Login',
       component: LoginPage
     });
   }
 
   _onSignUpPressed() {
     this.props.navigator.push({
-      title: 'SearchOld',
-      component: SearchPageOld
+      title: 'Search',
+      component: SearchPage
     });
   }
 

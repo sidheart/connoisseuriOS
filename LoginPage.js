@@ -3,6 +3,7 @@ import * as Animatable from 'react-native-animatable';
 import Collapsible from 'react-native-collapsible';
 import Accordion from 'react-native-collapsible/Accordion';
 import SearchResults from './SearchResults';
+import SearchPage from './SearchPageAccordion';
 
 import {
     StyleSheet,
@@ -123,39 +124,31 @@ class SearchPageOld extends Component {
               isLoading: false,
               message: 'Something bad happened ' + error
             }));
-
-    /*
-     fetch(query, {method: "GET}"})
-     .then(response => response.json())
-     .then(responseData => this._handleResponse(responseData))
-     .catch(error =>
-     this.setState({
-     isLoading: false,
-     message: 'Something bad happened ' + error
-     }));
-     */
   }
 
   _handleResponse(response) {
-    this.setState({
-      isLoading: false,
-      message: ''
-    });
-
     console.log(response);
-    /*
-    if (response.length > 0) {
-      this.props.navigator.push({
-        title: 'Results',
-        component: SearchResults,
-        passProps: {listings: response}
+
+    if (response.success) {
+      this.setState({
+        isLoading: false,
+        message: 'Your token is: ' + response.token
       });
+
+      //this.props.navigator.push({
+      //  title: 'Search',
+      //  component: SearchPage
+      //});
     } else {
       this.setState({
-        message: 'Location not recognized; please try again.'
+        isLoading: false,
+        message: response.message
       });
     }
-    */
+
+
+
+
   }
 
   onSearchPressed() {
@@ -169,24 +162,20 @@ class SearchPageOld extends Component {
 
     return (
         <View style={styles.container}>
-          <Image source={require('./Resources/restaurant_1.jpg')} style={styles.image}/>
           <Text style={styles.description}>
-            Search for the best dining locations in Santa Monica!
-          </Text>
-          <Text style={styles.description}>
-            Search by restaurant name.
+            Login with your username and password
           </Text>
           <View style={styles.flowRight}>
             <TextInput
                 style={styles.searchInput}
                 value={this.state.usernameString}
                 onChange={this.onUsernameTextChanged.bind(this)}
-                placeholder='Search via name or postcode'/>
+                placeholder='Username'/>
             <TextInput
                 style={styles.searchInput}
                 value={this.state.passwordString}
                 onChange={this.onPasswordTextChanged.bind(this)}
-                placeholder='Search via name or postcode'/>
+                placeholder='Password'/>
             <TouchableHighlight style={styles.button}
                                 onPress={this.onSearchPressed.bind(this)}
                                 underlayColor='#99d9f4'>
