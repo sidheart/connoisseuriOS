@@ -9,6 +9,8 @@
     "eslint": "^2.9.0",
     "eslint-plugin-react": "^5.0.1",
     "react": "^0.14.8",
-    "react-native": "^0.24.1"
+    "react-native": "^0.24.1",
+    "react-native-animatable": "^0.6.0",
+    "react-native-collapsible": "^0.6.0"
   }
 }
