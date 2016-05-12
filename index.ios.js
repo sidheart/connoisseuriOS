@@ -1,13 +1,6 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+import React from 'react-native';
 
-'use strict';
-
-var React = require('react-native');
-var WelcomePage = require('./WelcomePage');
+import WelcomePage from './WelcomePage';
 
 var styles = React.StyleSheet.create({
   container: {
