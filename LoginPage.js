@@ -8,6 +8,8 @@ import FBSDK from 'react-native-fbsdk';
 
 const {
     LoginButton,
+    GraphRequest,
+    GraphRequestManager,
     } = FBSDK;
 
 import {
@@ -92,7 +94,9 @@ var Login = React.createClass({
               } else if (result.isCancelled) {
                 alert("Login was cancelled");
               } else {
-                alert("Login was successful with permissions: " + result.grantedPermissions)
+                alert("Login was successful with permissions: " + result.grantedPermissions);
+                console.log(result);
+
               }
             }
           }
@@ -102,11 +106,13 @@ var Login = React.createClass({
   }
 });
 
+
 function urlForQueryAndPage() {
   return 'http://localhost:3000/auth';
 }
 
 class SearchPageOld extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -174,13 +180,26 @@ class SearchPageOld extends Component {
         message: response.message
       });
     }
+  }
 
-
-
-
+  //Create response callback.
+  _responseInfoCallback(error, result) {
+    if (error) {
+      alert('Error fetching data: ' + error.toString());
+    } else {
+      alert('Success fetching data: ' + result.id + result.name);
+      console.log(result);
+    }
   }
 
   onSearchPressed() {
+    // Create a graph request asking for user informations with a callback to handle the response.
+    var infoRequest = new GraphRequest(
+        '/me',
+        null,
+        this._responseInfoCallback
+    );
+    new GraphRequestManager().addRequest(infoRequest).start();
     var query = urlForQueryAndPage();
     this._executeQuery(query);
   }
