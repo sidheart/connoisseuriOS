@@ -14,7 +14,8 @@ import {
   ActivityIndicatorIOS,
   Image,
   Component,
-  AlertIOS
+  AlertIOS,
+  AsyncStorage
 } from 'react-native';
 
 var PickerItemIOS = PickerIOS.Item;
@@ -295,6 +296,16 @@ class SearchPage extends Component {
     this.state = {
       collapsed: true
     };
+
+    AsyncStorage.getItem('token', (error, value) => {
+      if (error) {
+        alert('ERROR, can\'t find item: ' + err);
+        console.log('ERROR, can\'t find item: ' + err);
+      } else {
+        alert('Your current token is: ' + value);
+        console.log('ID SAVED MESSAHE AJJJ id saved: ' + value);
+      }
+    });
   }
 
   _toggleExpanded() {

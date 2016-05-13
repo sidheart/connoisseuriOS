@@ -27,7 +27,6 @@ import {
     AsyncStorage
 } from 'react-native';
 
-
 var styles = StyleSheet.create({
   description: {
     fontFamily: 'Cochin',
@@ -82,7 +81,102 @@ var styles = StyleSheet.create({
   }
 });
 
-class LoginPage extends Component {
+var Login = React.createClass({
+
+  render: function() {
+    return (
+        <View>
+          <LoginButton
+              publishPermissions={["publish_actions"]}
+              onLoginFinished={
+            (error, result) => {
+              if (error) {
+                alert("Login failed with error: " + result.error);
+              } else if (result.isCancelled) {
+                alert("Login was cancelled");
+              } else {
+                alert("Login was successful with permissions: " + result.grantedPermissions);
+                //console.log(result);
+                // Create a graph request asking for user informations with a callback to handle the response.
+                var infoRequest = new GraphRequest(
+                    '/me',
+                    null,
+                    this._fbLoginCallback
+                );
+                new GraphRequestManager().addRequest(infoRequest).start();
+              }
+            }
+          }
+              onLogoutFinished={() => alert("User logged out")}/>
+        </View>
+    );
+  },
+
+  _fbLoginCallback(error, result) {
+    if (error) {
+      alert('Error fetching data: ' + error.toString());
+    } else {
+      alert('Success fetching data: ' + result.id + result.name);
+      //console.log(result);
+
+      var loginParams = {
+        username: result.id,
+        password: result.id
+      };
+      var query = Routes.addUser;
+      this._executeQuery(query, loginParams);
+    }
+  },
+
+  _handleResponse(response) {
+    console.log(response);
+
+    if (response.success) {
+      this.setState({
+        isLoading: false,
+        message: 'Your token is: ' + response
+      });
+
+      //this.props.navigator.push({
+      //  title: 'Search',
+      //  component: SearchPage
+      //});
+    } else {
+      this.setState({
+        isLoading: false,
+        message: response.message
+      });
+    }
+  },
+
+  _executeQuery(query, params) {
+    console.log(params);
+    this.setState( {isLoading: true} );
+
+    var object = {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: params.username,
+        password: params.password
+      })
+    };
+
+    fetch(query, object)
+      .then((response) => response.json())
+      .then((json) => this._handleResponse(json))
+      .catch((error) => {
+        console.log(error);
+        alert("User already registered, " + error);
+      });
+  }
+
+});
+
+class SignupPage extends Component {
 
   constructor(props) {
     super(props);
@@ -107,7 +201,6 @@ class LoginPage extends Component {
   }
 
   _executeQuery(query) {
-
     console.log(query);
     this.setState( {isLoading: true} );
 
@@ -126,35 +219,28 @@ class LoginPage extends Component {
     fetch(query, object)
         .then((response) => response.json())
         .then((json) => this._handleResponse(json))
-        .catch(error =>
-            this.setState({
-              isLoading: false,
-              message: 'Something bad happened ' + error
-            }));
+        .catch(error => {
+          //alert('User already registered! ' + error);
+          this.setState({
+            isLoading: false,
+            message: 'User already registered! ' + error
+          })
+      });
   }
 
   _handleResponse(response) {
     console.log(response);
 
     if (response.success) {
-
       this.setState({
         isLoading: false,
-        message: 'Your token is: ' + response.token
+        message: 'Your token is: ' + response
       });
 
-      AsyncStorage.setItem('token', response.token, (err) => {
-        if (err) {
-          console.log(err);
-          alert('Access token could not be saved');
-        } else {
-          // Go to search page, now that you're logged in
-          this.props.navigator.push({
-            title: 'Search',
-            component: SearchPage
-          });
-        }
-      });
+      //this.props.navigator.push({
+      //  title: 'Search',
+      //  component: SearchPage
+      //});
     } else {
       this.setState({
         isLoading: false,
@@ -163,9 +249,33 @@ class LoginPage extends Component {
     }
   }
 
+  //Create response callback.
+  _responseInfoCallback(error, result) {
+    if (error) {
+      alert('Error fetching data: ' + error.toString());
+    } else {
+      alert('Success fetching data: ' + result.id + result.name);
+      //console.log(result);
+      AsyncStorage.setItem('token', result.id, (err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+    }
+  }
+
   onSearchPressed() {
-    var query = Routes.auth;
+    var query = Routes.addUser;
     this._executeQuery(query);
+
+    AsyncStorage.getItem('token', (error, value) => {
+      alert('getting item!');
+      if (error) {
+        console.log('ERROR MESSAGE FOR GETITEM: ' + err);
+      } else {
+        console.log('ID SAVED MESSAHE AJJJ id saved: ' + value);
+      }
+    });
   }
 
   render() {
@@ -194,9 +304,7 @@ class LoginPage extends Component {
               <Text style={styles.buttonText}>Go</Text>
             </TouchableHighlight>
           </View>
-          <Login
-            navigator={this.props.navigator}
-            _this={this}/>
+          <Login />
           {spinner}
           <Text style={styles.description}>{this.state.message}</Text>
         </View>
@@ -204,110 +312,4 @@ class LoginPage extends Component {
   }
 }
 
-var Login = React.createClass({
-
-  render: function() {
-    return (
-      <View>
-        <LoginButton
-          publishPermissions={["publish_actions"]}
-          onLoginFinished={
-            (error, result) => {
-              if (error) {
-                alert("Login failed with error: " + result.error);
-              } else if (result.isCancelled) {
-                alert("Login was cancelled");
-              } else {
-                //alert("Login was successful with permissions: " + result.grantedPermissions);
-                //console.log(result);
-                // Create a graph request asking for user informations with a callback to handle the response.
-                var infoRequest = new GraphRequest(
-                    '/me',
-                    null,
-                    this._fbLoginCallback
-                );
-                new GraphRequestManager().addRequest(infoRequest).start();
-              }
-            }
-          }
-          onLogoutFinished={() => alert("User logged out")}/>
-      </View>
-    );
-  },
-
-  _fbLoginCallback(error, result) {
-    if (error) {
-      alert('Error fetching data: ' + error.toString());
-    } else {
-      //alert('Success fetching data: ' + result.id + result.name);
-      //console.log(result);
-
-      var query = Routes.auth;
-      var params = {
-        username: result.id,
-        password: result.id
-      };
-
-      this._executeQuery(query, params);
-    }
-  },
-
-  _executeQuery(query, params) {
-    params = params || {};
-    console.log(query);
-
-    this.props._this.setState( {isLoading: true} );
-
-    var object = {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: params.username,
-        password: params.password
-      })
-    };
-
-    fetch(query, object)
-      .then((response) => response.json())
-      .then((json) => this._handleResponse(json))
-      .catch((error) => {
-        this.props._this.setState({
-          isLoading: false,
-          message: 'Something bad happened ' + error
-        })
-      });
-  },
-
-  _handleResponse(response) {
-    console.log(response);
-
-    this.props._this.setState( {isLoading: false} );
-    if (response.success) {
-      this.props._this.setState({
-        message: 'Your FB login token is: ' + response.token
-      });
-      console.log('Your FB login token is: ' + response.token);
-
-      AsyncStorage.setItem('token', response.token, (err) => {
-        if (err) {
-          console.log(err);
-          alert('Access token could not be saved');
-        } else {
-          // Go to search page, now that you're logged in
-          this.props.navigator.push({
-            title: 'Search',
-            component: SearchPage
-          });
-        }
-      });
-    } else {
-      alert(response.message);
-    }
-  }
-
-});
-
-module.exports = LoginPage;
+module.exports = SignupPage;
