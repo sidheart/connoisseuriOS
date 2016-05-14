@@ -303,7 +303,7 @@ class SearchPage extends Component {
         console.log('ERROR, can\'t find item: ' + err);
       } else {
         alert('Your current token is: ' + value);
-        console.log('ID SAVED MESSAHE AJJJ id saved: ' + value);
+        console.log('TOKEN SAVED: ' + value);
       }
     });
   }

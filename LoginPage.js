@@ -106,22 +106,37 @@ class LoginPage extends Component {
     });
   }
 
-  _executeQuery(query) {
-
+  _executeQuery(query, params) {
+    var params = params || {};
     console.log(query);
     this.setState( {isLoading: true} );
 
-    var object = {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: this.state.usernameString,
-        password: this.state.passwordString
-      })
-    };
+    var object = {};
+    if (!params.username || !params.password) {
+      object = {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: this.state.usernameString,
+          password: this.state.passwordString
+        })
+      };
+    } else {
+      object = {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: params.username,
+          password: params.password
+        })
+      };
+    }
 
     fetch(query, object)
         .then((response) => response.json())
@@ -219,7 +234,7 @@ var Login = React.createClass({
                 alert("Login was cancelled");
               } else {
                 //alert("Login was successful with permissions: " + result.grantedPermissions);
-                //console.log(result);
+
                 // Create a graph request asking for user informations with a callback to handle the response.
                 var infoRequest = new GraphRequest(
                     '/me',
@@ -248,63 +263,7 @@ var Login = React.createClass({
         password: result.id
       };
 
-      this._executeQuery(query, params);
-    }
-  },
-
-  _executeQuery(query, params) {
-    params = params || {};
-    console.log(query);
-
-    this.props._this.setState( {isLoading: true} );
-
-    var object = {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: params.username,
-        password: params.password
-      })
-    };
-
-    fetch(query, object)
-      .then((response) => response.json())
-      .then((json) => this._handleResponse(json))
-      .catch((error) => {
-        this.props._this.setState({
-          isLoading: false,
-          message: 'Something bad happened ' + error
-        })
-      });
-  },
-
-  _handleResponse(response) {
-    console.log(response);
-
-    this.props._this.setState( {isLoading: false} );
-    if (response.success) {
-      this.props._this.setState({
-        message: 'Your FB login token is: ' + response.token
-      });
-      console.log('Your FB login token is: ' + response.token);
-
-      AsyncStorage.setItem('token', response.token, (err) => {
-        if (err) {
-          console.log(err);
-          alert('Access token could not be saved');
-        } else {
-          // Go to search page, now that you're logged in
-          this.props.navigator.push({
-            title: 'Search',
-            component: SearchPage
-          });
-        }
-      });
-    } else {
-      alert(response.message);
+      this.props._this._executeQuery(query, params);
     }
   }
 

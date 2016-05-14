@@ -87,7 +87,7 @@ class WelcomePage extends Component {
 
   _onSignUpPressed() {
     this.props.navigator.push({
-      title: 'Search',
+      title: 'Sign Up',
       component: SignupPage
     });
   }
