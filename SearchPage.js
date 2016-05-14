@@ -88,7 +88,7 @@ function urlForQueryAndPage(key, value, pageNumber) {
 
   var q = 'name' + '=' + value;
 
-  return 'http://localhost:3000/search?' + q;// + querystring;
+  return 'http://localhost:3000/restaurants?' + q;// + querystring;
 }
 
 class SearchPage extends Component {

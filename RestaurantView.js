@@ -1,142 +1,100 @@
 import React from 'react';
+import css from './CSS';
+import RestaurantMenu from './RestaurantMenu';
 
 import {
-  StyleSheet,
-  Image,
-  View,
-  Text,
-  Component,
-  MapView,
-  RNGeocoder
+    Image,
+    View,
+    Text,
+    Component,
+    MapView,
+    TouchableHighlight
 } from 'react-native';
 
-//import MapView from 'react-native-maps';
-//var RNGeocoder = require('react-native-geocoder');
-
-var styles = StyleSheet.create({
-    container: {
-        marginTop: 65
-    },
-    separator: {
-        height: 1,
-        backgroundColor: '#DDDDDD'
-    },
-    image: {
-        width: 400,
-        height: 250
-    },
-    mainText: {
-        backgroundColor: '#F8F8F8',
-        height: 175,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-        flexWrap: 'wrap'
-    },
-    supportText: {
-        height: 100,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-        flexWrap: 'wrap'
-    },
-    fillerText: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-        flexWrap: 'wrap'
-    },
-    title: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        color: '#48BBEC'
-    },
-    h1: {
-        fontSize: 18,
-        margin: 2,
-        color: '#000000',
-    },
-    h2: {
-        fontSize: 15,
-        margin: 1,
-        color: '#656565'
-    }
-});
-
 class RestaurantView extends Component {
+    getLocationData(data) {
+        if (data.address === undefined)
+            return [];
+        //console.log(data);
+        return [{
+            latitude: data.lattitude,
+            longitude: data.longitude,
+            title: data.name,
+            subtitle: data.address
+        }];
+    }
 
-    render () {
-        var data = this.props.data;
-        console.log(data);
-        var food_types = "";
-        var meals = "";
-        var tags = "";
-        var lat = 34.020399;
-        var long = -118.497316;
+    getImage() {
+        return(
+            <View style={css.center}>
+            <Image style={[css.image]} source={require('./Resources/restaurant.png')} />
+        </View>
+        )
+    }
 
+    getInfo(data, markers) {
         var price = (data.price === undefined) ?
             "No pricing is available for this restaurant" : data.price;
-        var address = (data.address === undefined) ?
-            "No pricing is available for this restaurant" : data.address;
+        var phone_number = (data.phone_number === undefined) ?
+            "No phone number is available for this restaurant" : data.phone_number;
 
-        if (data.tags[0] !== undefined) {
-            for(var propertyName in data.tags[0]) {
-                if (data.tags[0][propertyName] === true)
-                    tags = tags + propertyName + " ";
-            }
-        }
-        if (data.meals[0] !== undefined) {
-            for(var propertyName in data.meals[0]) {
-                if (data.meals[0][propertyName] === true)
-                    meals = meals + propertyName + " ";
-            }
-        }
-        if (data.food_types[0] !== undefined) {
-            for(var propertyName in data.food_types[0]) {
-                if (data.food_types[0][propertyName] === true)
-                    food_types = food_types + propertyName + " ";
-            }
-        }
+        return(<View style={[css.fill, css.spad, css.center]}>
+            <Text style={[css.h1, css.skyblue, css.bold]}>{data.name}</Text>
+            <Text style={[css.h4, css.gray]}>{markers[0].subtitle}</Text>
+            <Text style={[css.h4, css.gray]}>{phone_number}</Text>
+            <Text style={[css.h3, css.black]}>${price}</Text>
+        </View>);
+    }
 
-        var markers = [{
-            latitude: lat,
-            longitude: long,
-            title: data.name,
-            subtitle: address
-        }];
+    rowPressed(data) {
+        this.props.navigator.push({
+            title: 'Menu',
+            component: RestaurantMenu,
+            passProps: {data: data}
+        });
+    }
+
+    getMenu(data, mapBool) {
+        var menuBool = true;
+        var menuSize = mapBool ? "oneTenth" : "oneFourth";
+        var menuText = menuBool ? "Menu" : "No Available Menu";
+            
+        return(<TouchableHighlight onPress={() => this.rowPressed(data)} underlayColor='#dddddd' style={css[menuSize]}>
+            <View style={[css[menuSize], css.center, css.bkGray]}>
+                <Text style={[css.h2, css.white, css.bold]}>{menuText}</Text>
+            </View>
+        </TouchableHighlight>);
+    }
+
+    getMap(markers) {
+        if (markers.length === 0)
+            return;
 
         return (
-            <View style={styles.container}>
-                <Image source={require('./Resources/restaurant.png')} style={styles.image}/>
-                <View style={styles.mainText}>
-                    <Text style={styles.title}>{data.name}</Text>
-                    <Text style={styles.h2}>{address}</Text>
-                    <Text style={styles.h2}>{data.phone_number}</Text>
-                    <Text style={styles.h1}>${price}</Text>
-                    <View style={styles.separator}/>
-                </View>
-                {/*<View style={styles.supportText}>
-                    <Text style={styles.h1}>{meals}</Text>
-                    <View style={styles.separator}/>
-                </View>
-                <View style={styles.fillerText}>
-                    <Text style={styles.h2}>{food_types}</Text>
-                    <View style={styles.separator}/>
-                    <Text style={styles.h2}>{tags}</Text>
-                    <View style={styles.separator}/>
-                </View>*/}
-                <MapView
-                    style={{
-                        height: 250
-                    }}
-                    region={{
-                        latitude: lat,
-                        longitude: long,
-                        latitudeDelta: 0.4,
-                        longitudeDelta: 0.4,
-                    }}
-                    annotations={markers}
-                />
+            <MapView
+                style={[css.oneFourth]}
+                region={{
+                    latitude: markers[0].latitude,
+                    longitude: markers[0].longitude,
+                    latitudeDelta: 0.01,
+                    longitudeDelta: 0.01,
+                }}
+                annotations={markers}
+            />
+        )
+    }
+
+    render() {
+        var data = this.props.data;
+        var markers = this.getLocationData(data);
+
+        return (
+            <View style={[css.container]}>
+                {this.getImage()}
+                <View style={css.separator}/>
+                {this.getInfo(data, markers)}
+                {this.getMenu(data, markers.length)}
+                {this.getMap(markers)}
             </View>
         );
     }
