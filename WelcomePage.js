@@ -1,9 +1,9 @@
 import React from 'react';
-
 import SearchPage from './SearchPageAccordion';
 import SearchPageOld from './SearchPageOld';
-import LoginPage from './LoginPage';
-import SignupPage from './SignupPage';
+import LoginView from './LoginPage';
+import SignupView from './SignupPage';
+import * as Animatable from 'react-native-animatable';
 
 import {
   StyleSheet,
@@ -12,65 +12,178 @@ import {
   View,
   Image,
   TouchableHighlight,
+  Animated,
+  Dimensions,
+  Navigator,
+  TouchableOpacity,
   Component
 } from 'react-native';
 
+var { width, height } = Dimensions.get('window');
+const BRAND_TOP_POS = height - 130;
+const BRAND_RIGHT_POS = 12;
+const BUTTON_WIDTH = width/2;
+const BUTTON_HEIGHT = 50;
+const BUTTON_TOP_POS = 23;
+
+// for some reason navigator causes a 1px gap between two buttons
+const RIGHT_BUTTON_OFFSET = width/2-1;
+const RIGHT_BUTTON_WIDTH = width/2+1;
 
 var styles = StyleSheet.create({
   /////////////////////////////////////////////////////////////
   // TO-DO: Will need refactoring stylesheets here          ///
   /////////////////////////////////////////////////////////////
   container: {
-    padding: 20,
-    alignItems: 'center',
-    backgroundColor: '#58595B',
-    paddingBottom: 150
+    flex: 1,
+    width: null,
+    height: null
   },
   brand: {
-    fontFamily: 'Bradley Hand',
-    marginTop: 20,
-    fontSize: 50,
-    fontWeight: '300',
-    textAlign: 'center',
-    color: 'white'
+    fontFamily: 'Bodoni 72',
+    fontSize: 30,
+    textAlign: 'right',
+    color: 'white',
+    backgroundColor: 'transparent',
+    marginTop: BRAND_TOP_POS,
+    marginRight: BRAND_RIGHT_POS
   },
   description: {
-    fontFamily: 'Hiragino Sans',
-    fontSize: 20,
+    fontFamily: 'Avenir',
+    fontSize: 17,
     fontWeight: '200',
-    textAlign: 'center',
+    textAlign: 'right',
+    backgroundColor: 'transparent',
     color: 'white',
-    marginBottom: 50
+    marginRight: BRAND_RIGHT_POS
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 17,
     color: 'white',
     alignSelf: 'center',
-    fontFamily: 'Hiragino Sans'
+    fontFamily: 'Avenir'
   },
-  buttonRed: {
-    height: 40,
-    width: 200,
-    padding: 23,
-    paddingTop: 28,
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: '#F05654',
-    marginBottom: 10,
-    justifyContent: 'center'
+  button: {
+    opacity: 0.9,
+    height: BUTTON_HEIGHT,
+    position: 'absolute',
+    justifyContent: 'center',
+    marginTop: BUTTON_TOP_POS
   },
   buttonGreen: {
-    height: 40,
-    width: 200,
-    padding: 23,
-    paddingTop: 28,
+    width: BUTTON_WIDTH,
+    position: 'absolute',
+    backgroundColor: '#658248',
+  },
+  buttonBlack: {
+    width: RIGHT_BUTTON_WIDTH,
+    backgroundColor: 'black',
+    marginLeft: RIGHT_BUTTON_OFFSET,
+  },
+  flexCenter: {
     flex: 1,
-    flexDirection: 'row',
-    backgroundColor: '#7AAB73',
-    marginBottom: 10,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modal: {
+    backgroundColor: 'rgba(0,0,0,.6)',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0
   }
 });
+
+var LogIn = React.createClass({
+  getInitialState: function() {
+    return { offset: new Animated.Value(height) }
+  },
+  componentDidMount: function() {
+    Animated.timing(this.state.offset, {
+      duration: 200,
+      toValue: 0
+    }).start();
+  },
+  closeModal: function() {
+    Animated.timing(this.state.offset, {
+      duration: 200,
+      toValue: height
+    }).start(this.props.closeModal);
+  },
+  render: function() {
+    return (
+        <Animated.View style={[styles.modal, styles.flexCenter, {transform: [{translateY: this.state.offset}]}]}>
+          <TouchableOpacity onPress={this.closeModal}>
+            <Text style={styles.buttonText}>Close Menu</Text>
+          </TouchableOpacity>
+        </Animated.View>
+    )
+  }
+});
+
+var SignUp = React.createClass({
+  getInitialState: function() {
+    return { offset: new Animated.Value(height) }
+  },
+  componentDidMount: function() {
+    Animated.timing(this.state.offset, {
+      duration: 200,
+      toValue: 0
+    }).start();
+  },
+  closeModal: function() {
+    Animated.timing(this.state.offset, {
+      duration: 200,
+      toValue: height
+    }).start(this.props.closeModal);
+  },
+  render: function() {
+    return (
+        <Animated.View style={[styles.modal, styles.flexCenter, {transform: [{translateY: this.state.offset}]}]}>
+          <TouchableOpacity onPress={this.closeModal}>
+            <Text style={styles.buttonText}>Close Bye</Text>
+          </TouchableOpacity>
+        </Animated.View>
+    )
+  }
+});
+
+var LoginPage = React.createClass({
+    render: function() {
+      return (
+        <View style={styles.flexCenter}>
+          <TouchableOpacity onPress={this.props.openModal}>
+            <Text style={styles.buttonText}>login</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }
+});
+
+var SignUpPage = React.createClass({
+    render: function() {
+      return (
+        <View style={styles.flexCenter}>
+          <TouchableOpacity onPress={this.props.openModal}>
+            <Text style={styles.buttonText}>sign up</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }
+});
+
+var LoginRoute = {
+  app: {
+    component: LoginPage
+  }
+}
+
+var SignUpRoute = {
+  app: {
+    component: SignUpPage
+  }
+}
 
 class WelcomePage extends Component {
   /////////////////////////////////////////////////////////////
@@ -78,44 +191,51 @@ class WelcomePage extends Component {
   // Need to reconsider doing other methods instead of push ///
   /////////////////////////////////////////////////////////////
 
-  _onLoginPressed() {
-    this.props.navigator.push({
-      title: 'Login',
-      component: LoginPage
-    });
-  }
+  constructor(props) {
+     super(props);
+     this.state = {
+       login: false,
+       signup: false
+     }
+   }
 
-  _onSignUpPressed() {
-    this.props.navigator.push({
-      title: 'Sign Up',
-      component: SignupPage
-    });
-  }
+   renderLogin(route, navigator) {
+      var Component = route.component;
+      return (
+        <Component openModal={() => this.setState({login: true})}/>
+      )
+    }
+
+    renderSignUp(route, navigator) {
+       var Component = route.component;
+       return (
+         <Component openModal={() => this.setState({signup: true})}/>
+       )
+     }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Image source={require('./Resources/search-page-icon.png')} style={styles.image}/>
-        <Text style={styles.brand}>
-          Connoisseur
-        </Text>
-        <Text style={styles.description}>
-          where we match your taste
-        </Text>
-        <TouchableHighlight style={styles.buttonRed}
-            // as for now both buttons go to search page
-            onPress={this._onLoginPressed.bind(this)}
-            underlayColor='#D58385'>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.buttonGreen}
-            // as for now both buttons go to search page
-            onPress={this._onSignUpPressed.bind(this)}
-            underlayColor='#9FBF9B'>
-          <Text style={styles.buttonText}>Sign Up</Text>
-        </TouchableHighlight>
-      </View>
-    )
+        <Image source={require('./Resources/landing_img_3.jpg')} style={styles.container}>
+          <Text style={styles.brand}>
+            Connoisseur
+          </Text>
+          <Text style={styles.description}>
+            we match your taste
+          </Text>
+          <Navigator
+            style={[styles.button, styles.buttonGreen]}
+            initialRoute={LoginRoute.app}
+            renderScene={this.renderLogin.bind(this)}
+          />
+          <Navigator
+            style={[styles.button, styles.buttonBlack]}
+            initialRoute={SignUpRoute.app}
+            renderScene={this.renderSignUp.bind(this)}
+          />
+          {this.state.login ? <LogIn closeModal={() => this.setState({login: false}) }/> : null }
+          {this.state.signup ? <SignUp closeModal={() => this.setState({signup: false}) }/> : null }
+        </Image>
+    );
   }
 }
 
