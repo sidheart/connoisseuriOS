@@ -1,6 +1,6 @@
 import React from 'react-native';
 
-import WelcomePage from './WelcomePage';
+import WelcomePage from './SearchPageAccordion';
 
 var styles = React.StyleSheet.create({
   container: {

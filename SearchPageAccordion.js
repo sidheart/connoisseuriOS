@@ -24,17 +24,17 @@ const BACON_IPSUM = 'abc';
 const AccordionList = [
   {
     // Day
-    title: 'Today is...',
+    title: 'Today is',
     identifier: 'day'
   },
   {
     // Time
-    title: 'At...',
+    title: 'At',
     identifier: 'time'
   },
   {
     // Food Type
-    title: 'I want to have...',
+    title: 'I want to have',
     identifier: 'foodType'
   },
   {
@@ -44,42 +44,42 @@ const AccordionList = [
   },
   {
     // Location
-    title: 'In...',
+    title: 'In',
     identifier: 'location'
   },
   {
     // Other Preference
-    title: 'I would like...',
+    title: 'I would like',
     identifier: 'otherPreference'
   },
   {
     // Budget
-    title: 'I want to spend...Per Person',
+    title: 'I want to spend per person',
     identifier: 'budget'
   }
 ];
 
 const AccordionContent = {
   day: {
-    options: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    options: ['No preference', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
   },
   time: {
-    options: ['Before 8AM', '8AM', '8:30AM', '9AM', '9:30AM']
+    options: ['No preference', 'Before 8AM', '8AM', '8:30AM', '9AM', '9:30AM']
   },
   foodType: {
-    options: ['Chinese', 'Korean', 'Japanese', 'Asian Fusion', 'Mexican', 'American', 'Italian', 'French']
+    options: ['No preference', 'Chinese', 'Korean', 'Japanese', 'Asian Fusion', 'Mexican', 'American', 'Italian', 'French']
   },
   partner: {
-    options: ['Boss', 'Friend', 'Date', 'Girlfriend/Boyfried', 'Wife/Husband']
+    options: ['No preference', 'Boss', 'Friend', 'Date', 'Girlfriend/Boyfried', 'Wife/Husband', 'Coworker', 'Client']
   },
   location: {
-    options: ['Santa Monica']
+    options: ['No preference', 'Santa Monica', 'West Los Angeles']
   },
   otherPreference: {
-    options: ['Reservations Available', 'Good for Family']
+    options: ['No preference', 'Reservations Available', 'Good for Family']
   },
   budget: {
-    options: ['<20', '20~40', '40~80', '80~150', '150+']
+    options: ['No preference', '<20', '20~40', '40~80', '80~150', '150+']
   }
 };
 
@@ -121,7 +121,14 @@ class SearchPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapsed: true
+      collapsed: true,
+      day: 0,
+      time: 0,
+      foodType: 0,
+      partner: 0,
+      location: 0,
+      otherPreference: 0,
+      budget: 0
     };
 
     AsyncStorage.getItem('token', (error, value) => {
@@ -142,18 +149,25 @@ class SearchPage extends Component {
   _renderHeader(section, i, isActive) {
     return (
       <Animatable.View duration={400} style={[styles.header, isActive ? styles.active : styles.inactive]} transition="backgroundColor">
-        <Text style={styles.headerText}>{section.title}</Text>
+        <Text style={styles.headerText}>{section.title} {AccordionContent[section.identifier].options[this.state[section.identifier]] == 'No preference' ? '...' : AccordionContent[section.identifier].options[this.state[section.identifier]]}</Text>
       </Animatable.View>
     );
   }
 
+  _handlePickerChange(identifier, newValue) {
+    this.setState({[identifier]: newValue});
+  }
 
   _renderContent(section, i, isActive) {
     // TO-DO: onValueChange needs to be added for pickerIOS
+    var name = section.identifier;
     return (
       <Animatable.View duration={400} style={[styles.content, isActive ? styles.active : styles.inactive]} transition="backgroundColor">
-        <Animatable.View animation={isActive ? 'bounceInLeft' : undefined}>
-          <PickerIOS>
+        <Animatable.View animation={isActive ? 'slideInLeft' : undefined}>
+          <PickerIOS
+          selectedValue={this.state[name]}
+          onValueChange={this._handlePickerChange.bind(this, section.identifier)}
+          >
           {AccordionContent[section.identifier].options.map((valueName, valueIndex) => (
                       <PickerItemIOS
                         key={section.identifier + ' ' + valueName}
@@ -167,15 +181,29 @@ class SearchPage extends Component {
     );
   }
 
+  _handleSubmit() {
+    alert('day ' + AccordionContent['day'].options[this.state.day] + '; ' +
+    'time ' + AccordionContent['time'].options[this.state.time] + '; ' +
+    'foodType ' + AccordionContent['foodType'].options[this.state.foodType] + '; ' +
+    'partner ' + AccordionContent['partner'].options[this.state.partner] + '; ' +
+    'location ' + AccordionContent['location'].options[this.state.location] + '; ' +
+    'otherPreference ' + AccordionContent['otherPreference'].options[this.state.otherPreference] + '; ' +
+    'budget ' + AccordionContent['budget'].options[this.state.budget] + ';');
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Accordion
           sections={AccordionList}
-          renderHeader={this._renderHeader}
-          renderContent={this._renderContent}
+          renderHeader={this._renderHeader.bind(this)}
+          renderContent={this._renderContent.bind(this)}
           duration={300}
         />
+        <TouchableHighlight
+        onPress={this._handleSubmit.bind(this)}>
+          <Text style={{alignSelf: 'center'}}>Submit</Text>
+        </TouchableHighlight>
       </View>
     );
   }

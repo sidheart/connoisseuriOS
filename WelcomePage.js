@@ -16,7 +16,8 @@ import {
   Dimensions,
   Navigator,
   TouchableOpacity,
-  Component
+  Component,
+  Modal
 } from 'react-native';
 
 var { width, height } = Dimensions.get('window');
@@ -25,10 +26,6 @@ const BRAND_RIGHT_POS = 12;
 const BUTTON_WIDTH = width/2;
 const BUTTON_HEIGHT = 50;
 const BUTTON_TOP_POS = 23;
-
-// for some reason navigator causes a 1px gap between two buttons
-const RIGHT_BUTTON_OFFSET = width/2-1;
-const RIGHT_BUTTON_WIDTH = width/2+1;
 
 var styles = StyleSheet.create({
   /////////////////////////////////////////////////////////////
@@ -68,121 +65,62 @@ var styles = StyleSheet.create({
     height: BUTTON_HEIGHT,
     position: 'absolute',
     justifyContent: 'center',
-    marginTop: BUTTON_TOP_POS
+    marginTop: BUTTON_TOP_POS,
+    width: BUTTON_WIDTH,
   },
   buttonGreen: {
-    width: BUTTON_WIDTH,
     position: 'absolute',
-    backgroundColor: '#658248',
+    backgroundColor: '#658248'
   },
   buttonBlack: {
-    width: RIGHT_BUTTON_WIDTH,
     backgroundColor: 'black',
-    marginLeft: RIGHT_BUTTON_OFFSET,
-  },
-  flexCenter: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  modal: {
-    backgroundColor: 'rgba(0,0,0,.6)',
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0
+    marginLeft: BUTTON_WIDTH
   }
 });
 
-var LogIn = React.createClass({
-  getInitialState: function() {
-    return { offset: new Animated.Value(height) }
-  },
-  componentDidMount: function() {
-    Animated.timing(this.state.offset, {
-      duration: 200,
-      toValue: 0
-    }).start();
-  },
-  closeModal: function() {
-    Animated.timing(this.state.offset, {
-      duration: 200,
-      toValue: height
-    }).start(this.props.closeModal);
-  },
-  render: function() {
-    return (
-        <Animated.View style={[styles.modal, styles.flexCenter, {transform: [{translateY: this.state.offset}]}]}>
-          <TouchableOpacity onPress={this.closeModal}>
-            <Text style={styles.buttonText}>Close Menu</Text>
-          </TouchableOpacity>
-        </Animated.View>
-    )
-  }
-});
+class WelcomeView extends Component {
+  constructor(props) {
+     super(props);
+   }
 
-var SignUp = React.createClass({
-  getInitialState: function() {
-    return { offset: new Animated.Value(height) }
-  },
-  componentDidMount: function() {
-    Animated.timing(this.state.offset, {
-      duration: 200,
-      toValue: 0
-    }).start();
-  },
-  closeModal: function() {
-    Animated.timing(this.state.offset, {
-      duration: 200,
-      toValue: height
-    }).start(this.props.closeModal);
-  },
-  render: function() {
-    return (
-        <Animated.View style={[styles.modal, styles.flexCenter, {transform: [{translateY: this.state.offset}]}]}>
-          <TouchableOpacity onPress={this.closeModal}>
-            <Text style={styles.buttonText}>Close Bye</Text>
-          </TouchableOpacity>
-        </Animated.View>
-    )
-  }
-});
+   handleLoginPress() {
+     this.props.navigator.push({
+       title: 'Login',
+       component: LoginView
+     });
+   }
 
-var LoginPage = React.createClass({
-    render: function() {
-      return (
-        <View style={styles.flexCenter}>
-          <TouchableOpacity onPress={this.props.openModal}>
-            <Text style={styles.buttonText}>login</Text>
-          </TouchableOpacity>
-        </View>
-      )
-    }
-});
+   handleSignUpPress() {
+     this.props.navigator.push({
+       title: 'Sign Up',
+       component: SignupView
+     });
+   }
 
-var SignUpPage = React.createClass({
-    render: function() {
-      return (
-        <View style={styles.flexCenter}>
-          <TouchableOpacity onPress={this.props.openModal}>
-            <Text style={styles.buttonText}>sign up</Text>
-          </TouchableOpacity>
-        </View>
-      )
-    }
-});
+   render() {
+     return (
+         <Image source={require('./Resources/landing_img_3.jpg')} style={styles.container}>
 
-var LoginRoute = {
-  app: {
-    component: LoginPage
-  }
-}
+           <Text style={styles.brand}>
+             Connoisseur
+           </Text>
+           <Text style={styles.description}>
+             we match your taste
+           </Text>
+           <TouchableHighlight
+           onPress={this.handleLoginPress.bind(this)}
+           style={[styles.button, styles.buttonGreen]}>
+             <Text style={ styles.buttonText }>login</Text>
+           </TouchableHighlight>
+           <TouchableHighlight
+           onPress={this.handleSignUpPress.bind(this)}
+           style={[styles.button, styles.buttonBlack]}>
+             <Text style={ styles.buttonText }>signup</Text>
+           </TouchableHighlight>
+         </Image>
+     );
+   }
 
-var SignUpRoute = {
-  app: {
-    component: SignUpPage
-  }
 }
 
 class WelcomePage extends Component {
@@ -191,51 +129,23 @@ class WelcomePage extends Component {
   // Need to reconsider doing other methods instead of push ///
   /////////////////////////////////////////////////////////////
 
-  constructor(props) {
-     super(props);
-     this.state = {
-       login: false,
-       signup: false
-     }
-   }
+  renderScene(route, navigator) {
+    return <route.component navigator={navigator} {...route.passProps} />
+  }
 
-   renderLogin(route, navigator) {
-      var Component = route.component;
-      return (
-        <Component openModal={() => this.setState({login: true})}/>
-      )
-    }
-
-    renderSignUp(route, navigator) {
-       var Component = route.component;
-       return (
-         <Component openModal={() => this.setState({signup: true})}/>
-       )
-     }
+  configureScene(route, routeStack) {
+    return Navigator.SceneConfigs.FloatFromBottom
+  }
 
   render() {
     return (
-        <Image source={require('./Resources/landing_img_3.jpg')} style={styles.container}>
-          <Text style={styles.brand}>
-            Connoisseur
-          </Text>
-          <Text style={styles.description}>
-            we match your taste
-          </Text>
-          <Navigator
-            style={[styles.button, styles.buttonGreen]}
-            initialRoute={LoginRoute.app}
-            renderScene={this.renderLogin.bind(this)}
-          />
-          <Navigator
-            style={[styles.button, styles.buttonBlack]}
-            initialRoute={SignUpRoute.app}
-            renderScene={this.renderSignUp.bind(this)}
-          />
-          {this.state.login ? <LogIn closeModal={() => this.setState({login: false}) }/> : null }
-          {this.state.signup ? <SignUp closeModal={() => this.setState({signup: false}) }/> : null }
-        </Image>
-    );
+      <Navigator
+      configureScene={this.configureScene.bind(this)}
+      style={{flex: 1}}
+      initialRoute = {{component: WelcomeView}}
+      renderScene = {this.renderScene.bind(this)}
+      />
+    )
   }
 }
 
