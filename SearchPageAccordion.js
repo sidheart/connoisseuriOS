@@ -119,8 +119,6 @@ const styles = StyleSheet.create({
 
 function urlForQueryAndPage(AccordionContent) {
 
-  var header = {};
-
   AsyncStorage.getItem('token', (error, value) => {
     if (error) {
       console.log('ERROR, can\'t find item: ' + err);
@@ -131,7 +129,7 @@ function urlForQueryAndPage(AccordionContent) {
 
   //var q = 'name' + '=' + value;
 
-  return 'http://localhost:3000/restaurants?';// + q;// + querystring;
+  return 'http://localhost:3000/search?';// + q;// + querystring;
 }
 
 class SearchPage extends Component {
@@ -147,13 +145,12 @@ class SearchPage extends Component {
       otherPreference: 0,
       budget: 0
     };
-
     AsyncStorage.getItem('token', (error, value) => {
       if (error) {
-        alert('ERROR, can\'t find item: ' + err);
+        alert(err);
         console.log('ERROR, can\'t find item: ' + err);
       } else {
-        alert('Your current token is: ' + value);
+        alert(value);
         console.log('TOKEN SAVED: ' + value);
       }
     });
@@ -202,12 +199,33 @@ class SearchPage extends Component {
     console.log(query);
     //this.setState( {isLoading: true} );
 
-    fetch(query, {method: "GET"})
-      .then((response) => response.json())
-      .then((json) => this._handleQueryResponse(json))
-      .catch((error) => {
-        console.log(error);
-        });
+    var object = {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': ''
+      }
+    };
+
+    AsyncStorage.getItem('token', (error, value) => {
+      if (error) {
+        alert('ERROR, can\'t find item: ' + err);
+        console.log('ERROR, can\'t find item: ' + err);
+      } else {
+        object.headers.Authorization = value;
+        //alert('Your current token is: ' + value);
+        console.log('TOKEN SAVED: ' + value);
+        fetch(query, object)
+          .then((response) => response.json())
+          .then((json) => this._handleQueryResponse(json))
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    });
+    console.log(object); console.log(query);
+
   }
 
   _handleSubmit() {
