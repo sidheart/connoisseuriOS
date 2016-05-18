@@ -117,6 +117,23 @@ const styles = StyleSheet.create({
   },
 });
 
+function urlForQueryAndPage(AccordionContent) {
+
+  var header = {};
+
+  AsyncStorage.getItem('token', (error, value) => {
+    if (error) {
+      console.log('ERROR, can\'t find item: ' + err);
+    } else {
+      console.log('TOKEN SAVED: ' + value);
+    }
+  });
+
+  //var q = 'name' + '=' + value;
+
+  return 'http://localhost:3000/restaurants?';// + q;// + querystring;
+}
+
 class SearchPage extends Component {
   constructor(props) {
     super(props);
@@ -181,14 +198,49 @@ class SearchPage extends Component {
     );
   }
 
+  _executeQuery(query) {
+    console.log(query);
+    //this.setState( {isLoading: true} );
+
+    fetch(query, {method: "GET"})
+      .then((response) => response.json())
+      .then((json) => this._handleQueryResponse(json))
+      .catch((error) => {
+        console.log(error);
+        });
+  }
+
   _handleSubmit() {
-    alert('day ' + AccordionContent['day'].options[this.state.day] + '; ' +
-    'time ' + AccordionContent['time'].options[this.state.time] + '; ' +
-    'foodType ' + AccordionContent['foodType'].options[this.state.foodType] + '; ' +
-    'partner ' + AccordionContent['partner'].options[this.state.partner] + '; ' +
-    'location ' + AccordionContent['location'].options[this.state.location] + '; ' +
-    'otherPreference ' + AccordionContent['otherPreference'].options[this.state.otherPreference] + '; ' +
-    'budget ' + AccordionContent['budget'].options[this.state.budget] + ';');
+    var query = urlForQueryAndPage(AccordionContent);
+    this._executeQuery(query);
+
+    //alert('day ' + AccordionContent['day'].options[this.state.day] + '; ' +
+    //'time ' + AccordionContent['time'].options[this.state.time] + '; ' +
+    //'foodType ' + AccordionContent['foodType'].options[this.state.foodType] + '; ' +
+    //'partner ' + AccordionContent['partner'].options[this.state.partner] + '; ' +
+    //'location ' + AccordionContent['location'].options[this.state.location] + '; ' +
+    //'otherPreference ' + AccordionContent['otherPreference'].options[this.state.otherPreference] + '; ' +
+    //'budget ' + AccordionContent['budget'].options[this.state.budget] + ';');
+  }
+
+  _handleQueryResponse(response) {
+    this.setState({
+      isLoading: false,
+      message: ''
+    });
+
+    if (response.length > 0) {
+      this.props.navigator.push({
+        title: 'Results',
+        component: SearchResults,
+        passProps: {listings: response}
+      });
+    } else {
+      this.setState({
+        message: 'Location not recognized; please try again.'
+      });
+    }
+
   }
 
   render() {

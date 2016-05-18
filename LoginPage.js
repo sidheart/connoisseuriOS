@@ -8,23 +8,23 @@ import FBSDK from 'react-native-fbsdk';
 import Routes from './Routes';
 
 const {
-    LoginButton,
-    GraphRequest,
-    GraphRequestManager,
-    } = FBSDK;
+  LoginButton,
+  GraphRequest,
+  GraphRequestManager,
+  } = FBSDK;
 
 import {
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
-    PickerIOS,
-    TouchableHighlight,
-    ActivityIndicatorIOS,
-    Image,
-    Component,
-    AlertIOS,
-    AsyncStorage
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  PickerIOS,
+  TouchableHighlight,
+  ActivityIndicatorIOS,
+  Image,
+  Component,
+  AlertIOS,
+  AsyncStorage
 } from 'react-native';
 
 
