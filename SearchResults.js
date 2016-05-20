@@ -1,9 +1,9 @@
 import React from 'react';
 
+import css from './CSS';
 import RestaurantView from './RestaurantView';
 
 import {
-  StyleSheet,
   Image,
   View,
   TouchableHighlight,
@@ -12,45 +12,10 @@ import {
   Component
 } from 'react-native';
 
-var styles = {
-    image: {
-        width: 115,
-        height: 115,
-        marginRight: 5
-    },
-    textContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        flexDirection: 'column',
-        flexWrap: 'wrap'
-    },
-    separator: {
-        height: 1,
-        backgroundColor: '#dddddd'
-    },
-    /*price: {
-        fontSize: 15,
-        fontWeight: 'bold',
-        color: '#48BBEC'
-    },*/
-    title: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        color: '#48BBEC'
-    },
-    rowContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 10
-    }
-};
-
 class SearchResults extends Component {
 
     constructor(props) {
         super(props);
-
         //console.log('Response: ' + JSON.stringify(this.response.listings));
 
         var dataSource = new ListView.DataSource(
@@ -60,31 +25,29 @@ class SearchResults extends Component {
         }
     }
 
-    rowPressed(propertyGUID) {
-        console.log(propertyGUID);
-        var property = this.props.listings.filter(prop => prop.username === propertyGUID)[0];
+    rowPressed(restaurantGUID) {
+        var data = this.props.listings.filter(prop => prop.name === restaurantGUID)[0];
 
         this.props.navigator.push({
             title: 'Restaurant',
             component: RestaurantView,
-            passProps: {data: property}
+            passProps: {data: data}
         });
     }
 
     renderRow(rowData, sectionID, rowID) {
-        var price = 0;//rowData.price_formatted.split(' ')[0];
-        //console.log(rowData);
+        console.log(rowData);
         return (
-            <TouchableHighlight onPress={() => this.rowPressed(rowData.username)} underlayColor='#dddddd'>
+            <TouchableHighlight onPress={() => this.rowPressed(rowData.name)} underlayColor='#dddddd'>
                 <View>
-                    <View style={styles.rowContainer}>
-                        <Image source={require('./Resources/restaurant.png')} style={styles.image}/>
-                        <View  style={styles.textContainer}>
-                            <Text style={styles.title}>{rowData.name}</Text>
-                            <Text numberOfLines={1}>{rowData.location}</Text>
+                    <View style={[css.rowContainer, css.oneFifth]}>
+                        <Image style={css.thumb} source={require('./Resources/restaurant.png')}/>
+                        <View style={[css.textContainer, css.vCenter]}>
+                            <Text style={[css.h2, css.skyblue, css.bold]}>{rowData.name}</Text>
+                            <Text style={[css.h4]} numberOfLines={1}>{rowData.location}</Text>
                         </View>
                     </View>
-                    <View style={styles.separator}/>
+                    <View style={css.separator}/>
                 </View>
             </TouchableHighlight>
         );

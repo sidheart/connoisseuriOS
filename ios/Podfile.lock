@@ -5,11 +5,11 @@ PODS:
   - Bolts/AppLinks (1.7.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.7.0)
-  - FBSDKCoreKit (4.11.0):
+  - FBSDKCoreKit (4.12.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.11.0):
+  - FBSDKLoginKit (4.12.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.11.0):
+  - FBSDKShareKit (4.12.0):
     - FBSDKCoreKit
   - React (0.24.1):
     - React/Core (= 0.24.1)
@@ -57,9 +57,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Bolts: a0058fa3b331c5a1e4402d534f2dae36dbff31e4
-  FBSDKCoreKit: 686ac982723a14ec9ddb85e2f81235d7706c891b
-  FBSDKLoginKit: bade9fc78277764149ccc5bfaadbf13c83175c6a
-  FBSDKShareKit: 2d1746144cfc8a9dbbd24997c34ee0471be51b6a
+  FBSDKCoreKit: 6e56d5a2a64a755ad4efb5dbeee8f82fb1b99775
+  FBSDKLoginKit: 03f68a8d48c2c8bb81d7eb8097973d483543e1f6
+  FBSDKShareKit: df1491f064cffc8ebcc3fc8b71be94cc190c728e
   React: 386bbe687faee56ab75bad6132813945d5857403
   react-native-fbsdkcore: 4b4f0d94b9d19dc8d21427fbb0fe54180486885c
   react-native-fbsdklogin: 9857d698accf58ab07039fd39320df9476eb40a6
