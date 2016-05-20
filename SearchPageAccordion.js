@@ -150,7 +150,7 @@ class SearchPage extends Component {
         alert(err);
         console.log('ERROR, can\'t find item: ' + err);
       } else {
-        alert(value);
+        // alert(value);
         console.log('TOKEN SAVED: ' + value);
       }
     });
@@ -208,22 +208,22 @@ class SearchPage extends Component {
       }
     };
 
-    AsyncStorage.getItem('token', (error, value) => {
-      if (error) {
-        alert('ERROR, can\'t find item: ' + err);
-        console.log('ERROR, can\'t find item: ' + err);
-      } else {
-        object.headers.Authorization = value;
-        //alert('Your current token is: ' + value);
-        console.log('TOKEN SAVED: ' + value);
-        fetch(query, object)
-          .then((response) => response.json())
-          .then((json) => this._handleQueryResponse(json))
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-    });
+    // AsyncStorage.getItem('token', (error, value) => {
+    //   if (error) {
+    //     alert('ERROR, can\'t find item: ' + err);
+    //     console.log('ERROR, can\'t find item: ' + err);
+    //   } else {
+    //     object.headers.Authorization = value;
+    //     //alert('Your current token is: ' + value);
+    //     console.log('TOKEN SAVED: ' + value);
+    //     fetch(query, object)
+    //       .then((response) => response.json())
+    //       .then((json) => this._handleQueryResponse(json))
+    //       .catch((error) => {
+    //         console.log(error);
+    //       });
+    //   }
+    // });
     console.log(object); console.log(query);
 
   }

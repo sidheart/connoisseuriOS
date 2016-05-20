@@ -1,6 +1,6 @@
 import React from 'react-native';
 
-import WelcomePage from './WelcomePage';
+import LoginPage from './LoginPage';
 
 var styles = React.StyleSheet.create({
   container: {
@@ -14,8 +14,8 @@ class PropertyFinderApp extends React.Component {
       <React.NavigatorIOS
         style={styles.container}
         initialRoute={{
-          title: 'Login or Sign Up',
-          component: WelcomePage,
+          title: 'Login',
+          component: LoginPage,
           navigationBarHidden: true
         }}/>
     );

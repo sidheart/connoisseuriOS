@@ -21,11 +21,11 @@ import {
 } from 'react-native';
 
 var { width, height } = Dimensions.get('window');
-const BRAND_TOP_POS = height - 130;
-const BRAND_RIGHT_POS = 12;
+const BRAND_TOP_POS = 50;
+const BRAND_RIGHT_POS = width/2;
 const BUTTON_WIDTH = width/2;
 const BUTTON_HEIGHT = 50;
-const BUTTON_TOP_POS = 23;
+const BUTTON_TOP_POS = 100;
 
 var styles = StyleSheet.create({
   /////////////////////////////////////////////////////////////
@@ -34,11 +34,13 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     width: null,
-    height: null
+    height: null,
+    padding: 0,
+    backgroundColor: 'rgba(255,255,255,0.4)'
   },
   brand: {
     fontFamily: 'Bodoni 72',
-    fontSize: 30,
+    fontSize: 32,
     textAlign: 'right',
     color: 'white',
     backgroundColor: 'transparent',
@@ -63,17 +65,17 @@ var styles = StyleSheet.create({
   button: {
     opacity: 0.9,
     height: BUTTON_HEIGHT,
-    position: 'absolute',
+    position: 'relative',
     justifyContent: 'center',
     marginTop: BUTTON_TOP_POS,
     width: BUTTON_WIDTH,
   },
   buttonGreen: {
     position: 'absolute',
-    backgroundColor: '#658248'
+    backgroundColor: '#3A5679'
   },
   buttonBlack: {
-    backgroundColor: 'black',
+    backgroundColor: '#647989',
     marginLeft: BUTTON_WIDTH
   }
 });
@@ -83,40 +85,48 @@ class WelcomeView extends Component {
      super(props);
    }
 
-   handleLoginPress() {
+   _handleLoginPress() {
      this.props.navigator.push({
        title: 'Login',
        component: LoginView
      });
    }
 
-   handleSignUpPress() {
+   _handleSignUpPress() {
      this.props.navigator.push({
        title: 'Sign Up',
        component: SignupView
      });
    }
 
+   _handleLayoutChange() {
+     console.log('layout changed!');
+   }
+
+
    render() {
      return (
-         <Image source={require('./Resources/landing_img_3.jpg')} style={styles.container}>
-
-           <Text style={styles.brand}>
-             Connoisseur
-           </Text>
-           <Text style={styles.description}>
-             we match your taste
-           </Text>
-           <TouchableHighlight
-           onPress={this.handleLoginPress.bind(this)}
-           style={[styles.button, styles.buttonGreen]}>
-             <Text style={ styles.buttonText }>login</Text>
-           </TouchableHighlight>
-           <TouchableHighlight
-           onPress={this.handleSignUpPress.bind(this)}
-           style={[styles.button, styles.buttonBlack]}>
-             <Text style={ styles.buttonText }>signup</Text>
-           </TouchableHighlight>
+         <Image source={require('./Resources/landing_img_4.jpg')} style={styles.container}>
+          <View>
+             <Text style={styles.brand}>
+               Connoisseur
+             </Text>
+             <Text style={styles.description}>
+               we match your taste
+             </Text>
+           </View>
+           <View>
+             <TouchableHighlight
+             onPress={this._handleLoginPress.bind(this)}
+             style={[styles.button, styles.buttonGreen]}>
+               <Text style={ styles.buttonText }>login</Text>
+             </TouchableHighlight>
+             <TouchableHighlight
+             onPress={this._handleSignUpPress.bind(this)}
+             style={[styles.button, styles.buttonBlack]}>
+               <Text style={ styles.buttonText }>signup</Text>
+             </TouchableHighlight>
+            </View>
          </Image>
      );
    }
@@ -128,6 +138,10 @@ class WelcomePage extends Component {
   // TO-DO: when Login and SignUp are configured            ///
   // Need to reconsider doing other methods instead of push ///
   /////////////////////////////////////////////////////////////
+
+  constructor(props: any) {
+    super(props);
+  }
 
   renderScene(route, navigator) {
     return <route.component navigator={navigator} {...route.passProps} />

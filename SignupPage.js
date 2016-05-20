@@ -3,6 +3,7 @@ import * as Animatable from 'react-native-animatable';
 import Collapsible from 'react-native-collapsible';
 import Accordion from 'react-native-collapsible/Accordion';
 import SearchResults from './SearchResults';
+import LoginPage from './LoginPage';
 import SearchPage from './SearchPageAccordion';
 import FBSDK from 'react-native-fbsdk';
 import Routes from './Routes';
@@ -18,6 +19,7 @@ import {
   Text,
   TextInput,
   View,
+  Dimensions,
   PickerIOS,
   TouchableHighlight,
   ActivityIndicatorIOS,
@@ -28,57 +30,90 @@ import {
 } from 'react-native';
 
 
+var { width, height } = Dimensions.get('window');
+const HEADER_TOP_POS = height * 0.15;
+const FORM_TOP_POS = height * 0.20;
+const FBLOGIN_TOP_POS = FORM_TOP_POS + 30;
+const SIGNUP_TOP_POS = FBLOGIN_TOP_POS + 15;
+const INPUT_WIDTH = width*0.7;
+const INPUT_MARGIN = width*0.15;
+const colorWhite = '#EDEDED';
+const SMALL_FONT_SIZE = 15;
+
 var styles = StyleSheet.create({
-  description: {
-    fontFamily: 'Cochin',
-    marginBottom: 20,
-    fontSize: 18,
+  header: {
+    fontFamily: 'Bodoni 72',
+    fontSize: 36,
     textAlign: 'center',
-    color: '#275B8A'
+    color: colorWhite,
+    backgroundColor: 'transparent'
   },
   container: {
-    padding: 30,
-    marginTop: 65,
-    alignItems: 'center'
+    flex: 1,
+    width: null,
+    height: null
   },
-  flowRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'stretch'
+  description: {
+    fontFamily: 'Avenir',
+    fontSize: SMALL_FONT_SIZE,
+    textAlign: 'center',
+    color: colorWhite,
+    backgroundColor: 'transparent'
+  },
+  headerGroup: {
+    top: HEADER_TOP_POS
+  },
+  searchInput: {
+    height: 40,
+    paddingLeft: SMALL_FONT_SIZE,
+    marginRight: INPUT_MARGIN,
+    marginLeft: INPUT_MARGIN,
+    marginBottom: 10,
+    flex: 1,
+    width: INPUT_WIDTH,
+    fontSize: 15,
+    borderWidth: 1,
+    borderColor: colorWhite,
+    color: colorWhite,
+    backgroundColor: 'rgba(237, 237, 237, 0.15)',
+    fontFamily: 'Avenir',
   },
   buttonText: {
-    fontSize: 18,
-    color: 'white',
+    fontSize: SMALL_FONT_SIZE,
+    color: colorWhite,
     alignSelf: 'center',
-    fontFamily: 'Cochin'
+    fontFamily: 'Avenir',
+    backgroundColor: 'transparent'
   },
   button: {
-    height: 36,
+    height: 40,
     flex: 1,
-    flexDirection: 'row',
-    backgroundColor: '#275B8A',
-    borderColor: '#275B8A',
+    width: INPUT_WIDTH,
+    marginRight: INPUT_MARGIN,
+    marginLeft: INPUT_MARGIN,
+    borderColor: colorWhite,
     borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
+    borderBottomWidth: 1,
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
-  searchInput: {
-    height: 36,
-    padding: 5,
-    marginRight: 5,
-    flex: 4,
-    fontSize: 18,
-    borderWidth: 1,
-    borderColor: '#275B8A',
-    borderRadius: 8,
-    color: '#275B8A',
-    fontFamily: 'Cochin'
+  formGroup: {
+    top: FORM_TOP_POS
   },
-  image: {
-    width: 217,
-    height: 138
+  loginInfo: {
+    justifyContent: 'center',
+    top: FBLOGIN_TOP_POS
+  },
+  signup: {
+    top: SIGNUP_TOP_POS
+  },
+  facebookButton: {
+    height: 40,
+    width: INPUT_WIDTH,
+    backgroundColor: '#4267B2',
+    marginLeft: INPUT_MARGIN,
+    marginRight: INPUT_MARGIN,
+    marginBottom: 10
   }
 });
 
@@ -90,7 +125,7 @@ class SignupPage extends Component {
       usernameString: '',
       passwordString: '',
       isLoading: false,
-      message: ''
+      message: ' '
     };
   }
 
@@ -195,8 +230,7 @@ class SignupPage extends Component {
     if (response.success) {
 
       _this.setState({
-        isLoading: false,
-        message: 'Your token is: ' + response.token
+        isLoading: false
       });
 
       AsyncStorage.setItem('token', response.token, (err) => {
@@ -205,9 +239,11 @@ class SignupPage extends Component {
           alert('Access token could not be saved');
         } else {
           // Go to search page, now that you're logged in
+          _this.setState({message: ' '});
           _this.props.navigator.push({
             title: 'Search',
-            component: SearchPage
+            component: SearchPage,
+            navigationBarHidden: true
           });
         }
       });
@@ -224,38 +260,58 @@ class SignupPage extends Component {
     this._executeQuery(query, null, this._handleRegisterResponse);
   }
 
+  onLoginPressed() {
+    this.props.navigator.pop();
+  }
+
   render() {
     var spinner = this.state.isLoading ?
       ( <ActivityIndicatorIOS size='large'/> ) : ( <View/> );
 
     return (
-      <View style={styles.container}>
-        <Text style={styles.description}>
-          Sign up for an account!
-        </Text>
-        <View style={styles.flowRight}>
+      <Image source={require('./Resources/landing_background_3.jpg')} style={styles.container}>
+        <View style={styles.headerGroup}>
+          <Text style={styles.header}>
+            Connoisseur
+          </Text>
+          <Text style={styles.description}>
+            where we match your taste
+          </Text>
+        </View>
+        <View style={styles.formGroup}>
           <TextInput
-            style={styles.searchInput}
-            value={this.state.usernameString}
-            onChange={this.onUsernameTextChanged.bind(this)}
-            placeholder='Username'/>
+              style={styles.searchInput}
+              value={this.state.usernameString}
+              onChange={this.onUsernameTextChanged.bind(this)}
+              placeholder='username'
+              placeholderTextColor='white'/>
           <TextInput
-            style={styles.searchInput}
-            value={this.state.passwordString}
-            onChange={this.onPasswordTextChanged.bind(this)}
-            placeholder='Password'/>
+              style={styles.searchInput}
+              value={this.state.passwordString}
+              onChange={this.onPasswordTextChanged.bind(this)}
+              placeholder='password'
+              placeholderTextColor='white'/>
           <TouchableHighlight style={styles.button}
                               onPress={this.onSearchPressed.bind(this)}
-                              underlayColor='#99d9f4'>
-            <Text style={styles.buttonText}>Go</Text>
+                              underlayColor='white'>
+            <Text style={styles.buttonText}>sign up</Text>
           </TouchableHighlight>
         </View>
-        <Login
-          navigator={this.props.navigator}
-          _this={this}/>
-        {spinner}
-        <Text style={styles.description}>{this.state.message}</Text>
-      </View>
+        <View style={styles.loginInfo}>
+          <Login
+            navigator={this.props.navigator}
+            _this={this}/>
+          {spinner}
+          <Text style={styles.description}>{this.state.message}</Text>
+        </View>
+        <View style={styles.signup}>
+          <Text style={styles.buttonText}>already have an account?</Text>
+          <TouchableHighlight onPress={this.onLoginPressed.bind(this)}
+                              underlayColor='transparent'>
+            <Text style={[styles.buttonText, {fontWeight: '800'}]}>login</Text>
+          </TouchableHighlight>
+        </View>
+      </Image>
     );
   }
 }
@@ -266,6 +322,7 @@ var Login = React.createClass({
     return (
       <View>
         <LoginButton
+          style={styles.facebookButton}
           publishPermissions={["publish_actions"]}
           onLoginFinished={
             (error, result) => {
