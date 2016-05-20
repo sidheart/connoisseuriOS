@@ -192,7 +192,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 4SBB446236;
+						DevelopmentTeam = EYEAPY42P7;
 					};
 				};
 			};
@@ -381,7 +381,7 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cs130.connoisseuriOSS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cs130.connoisseuriOSTeam;
 				PRODUCT_NAME = connoisseuriOS;
 				PROVISIONING_PROFILE = "";
 			};
@@ -406,7 +406,7 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cs130.connoisseuriOSS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cs130.connoisseuriOSTeam;
 				PRODUCT_NAME = connoisseuriOS;
 				PROVISIONING_PROFILE = "";
 			};

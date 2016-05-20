@@ -3,6 +3,7 @@ import * as Animatable from 'react-native-animatable';
 import Collapsible from 'react-native-collapsible';
 import Accordion from 'react-native-collapsible/Accordion';
 import SearchResults from './SearchResults';
+import Routes from './Routes';
 
 import {
   StyleSheet,
@@ -129,7 +130,7 @@ function urlForQueryAndPage(AccordionContent) {
 
   //var q = 'name' + '=' + value;
 
-  return 'http://localhost:3000/restaurants?';// + q;// + querystring;
+  return Routes.search;// + q;// + querystring;
 }
 
 class SearchPage extends Component {
@@ -150,7 +151,7 @@ class SearchPage extends Component {
         alert(err);
         console.log('ERROR, can\'t find item: ' + err);
       } else {
-        // alert(value);
+        alert(value);
         console.log('TOKEN SAVED: ' + value);
       }
     });

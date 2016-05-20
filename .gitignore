@@ -6,3 +6,4 @@ node_modules/*
 ios/Pods/*
 ios/build/ModuleCache/*
 ios/build/Build/*
+ios/connoisseurIOSanto.xcworkspace/*
