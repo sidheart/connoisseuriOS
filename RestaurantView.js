@@ -17,7 +17,7 @@ class RestaurantView extends Component {
             return [];
         //console.log(data);
         return [{
-            latitude: data.lattitude,
+            latitude: data.latitude,
             longitude: data.longitude,
             title: data.name,
             subtitle: data.address
