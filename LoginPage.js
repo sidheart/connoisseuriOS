@@ -7,6 +7,7 @@ import SignupPage from './SignupPage';
 import SearchPage from './SearchPageAccordion';
 import FBSDK from 'react-native-fbsdk';
 import Routes from './Routes';
+import dismissKeyboard from 'dismissKeyboard';
 
 const {
   LoginButton,
@@ -26,7 +27,8 @@ import {
   Image,
   Component,
   AlertIOS,
-  AsyncStorage
+  AsyncStorage,
+  TouchableWithoutFeedback
 } from 'react-native';
 
 var { width, height } = Dimensions.get('window');
@@ -126,6 +128,10 @@ class LoginPage extends Component {
       isLoading: false,
       message: ' '
     };
+  }
+
+  dismiss() {
+    dismissKeyboard();
   }
 
   onUsernameTextChanged(event) {
@@ -231,6 +237,7 @@ class LoginPage extends Component {
         ( <ActivityIndicatorIOS size='large'/> ) : ( <View/> );
 
     return (
+      <TouchableWithoutFeedback onPress={ () => { this.dismiss() } }>
         <Image source={require('./Resources/landing_background.jpg')} style={styles.container}>
           <View style={styles.headerGroup}>
             <Text style={styles.header}>
@@ -274,6 +281,7 @@ class LoginPage extends Component {
             </TouchableHighlight>
           </View>
         </Image>
+      </TouchableWithoutFeedback>
     );
   }
 }

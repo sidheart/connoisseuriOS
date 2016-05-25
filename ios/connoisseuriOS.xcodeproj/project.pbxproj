@@ -381,7 +381,7 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cs130.connoisseuriOSTeam;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cs130.connoisseuriOSTeam2;
 				PRODUCT_NAME = connoisseuriOS;
 				PROVISIONING_PROFILE = "";
 			};
@@ -406,7 +406,7 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cs130.connoisseuriOSTeam;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cs130.connoisseuriOSTeam2;
 				PRODUCT_NAME = connoisseuriOS;
 				PROVISIONING_PROFILE = "";
 			};
