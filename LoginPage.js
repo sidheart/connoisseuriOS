@@ -2,9 +2,8 @@ import React from 'react';
 import * as Animatable from 'react-native-animatable';
 import Collapsible from 'react-native-collapsible';
 import Accordion from 'react-native-collapsible/Accordion';
-import SearchResults from './SearchResults';
 import SignupPage from './SignupPage';
-import SearchPage from './SearchPageAccordion';
+import TabBarPlatform from './TabBarPlatform';
 import FBSDK from 'react-native-fbsdk';
 import Routes from './Routes';
 import dismissKeyboard from 'dismissKeyboard';
@@ -38,15 +37,16 @@ const FBLOGIN_TOP_POS = FORM_TOP_POS + 30;
 const SIGNUP_TOP_POS = FBLOGIN_TOP_POS + 15;
 const INPUT_WIDTH = width*0.7;
 const INPUT_MARGIN = width*0.15;
-const colorWhite = '#EDEDED';
+const COLOR_WHITE = '#EDEDED';
 const SMALL_FONT_SIZE = 15;
+const DESCRIPTION_MARGIN = width * 0.1;
 
 var styles = StyleSheet.create({
   header: {
     fontFamily: 'Bodoni 72',
     fontSize: 36,
     textAlign: 'center',
-    color: colorWhite,
+    color: COLOR_WHITE,
     backgroundColor: 'transparent'
   },
   container: {
@@ -58,8 +58,10 @@ var styles = StyleSheet.create({
     fontFamily: 'Avenir',
     fontSize: SMALL_FONT_SIZE,
     textAlign: 'center',
-    color: colorWhite,
-    backgroundColor: 'transparent'
+    color: COLOR_WHITE,
+    backgroundColor: 'transparent',
+    marginLeft: DESCRIPTION_MARGIN,
+    marginRight: DESCRIPTION_MARGIN
   },
   headerGroup: {
     top: HEADER_TOP_POS
@@ -74,14 +76,14 @@ var styles = StyleSheet.create({
     width: INPUT_WIDTH,
     fontSize: 15,
     borderWidth: 1,
-    borderColor: colorWhite,
-    color: colorWhite,
+    borderColor: COLOR_WHITE,
+    color: COLOR_WHITE,
     backgroundColor: 'rgba(237, 237, 237, 0.15)',
     fontFamily: 'Avenir',
   },
   buttonText: {
     fontSize: SMALL_FONT_SIZE,
-    color: colorWhite,
+    color: COLOR_WHITE,
     alignSelf: 'center',
     fontFamily: 'Avenir',
     backgroundColor: 'transparent'
@@ -92,7 +94,7 @@ var styles = StyleSheet.create({
     width: INPUT_WIDTH,
     marginRight: INPUT_MARGIN,
     marginLeft: INPUT_MARGIN,
-    borderColor: colorWhite,
+    borderColor: COLOR_WHITE,
     borderWidth: 1,
     borderBottomWidth: 1,
     alignSelf: 'stretch',
@@ -206,7 +208,7 @@ class LoginPage extends Component {
           // Go to search page, now that you're logged in
           this.props.navigator.push({
             title: 'Search',
-            component: SearchPage,
+            component: TabBarPlatform,
             navigationBarHidden: true
           });
         }
@@ -270,15 +272,16 @@ class LoginPage extends Component {
             <Login
               navigator={this.props.navigator}
               _this={this}/>
-            {spinner}
             <Text style={styles.description}>{this.state.message}</Text>
           </View>
           <View style={styles.signup}>
             <Text style={styles.buttonText}>dont have an account?</Text>
             <TouchableHighlight onPress={this.onSignupPressed.bind(this)}
-                                underlayColor='transparent'>
+                                underlayColor='transparent'
+                                style={{marginBottom: 10}}>
               <Text style={[styles.buttonText, {fontWeight: '800'}]}>sign up</Text>
             </TouchableHighlight>
+            {spinner}
           </View>
         </Image>
       </TouchableWithoutFeedback>

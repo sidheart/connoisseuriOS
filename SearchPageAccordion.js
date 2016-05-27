@@ -14,73 +14,75 @@ import {
   TouchableHighlight,
   ActivityIndicatorIOS,
   Image,
+  Dimensions,
   Component,
   AlertIOS,
   AsyncStorage
 } from 'react-native';
 
 var PickerItemIOS = PickerIOS.Item;
+var { width, height } = Dimensions.get('window');
+const COLOR_RED = '#8C2621';
+const SMALL_FONT_SIZE = 15;
+const ACCORDION_TOP = height*0.1;
+const COLOR_WHITE = '#EDEDED';
+const INPUT_WIDTH = width*0.7;
+const INPUT_MARGIN = width*0.15;
 
-const BACON_IPSUM = 'abc';
 const AccordionList = [
   {
-    // Day
-    title: 'Today is',
-    identifier: 'day'
-  },
-  {
     // Time
-    title: 'At',
+    title: 'I need to find a place for',
     identifier: 'time'
   },
   {
     // Food Type
-    title: 'I want to have',
+    title: 'I feel like',
     identifier: 'foodType'
   },
   {
     // Partner
-    title: 'With',
+    title: 'I am with',
     identifier: 'partner'
   },
   {
     // Location
-    title: 'In',
+    title: 'We would like to eat near',
     identifier: 'location'
   },
   {
-    // Other Preference
-    title: 'I would like',
-    identifier: 'otherPreference'
+    // Budget
+    title: 'We want to pay per person',
+    identifier: 'budget'
   },
   {
-    // Budget
-    title: 'I want to spend per person',
-    identifier: 'budget'
+    // Other Preference
+    title: 'And it should be somewhere',
+    identifier: 'otherPreference'
   }
 ];
 
 const AccordionContent = {
-  day: {
-    options: ['No preference', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-  },
   time: {
-    options: ['No preference', 'Before 8AM', '8AM', '8:30AM', '9AM', '9:30AM']
+    options: ['No preference', 'Breakfast', 'Brunch', 'Lunch', 'Dinnner']
   },
   foodType: {
-    options: ['No preference', 'Chinese', 'Korean', 'Japanese', 'Asian Fusion', 'Mexican', 'American', 'Italian', 'French']
+    options: ['No preference', 'Open to suggestions', 'All American', 'Asian', 'Bakery', 'British', 'Chinese', 'French', 'Fusion', 'German', 'Greek',
+            'Indian', 'Italian', 'Japanese', 'Korean', 'Mexican', 'Middle Eastern', 'Pizza', 'Seafood', 'Seasonal or Local', 'South_american',
+            'Steakhouse', 'Sushi', 'Sushi Bar', 'Tapas', 'Thai', 'Vegan']
   },
   partner: {
-    options: ['No preference', 'Boss', 'Friend', 'Date', 'Girlfriend/Boyfried', 'Wife/Husband', 'Coworker', 'Client']
+    options: ['No preference', 'Clients', 'A hot date', 'Friends', 'Children', 'My dog', 'A group of friends', 'A vegan', 'My parents', 'Someone I want to impress']
   },
   location: {
     options: ['No preference', 'Santa Monica', 'West Los Angeles']
   },
-  otherPreference: {
-    options: ['No preference', 'Reservations Available', 'Good for Family']
-  },
   budget: {
     options: ['No preference', '<20', '20~40', '40~80', '80~150', '150+']
+  },
+  otherPreference: {
+    options: ['No preference', 'I can bring my dog', 'Vegetarian friendly', 'With a good happy hour', 'With healthy options', 'With a good review',
+              'That takes reservations', 'Good for groups', 'With valet', 'With a patio', 'Where I can see celebrities']
   }
 };
 
@@ -88,34 +90,63 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#F5FCFF',
+    paddingLeft: INPUT_MARGIN,
+    paddingRight: INPUT_MARGIN,
+    width: null,
+    height: null
   },
-  title: {
-    textAlign: 'center',
-    fontSize: 22,
-    fontWeight: '300',
-    marginBottom: 20,
+  accordion: {
+    top: -50
   },
   header: {
-    backgroundColor: '#F5FCFF',
-    padding: 10,
+    paddingVertical: 10
   },
   headerText: {
+    fontFamily: 'Avenir',
     textAlign: 'center',
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: SMALL_FONT_SIZE,
+    fontWeight: '500'
+  },
+  headerActive: {
+    color: 'black',
+    backgroundColor: COLOR_WHITE,
+    width: INPUT_WIDTH,
+    padding: 10
+  },
+  headerInactive: {
+    color: COLOR_WHITE
   },
   content: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#fff',
+    flex: 1
   },
   active: {
-    backgroundColor: 'rgba(255,255,255,1)',
+    backgroundColor: 'transparent'
   },
   inactive: {
-    backgroundColor: 'rgba(245,252,255,1)',
+    backgroundColor: 'transparent'
   },
+  submitButtonView: {
+    marginTop: -30
+  },
+  submitButton: {
+    height: 40,
+    flex: 1,
+    width: INPUT_WIDTH,
+    borderColor: COLOR_WHITE,
+    backgroundColor: COLOR_WHITE,
+    borderWidth: 1,
+    borderBottomWidth: 1,
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    marginTop: 0
+  },
+  buttonText: {
+    fontFamily: 'Avenir',
+    color: 'black',
+    alignSelf: 'center',
+    fontWeight: '700',
+    fontSize: SMALL_FONT_SIZE
+  }
 });
 
 function urlForQueryAndPage(AccordionContent) {
@@ -138,20 +169,19 @@ class SearchPage extends Component {
     super(props);
     this.state = {
       collapsed: true,
-      day: 0,
       time: 0,
       foodType: 0,
       partner: 0,
       location: 0,
-      otherPreference: 0,
-      budget: 0
+      budget: 0,
+      otherPreference: 0
     };
     AsyncStorage.getItem('token', (error, value) => {
       if (error) {
-        alert(err);
+        // alert(err);
         console.log('ERROR, can\'t find item: ' + err);
       } else {
-        alert(value);
+        // alert(value);
         console.log('TOKEN SAVED: ' + value);
       }
     });
@@ -163,8 +193,8 @@ class SearchPage extends Component {
 
   _renderHeader(section, i, isActive) {
     return (
-      <Animatable.View duration={400} style={[styles.header, isActive ? styles.active : styles.inactive]} transition="backgroundColor">
-        <Text style={styles.headerText}>{section.title} {AccordionContent[section.identifier].options[this.state[section.identifier]] == 'No preference' ? '...' : AccordionContent[section.identifier].options[this.state[section.identifier]]}</Text>
+      <Animatable.View duration={600} style={[styles.header, isActive ? styles.active : styles.inactive]} transition="backgroundColor">
+        <Text style={[styles.headerText, isActive? styles.headerActive : styles.headerInactive]}>{section.title} {AccordionContent[section.identifier].options[this.state[section.identifier]] == 'No preference' ? '...' : AccordionContent[section.identifier].options[this.state[section.identifier]]}</Text>
       </Animatable.View>
     );
   }
@@ -174,10 +204,9 @@ class SearchPage extends Component {
   }
 
   _renderContent(section, i, isActive) {
-    // TO-DO: onValueChange needs to be added for pickerIOS
     var name = section.identifier;
     return (
-      <Animatable.View duration={400} style={[styles.content, isActive ? styles.active : styles.inactive]} transition="backgroundColor">
+      <Animatable.View duration={600} style={[styles.content, isActive ? styles.active : styles.inactive]} transition="backgroundColor">
         <Animatable.View animation={isActive ? 'slideInLeft' : undefined}>
           <PickerIOS
           selectedValue={this.state[name]}
@@ -185,6 +214,7 @@ class SearchPage extends Component {
           >
           {AccordionContent[section.identifier].options.map((valueName, valueIndex) => (
                       <PickerItemIOS
+                        style={{color: 'red'}}
                         key={section.identifier + ' ' + valueName}
                         value={valueIndex}
                         label={valueName}
@@ -230,7 +260,20 @@ class SearchPage extends Component {
   }
 
   _handleSubmit() {
-    var query = urlForQueryAndPage(AccordionContent);
+    var query;
+    console.log('HIIIIIIIIII ' + this.state.foodType);
+    if (this.state.foodType !== 0) {
+      console.log('whould be herererere!');
+      query = Routes.search + '?food_types={"' + AccordionContent['foodType'].options[this.state.foodType].toString().toLowerCase().replace(' ', '_') + '":true}';
+    }
+    else {
+      query = Routes.search;
+    }
+
+        // 'time=' + this.state.time + '&foodType=' + this.state.foodType + '&partner=' + this.state.partner +
+        //     '&location=' + this.state.location + '&budget=' + this.state.budget + '&otherPreference' + this.state.otherPreference;
+
+    console.log(query);
     this._executeQuery(query);
 
     //alert('day ' + AccordionContent['day'].options[this.state.day] + '; ' +
@@ -264,18 +307,23 @@ class SearchPage extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Accordion
-          sections={AccordionList}
-          renderHeader={this._renderHeader.bind(this)}
-          renderContent={this._renderContent.bind(this)}
-          duration={300}
-        />
-        <TouchableHighlight
-        onPress={this._handleSubmit.bind(this)}>
-          <Text style={{alignSelf: 'center'}}>Submit</Text>
-        </TouchableHighlight>
-      </View>
+      <Image source={require('./Resources/landing_background_3.jpg')} style={styles.container}>
+        <View style={styles.accordion}>
+          <Accordion
+            sections={AccordionList}
+            renderHeader={this._renderHeader.bind(this)}
+            renderContent={this._renderContent.bind(this)}
+            duration={300}
+          />
+        </View>
+        <View style={styles.submitButtonView}>
+          <TouchableHighlight
+          onPress={this._handleSubmit.bind(this)}
+          style={styles.submitButton}>
+            <Text style={styles.buttonText}>submit</Text>
+          </TouchableHighlight>
+        </View>
+      </Image>
     );
   }
 }

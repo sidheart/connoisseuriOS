@@ -2,9 +2,8 @@ import React from 'react';
 import * as Animatable from 'react-native-animatable';
 import Collapsible from 'react-native-collapsible';
 import Accordion from 'react-native-collapsible/Accordion';
-import SearchResults from './SearchResults';
 import LoginPage from './LoginPage';
-import SearchPage from './SearchPageAccordion';
+import TabBarPlatform from './TabBarPlatform';
 import FBSDK from 'react-native-fbsdk';
 import Routes from './Routes';
 
@@ -39,6 +38,7 @@ const INPUT_WIDTH = width*0.7;
 const INPUT_MARGIN = width*0.15;
 const colorWhite = '#EDEDED';
 const SMALL_FONT_SIZE = 15;
+const DESCRIPTION_MARGIN = width * 0.1;
 
 var styles = StyleSheet.create({
   header: {
@@ -58,7 +58,9 @@ var styles = StyleSheet.create({
     fontSize: SMALL_FONT_SIZE,
     textAlign: 'center',
     color: colorWhite,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    marginLeft: DESCRIPTION_MARGIN,
+    marginRight: DESCRIPTION_MARGIN
   },
   headerGroup: {
     top: HEADER_TOP_POS
@@ -242,7 +244,7 @@ class SignupPage extends Component {
           _this.setState({message: ' '});
           _this.props.navigator.push({
             title: 'Search',
-            component: SearchPage,
+            component: TabBarPlatform,
             navigationBarHidden: true
           });
         }
@@ -255,7 +257,7 @@ class SignupPage extends Component {
     }
   }
 
-  onSearchPressed() {
+  onSignupPressed() {
     var query = Routes.addUser;
     this._executeQuery(query, null, this._handleRegisterResponse);
   }
@@ -292,7 +294,7 @@ class SignupPage extends Component {
               placeholder='password'
               placeholderTextColor='white'/>
           <TouchableHighlight style={styles.button}
-                              onPress={this.onSearchPressed.bind(this)}
+                              onPress={this.onSignupPressed.bind(this)}
                               underlayColor='white'>
             <Text style={styles.buttonText}>sign up</Text>
           </TouchableHighlight>
@@ -301,16 +303,18 @@ class SignupPage extends Component {
           <Login
             navigator={this.props.navigator}
             _this={this}/>
-          {spinner}
           <Text style={styles.description}>{this.state.message}</Text>
         </View>
         <View style={styles.signup}>
           <Text style={styles.buttonText}>already have an account?</Text>
           <TouchableHighlight onPress={this.onLoginPressed.bind(this)}
-                              underlayColor='transparent'>
+                              underlayColor='transparent'
+                              style={{marginBottom: 10}}>
             <Text style={[styles.buttonText, {fontWeight: '800'}]}>login</Text>
           </TouchableHighlight>
+          {spinner}
         </View>
+
       </Image>
     );
   }
