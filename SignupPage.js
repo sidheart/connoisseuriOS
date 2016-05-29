@@ -175,7 +175,7 @@ class SignupPage extends Component {
           .catch((error) => {
             this.setState({
               isLoading: false,
-              message: 'Something bad happened ' + error
+              message: 'User could not be registered ' + error
             });
           });
 
@@ -222,7 +222,7 @@ class SignupPage extends Component {
     } else {
       _this.setState({
         isLoading: false,
-        message: 'User failed to register ' + error
+        message: response.message
       });
     }
   }
