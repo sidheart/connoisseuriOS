@@ -146,11 +146,13 @@ class LoginPage extends Component {
 
   _executeQuery(query, params) {
     var params = params || {};
+    var username;
     console.log(query);
     this.setState( {isLoading: true} );
 
     var object = {};
     if (!params.username || !params.password) {
+      username = this.state.usernameString;
       object = {
         method: 'POST',
         headers: {
@@ -163,6 +165,7 @@ class LoginPage extends Component {
         })
       };
     } else {
+      username = params.username;
       object = {
         method: 'POST',
         headers: {
@@ -178,7 +181,7 @@ class LoginPage extends Component {
 
     fetch(query, object)
         .then((response) => response.json())
-        .then((json) => this._handleResponse(json))
+        .then((json) => this._handleResponse(json, username))
         .catch(error =>
             this.setState({
               isLoading: false,
@@ -186,7 +189,7 @@ class LoginPage extends Component {
             }));
   }
 
-  _handleResponse(response) {
+  _handleResponse(response, username) {
     console.log(response);
 
     if (response.success) {
@@ -201,11 +204,18 @@ class LoginPage extends Component {
           alert('Access token could not be saved');
         } else {
           this.setState({message: ' '});
-          // Go to search page, now that you're logged in
-          this.props.navigator.push({
-            title: 'Search',
-            component: TabBarPlatform,
-            navigationBarHidden: true
+          AsyncStorage.setItem('user', username, (err) => {
+            if (err) {
+              console.log(err);
+              alert('username could not be saved');
+            } else {
+              // Go to search page, now that you're logged in
+              this.props.navigator.push({
+                title: 'Search',
+                component: TabBarPlatform,
+                navigationBarHidden: true
+              });
+            }
           });
         }
       });

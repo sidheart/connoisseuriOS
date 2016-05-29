@@ -8,7 +8,7 @@ import {
 var header = 65;
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
-var hHeight = Dimensions.get('window').height-header;
+var hHeight = height-header;
 
 var css = StyleSheet.create({
     container: {
@@ -26,6 +26,9 @@ var css = StyleSheet.create({
         height: 300,
         width: 300
     },
+    oneHalfWidth: {
+        width: width*0.5
+    },
     oneHalf: {
         height: hHeight*0.5
     },
@@ -34,6 +37,9 @@ var css = StyleSheet.create({
     },
     oneFourth: {
         height: hHeight*0.25
+    },
+    oneSixth: {
+        height: hHeight*0.1666
     },
     oneTenth: {
         height: hHeight*0.10
@@ -97,8 +103,14 @@ var css = StyleSheet.create({
     skyblue: {
         color: '#48BBEC'
     },
+    bkSkyblue: {
+        backgroundColor: '#48BBEC'
+    },
     black: {
         color: '#000000'
+    },
+    bkBlack: {
+        backgroundColor: '#000000'
     },
     white: {
         color: '#FFFFFF'

@@ -16,7 +16,8 @@ if (use_ec2) {
 var Routes = {
   addUser: url + 'addUser',
   auth: url + 'auth',
-  search: url + 'search'
+  search: url + 'search',
+  addRating: url + 'addRating',
 };
 
 module.exports = Routes;
