@@ -6,6 +6,7 @@ import LoginPage from './LoginPage';
 import TabBarPlatform from './TabBarPlatform';
 import FBSDK from 'react-native-fbsdk';
 import Routes from './Routes';
+import dismissKeyboard from 'dismissKeyboard';
 
 const {
   LoginButton,
@@ -25,7 +26,8 @@ import {
   Image,
   Component,
   AlertIOS,
-  AsyncStorage
+  AsyncStorage,
+  TouchableWithoutFeedback
 } from 'react-native';
 
 
@@ -271,51 +273,53 @@ class SignupPage extends Component {
       ( <ActivityIndicatorIOS size='large'/> ) : ( <View/> );
 
     return (
-      <Image source={require('./Resources/landing_background_3.jpg')} style={styles.container}>
-        <View style={styles.headerGroup}>
-          <Text style={styles.header}>
-            Connoisseur
-          </Text>
-          <Text style={styles.description}>
-            where we match your taste
-          </Text>
-        </View>
-        <View style={styles.formGroup}>
-          <TextInput
-              style={styles.searchInput}
-              value={this.state.usernameString}
-              onChange={this.onUsernameTextChanged.bind(this)}
-              placeholder='username'
-              placeholderTextColor='white'/>
-          <TextInput
-              style={styles.searchInput}
-              value={this.state.passwordString}
-              onChange={this.onPasswordTextChanged.bind(this)}
-              placeholder='password'
-              placeholderTextColor='white'/>
-          <TouchableHighlight style={styles.button}
-                              onPress={this.onSignupPressed.bind(this)}
-                              underlayColor='white'>
-            <Text style={styles.buttonText}>sign up</Text>
-          </TouchableHighlight>
-        </View>
-        <View style={styles.loginInfo}>
-          <Login
-            navigator={this.props.navigator}
-            _this={this}/>
-          <Text style={styles.description}>{this.state.message}</Text>
-        </View>
-        <View style={styles.signup}>
-          <Text style={styles.buttonText}>already have an account?</Text>
-          <TouchableHighlight onPress={this.onLoginPressed.bind(this)}
-                              underlayColor='transparent'
-                              style={{marginBottom: 10}}>
-            <Text style={[styles.buttonText, {fontWeight: '800'}]}>login</Text>
-          </TouchableHighlight>
-          {spinner}
-        </View>
+      <TouchableWithoutFeedback onPress={ () => { dismissKeyboard() } }>
+        <Image source={require('./Resources/landing_background_3.jpg')} style={styles.container}>
+          <View style={styles.headerGroup}>
+            <Text style={styles.header}>
+              Connoisseur
+            </Text>
+            <Text style={styles.description}>
+              where we match your taste
+            </Text>
+          </View>
+          <View style={styles.formGroup}>
+            <TextInput
+                style={styles.searchInput}
+                value={this.state.usernameString}
+                onChange={this.onUsernameTextChanged.bind(this)}
+                placeholder='username'
+                placeholderTextColor='white'/>
+            <TextInput
+                style={styles.searchInput}
+                value={this.state.passwordString}
+                onChange={this.onPasswordTextChanged.bind(this)}
+                placeholder='password'
+                placeholderTextColor='white'/>
+            <TouchableHighlight style={styles.button}
+                                onPress={this.onSignupPressed.bind(this)}
+                                underlayColor='white'>
+              <Text style={styles.buttonText}>sign up</Text>
+            </TouchableHighlight>
+          </View>
+          <View style={styles.loginInfo}>
+            <Login
+              navigator={this.props.navigator}
+              _this={this}/>
+            <Text style={styles.description}>{this.state.message}</Text>
+          </View>
+          <View style={styles.signup}>
+            <Text style={styles.buttonText}>already have an account?</Text>
+            <TouchableHighlight onPress={this.onLoginPressed.bind(this)}
+                                underlayColor='transparent'
+                                style={{marginBottom: 10}}>
+              <Text style={[styles.buttonText, {fontWeight: '800'}]}>login</Text>
+            </TouchableHighlight>
+            {spinner}
+          </View>
 
-      </Image>
+        </Image>
+      </TouchableWithoutFeedback>
     );
   }
 }

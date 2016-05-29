@@ -132,10 +132,6 @@ class LoginPage extends Component {
     };
   }
 
-  dismiss() {
-    dismissKeyboard();
-  }
-
   onUsernameTextChanged(event) {
     this.setState({
       usernameString: event.nativeEvent.text
@@ -239,7 +235,7 @@ class LoginPage extends Component {
         ( <ActivityIndicatorIOS size='large'/> ) : ( <View/> );
 
     return (
-      <TouchableWithoutFeedback onPress={ () => { this.dismiss() } }>
+      <TouchableWithoutFeedback onPress={ () => { dismissKeyboard() } }>
         <Image source={require('./Resources/landing_background.jpg')} style={styles.container}>
           <View style={styles.headerGroup}>
             <Text style={styles.header}>

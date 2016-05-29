@@ -4,6 +4,7 @@ import Collapsible from 'react-native-collapsible';
 import Accordion from 'react-native-collapsible/Accordion';
 import SearchResults from './SearchResults';
 import Routes from './Routes';
+import dismissKeyboard from 'dismissKeyboard';
 
 import {
   StyleSheet,
@@ -17,7 +18,8 @@ import {
   Dimensions,
   Component,
   AlertIOS,
-  AsyncStorage
+  AsyncStorage,
+  TouchableWithoutFeedback
 } from 'react-native';
 
 var PickerItemIOS = PickerIOS.Item;
@@ -307,23 +309,25 @@ class SearchPage extends Component {
 
   render() {
     return (
-      <Image source={require('./Resources/landing_background_3.jpg')} style={styles.container}>
-        <View style={styles.accordion}>
-          <Accordion
-            sections={AccordionList}
-            renderHeader={this._renderHeader.bind(this)}
-            renderContent={this._renderContent.bind(this)}
-            duration={300}
-          />
-        </View>
-        <View style={styles.submitButtonView}>
-          <TouchableHighlight
-          onPress={this._handleSubmit.bind(this)}
-          style={styles.submitButton}>
-            <Text style={styles.buttonText}>submit</Text>
-          </TouchableHighlight>
-        </View>
-      </Image>
+      <TouchableWithoutFeedback onPress={ () => { dismissKeyboard() } }>
+        <Image source={require('./Resources/landing_background_3.jpg')} style={styles.container}>
+          <View style={styles.accordion}>
+            <Accordion
+              sections={AccordionList}
+              renderHeader={this._renderHeader.bind(this)}
+              renderContent={this._renderContent.bind(this)}
+              duration={300}
+            />
+          </View>
+          <View style={styles.submitButtonView}>
+            <TouchableHighlight
+            onPress={this._handleSubmit.bind(this)}
+            style={styles.submitButton}>
+              <Text style={styles.buttonText}>submit</Text>
+            </TouchableHighlight>
+          </View>
+        </Image>
+      </TouchableWithoutFeedback>
     );
   }
 }
