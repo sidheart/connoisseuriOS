@@ -30,6 +30,7 @@ const ACCORDION_TOP = height*0.1;
 const COLOR_WHITE = '#EDEDED';
 const INPUT_WIDTH = width*0.7;
 const INPUT_MARGIN = width*0.15;
+const DESCRIPTION_MARGIN = width * 0.1;
 
 const AccordionList = [
   {
@@ -99,6 +100,15 @@ const styles = StyleSheet.create({
   },
   accordion: {
     top: -50
+  },
+  description: {
+    fontFamily: 'Avenir',
+    fontSize: SMALL_FONT_SIZE,
+    textAlign: 'center',
+    color: COLOR_WHITE,
+    backgroundColor: 'transparent',
+    marginLeft: DESCRIPTION_MARGIN,
+    marginRight: DESCRIPTION_MARGIN
   },
   header: {
     paddingVertical: 10
@@ -207,7 +217,7 @@ class SearchPage extends Component {
 
   _renderContent(section, i, isActive) {
     var name = section.identifier;
-    return (
+    return ( // TODO: Can remove slideInLeft animation to make it faster
       <Animatable.View duration={600} style={[styles.content, isActive ? styles.active : styles.inactive]} transition="backgroundColor">
         <Animatable.View animation={isActive ? 'slideInLeft' : undefined}>
           <PickerIOS
@@ -301,7 +311,7 @@ class SearchPage extends Component {
       });
     } else {
       this.setState({
-        message: 'Location not recognized; please try again.'
+        message: 'No results found. Please try a different selection.'
       });
     }
 
@@ -326,6 +336,7 @@ class SearchPage extends Component {
               <Text style={styles.buttonText}>submit</Text>
             </TouchableHighlight>
           </View>
+          <Text style={styles.description}>{this.state.message}</Text>
         </Image>
       </TouchableWithoutFeedback>
     );
