@@ -263,6 +263,7 @@ class LoginPage extends Component {
                 placeholder='username'
                 placeholderTextColor='white'/>
             <TextInput
+                secureTextEntry={true}
                 style={styles.searchInput}
                 value={this.state.passwordString}
                 onChange={this.onPasswordTextChanged.bind(this)}
