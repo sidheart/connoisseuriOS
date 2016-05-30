@@ -28,7 +28,7 @@ class RestaurantView extends Component {
                         console.log("No visitedRestaurant data");
                     } else {
                         restaurantValue = JSON.parse(restValue);
-                        if (userValue === restaurantValue.username &&
+                        if (restaurantValue !== null && userValue === restaurantValue.username &&
                             this.props.data.restaurantId === restaurantValue.restaurantId)
                             this.setState({chosenRestaurant: true});
                     }
@@ -98,12 +98,13 @@ class RestaurantView extends Component {
         );
     }
 
-    _pickRestaurant(restaurantId) {
+    _pickRestaurant(data) {
         var currentdate = new Date();
 
         var object = {
             username: this.state.username,
-            restaurantId: restaurantId,
+            restaurantId: data.restaurantId,
+            restaurantName: data.name,
             timestamp: currentdate.getTime()
         };
         AsyncStorage.setItem('visitedRestaurant', JSON.stringify(object), (err) => {
@@ -116,11 +117,11 @@ class RestaurantView extends Component {
         });
     }
 
-    getDineHere(restaurantId, mapBool) {
+    getDineHere(data, mapBool) {
         var buttonSize = mapBool ? "oneTenth" : "oneFourth";
         if (! this.state.chosenRestaurant)
             return(
-                <TouchableHighlight onPress={() => this._pickRestaurant(restaurantId)} underlayColor='#dddddd' style={[css[buttonSize], css.oneHalfWidth]}>
+                <TouchableHighlight onPress={() => this._pickRestaurant(data)} underlayColor='#dddddd' style={[css[buttonSize], css.oneHalfWidth]}>
                     <View style={[css[buttonSize], css.center, css.bkGray]}>
                         <Text style={[css.h2, css.white, css.bold]}>Dine here!</Text>
                     </View>
@@ -164,7 +165,7 @@ class RestaurantView extends Component {
                 <View style={css.separator}/>
                 <View style={css.rowContainer}>
                     {this.getMenu(data, markers.length)}
-                    {this.getDineHere(data.restaurantId, markers.length)}
+                    {this.getDineHere(data, markers.length)}
                 </View>
                 {this.getMap(markers)}
             </View>

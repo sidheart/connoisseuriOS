@@ -23,6 +23,7 @@ class Ratings extends Component {
     componentWillMount() {
         this.setState({token: -1});
         this.setState({restaurantId: -1});
+        this.setState({restaurantName: ""});
         AsyncStorage.getItem('token', (error, value) => {
             if (error) {
                 alert('ERROR, can\'t find item: ' + err);
@@ -37,6 +38,7 @@ class Ratings extends Component {
             } else {
                 restaurantValue = JSON.parse(value);
                 this.setState({restaurantId: restaurantValue.restaurantId});
+                this.setState({restaurantName: restaurantValue.restaurantName});
             }
         });
 
@@ -80,6 +82,15 @@ class Ratings extends Component {
         );
     }
 
+    getHeader() {
+        var name = (this.state.restaurantName) ? this.state.restaurantName : "the restaurant";
+        return (
+            <View style={[css.oneTenth, css.center]}>
+                <Text style={[css.h2, css.gray, css.bold]}>How did you feel about {name}?</Text>
+            </View>
+        );
+    }
+
     render() {
         return (
             <View style={[css.fill, css.lpad]}>
@@ -89,9 +100,7 @@ class Ratings extends Component {
                 <View style={styles.separator} />
                 <View style={styles.separator} />
 
-                <View style={[css.oneTenth, css.center]}>
-                    <Text style={[css.h2, css.gray, css.bold]}>How did you feel about the restaurant?</Text>
-                </View>
+                {this.getHeader()}
 
                 <View style={styles.separator} />
                 <View style={styles.separator} />
