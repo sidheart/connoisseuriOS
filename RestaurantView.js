@@ -1,7 +1,6 @@
 import React from 'react';
 import css from './CSS';
 import RestaurantMenu from './RestaurantMenu';
-import Ratings from './Ratings';
 
 import {
     Image,
@@ -28,7 +27,7 @@ class RestaurantView extends Component {
                         console.log("No visitedRestaurant data");
                     } else {
                         restaurantValue = JSON.parse(restValue);
-                        if (restaurantValue !== null && userValue === restaurantValue.username &&
+                        if (restaurantValue && userValue === restaurantValue.username &&
                             this.props.data.restaurantId === restaurantValue.restaurantId)
                             this.setState({chosenRestaurant: true});
                     }
@@ -72,22 +71,15 @@ class RestaurantView extends Component {
 
     _menuPressed(data) {
         this.props.navigator.push({
-            component: Ratings,
-            navigationBarHidden: true
-        });
-        /*
-        this.props.navigator.push({
             title: 'Menu',
             component: RestaurantMenu,
             passProps: {data: data}
         });
-        */
     }
 
     getMenu(data, mapBool) {
-        var buttonBool = true;
         var buttonSize = mapBool ? "oneTenth" : "oneFourth";
-        var text = buttonBool ? "Menu" : "No Available Menu";
+        var text = data.menu ? "Menu" : "No Available Menu";
             
         return(
             <TouchableHighlight onPress={() => this._menuPressed(data)} underlayColor='#dddddd' style={[css[buttonSize], css.oneHalfWidth]}>
@@ -164,8 +156,8 @@ class RestaurantView extends Component {
                 {this.getInfo(data, markers)}
                 <View style={css.separator}/>
                 <View style={css.rowContainer}>
-                    {this.getMenu(data, markers.length)}
-                    {this.getDineHere(data, markers.length)}
+                    {this.getMenu(data, markers.length, data.menu)}
+                    {this.getDineHere(data, markers.length, data.menu)}
                 </View>
                 {this.getMap(markers)}
             </View>

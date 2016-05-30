@@ -1,3 +1,5 @@
+const no_rating_delay = false;
+
 import React from 'react';
 import * as Animatable from 'react-native-animatable';
 import Collapsible from 'react-native-collapsible';
@@ -5,6 +7,7 @@ import Accordion from 'react-native-collapsible/Accordion';
 import SearchResults from './SearchResults';
 import Routes from './Routes';
 import dismissKeyboard from 'dismissKeyboard';
+import Ratings from './Ratings';
 
 import {
   StyleSheet,
@@ -21,6 +24,7 @@ import {
   AsyncStorage,
   TouchableWithoutFeedback
 } from 'react-native';
+
 
 var PickerItemIOS = PickerIOS.Item;
 var { width, height } = Dimensions.get('window');
@@ -161,6 +165,7 @@ const styles = StyleSheet.create({
   }
 });
 
+
 function urlForQueryAndPage(AccordionContent) {
 
   AsyncStorage.getItem('token', (error, value) => {
@@ -195,6 +200,50 @@ class SearchPage extends Component {
       } else {
         // alert(value);
         // console.log('TOKEN SAVED: ' + value);
+      }
+    });
+  }
+
+  _gotoRatings() {
+    this.props.navigator.push({
+      component: Ratings,
+      navigationBarHidden: true
+    });
+  }
+
+  _checkRatings (data) {
+    var currentdate = new Date();
+    var alertBool = (no_rating_delay)
+      ? (currentdate.getTime() - data.timestamp)
+      : (Math.floor((currentdate.getTime() - data.timestamp)/3600000));
+
+    if (alertBool > 0) {
+      AlertIOS.alert(
+          'You have a rating pending for ' + data.restaurantName + '!',
+          null,
+          [{text: 'OK', onPress: () => this._gotoRatings()}]
+      )
+    }
+  }
+
+  componentWillMount() {
+    this.setState({username: ""});
+    this.setState({chosenRestaurant: false});
+
+    AsyncStorage.getItem('user', (error, userValue) => {
+      if (error) {
+        console.log("No user data");
+      } else {
+        this.setState({username: userValue});
+        AsyncStorage.getItem('visitedRestaurant', (error, restValue) => {
+          if (error) {
+            console.log("No visitedRestaurant data");
+          } else {
+            var restaurantValue = JSON.parse(restValue);
+            if (restaurantValue && userValue === restaurantValue.username)
+              this._checkRatings(restaurantValue);
+          }
+        });
       }
     });
   }
@@ -273,9 +322,9 @@ class SearchPage extends Component {
 
   _handleSubmit() {
     var query;
-    console.log('HIIIIIIIIII ' + this.state.foodType);
+    // console.log('HIIIIIIIIII ' + this.state.foodType);
     if (this.state.foodType !== 0) {
-      console.log('whould be herererere!');
+      // console.log('whould be herererere!');
       query = Routes.search + '?food_types={"' + AccordionContent['foodType'].options[this.state.foodType].toString().toLowerCase().replace(' ', '_') + '":true}';
     }
     else {
@@ -317,6 +366,18 @@ class SearchPage extends Component {
 
   }
 
+  _workpls () {
+    console.log("here");
+    this.props.navigator.push({
+      component: Ratings,
+      navigationBarHidden: true
+    });
+    this.props.navigator.push({
+      title: 'Results',
+      component: SearchResults,
+      passProps: {listings: {}}
+    });
+  }
   render() {
     return (
       <TouchableWithoutFeedback onPress={ () => { dismissKeyboard() } }>

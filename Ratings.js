@@ -41,7 +41,12 @@ class Ratings extends Component {
                 this.setState({restaurantName: restaurantValue.restaurantName});
             }
         });
-
+        AsyncStorage.setItem('visitedRestaurant', JSON.stringify({}), (err) => {
+            if (err) {
+                console.log(err);
+                alert('visitedRestaurant could not be saved');
+            }
+        });
     }
 
     rowPressed(rating) {

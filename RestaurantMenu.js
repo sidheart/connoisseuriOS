@@ -15,7 +15,7 @@ class RestaurantMenu extends Component {
     }
 
     render() {
-        return (<Text>Hello World</Text>);
+        return (<Text>{JSON.stringify(this.props.data.menu)}</Text>);
     }
 }
 
