@@ -23,7 +23,6 @@ borderWidth: 1
 ## Running
 ```
 Make sure your node server is running
-$ open -a Xcode connoisseuriOS.xcworkspace/
+$ open -a Xcode ios/connoisseuriOS.xcworkspace/
 Proceed to build and run here
 ```
-# connoisseuriOS
