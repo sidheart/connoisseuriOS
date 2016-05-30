@@ -67,10 +67,10 @@ const AccordionList = [
 
 const AccordionContent = {
   time: {
-    options: ['No preference', 'Breakfast', 'Brunch', 'Lunch', 'Dinnner']
+    options: ['No preference', 'Breakfast', 'Brunch', 'Lunch', 'Dinnner', 'Coffee', 'Drinks', 'Happy Hour']
   },
   foodType: {
-    options: ['No preference', 'Open to suggestions', 'All American', 'Asian', 'Bakery', 'British', 'Chinese', 'French', 'Fusion', 'German', 'Greek',
+    options: ['No preference', 'All American', 'Asian', 'Bakery', 'British', 'Chinese', 'French', 'Fusion', 'German', 'Greek',
             'Indian', 'Italian', 'Japanese', 'Korean', 'Mexican', 'Middle Eastern', 'Pizza', 'Seafood', 'Seasonal or Local', 'South_american',
             'Steakhouse', 'Sushi', 'Sushi Bar', 'Tapas', 'Thai', 'Vegan']
   },
@@ -272,18 +272,20 @@ class SearchPage extends Component {
   }
 
   _handleSubmit() {
-    var query;
-    console.log('HIIIIIIIIII ' + this.state.foodType);
-    if (this.state.foodType !== 0) {
-      console.log('whould be herererere!');
-      query = Routes.search + '?food_types={"' + AccordionContent['foodType'].options[this.state.foodType].toString().toLowerCase().replace(' ', '_') + '":true}';
+    var query = Routes.search;
+    var q = [];
+    if (this.state.time !== 0) {
+      var tempStr = 'meals={"' + AccordionContent['time'].options[this.state.time].toString().toLowerCase().replace(' ', '_') + '":true}';
+      q.push(tempStr);
     }
-    else {
-      query = Routes.search;
+    if (this.state.foodType !== 0) {
+      var tempStr = 'food_types={"' + AccordionContent['foodType'].options[this.state.foodType].toString().toLowerCase().replace(' ', '_') + '":true}';
+      q.push(tempStr);
     }
 
-        // 'time=' + this.state.time + '&foodType=' + this.state.foodType + '&partner=' + this.state.partner +
-        //     '&location=' + this.state.location + '&budget=' + this.state.budget + '&otherPreference' + this.state.otherPreference;
+    if (q.length > 0) {
+      query += '?' + q.join('&');
+    }
 
     console.log(query);
     this._executeQuery(query);
