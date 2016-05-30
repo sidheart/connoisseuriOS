@@ -147,7 +147,7 @@ class LoginPage extends Component {
   _executeQuery(query, params) {
     var params = params || {};
     var username;
-    console.log(query);
+    // console.log(query);
     this.setState( {isLoading: true} );
 
     var object = {};
@@ -190,7 +190,7 @@ class LoginPage extends Component {
   }
 
   _handleResponse(response, username) {
-    console.log(response);
+    // console.log(response);
 
     if (response.success) {
 

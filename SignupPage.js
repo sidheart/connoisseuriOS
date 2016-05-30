@@ -148,14 +148,14 @@ class SignupPage extends Component {
   _executeQuery(query, params, handlerFunc) {
     var handler = handler || undefined;
     var params = params || null;
-    console.log(query);
+    // console.log(query);
     this.setState( {isLoading: true} );
 
     var object = {};
-    console.log('FACEBOOK PARAMS ARE ', params);
+    // console.log('FACEBOOK PARAMS ARE ', params);
     if (params === null) {
-      console.log('PARAMS ARE NULL');
-      console.log(params);
+      // console.log('PARAMS ARE NULL');
+      // console.log(params);
       if (this.state.usernameString.length > 0 && this.state.passwordString.length > 0) {
         object = {
           method: 'POST',
@@ -187,7 +187,7 @@ class SignupPage extends Component {
       }
     } else {
       console.log('PARAMS ARE NOT NULL');
-      console.log(params);
+      // console.log(params);
       object = {
         method: 'POST',
         headers: {

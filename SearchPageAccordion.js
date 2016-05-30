@@ -167,7 +167,7 @@ function urlForQueryAndPage(AccordionContent) {
     if (error) {
       console.log('ERROR, can\'t find item: ' + err);
     } else {
-      console.log('TOKEN SAVED: ' + value);
+      // console.log('TOKEN SAVED: ' + value);
     }
   });
 
@@ -194,7 +194,7 @@ class SearchPage extends Component {
         console.log('ERROR, can\'t find item: ' + err);
       } else {
         // alert(value);
-        console.log('TOKEN SAVED: ' + value);
+        // console.log('TOKEN SAVED: ' + value);
       }
     });
   }
@@ -239,7 +239,7 @@ class SearchPage extends Component {
   }
 
   _executeQuery(query) {
-    console.log(query);
+    // console.log(query);
     //this.setState( {isLoading: true} );
 
     var object = {
@@ -258,7 +258,7 @@ class SearchPage extends Component {
       } else {
         object.headers.Authorization = value;
         //alert('Your current token is: ' + value);
-        console.log('TOKEN SAVED: ' + value);
+        // console.log('TOKEN SAVED: ' + value);
         fetch(query, object)
           .then((response) => response.json())
           .then((json) => this._handleQueryResponse(json))

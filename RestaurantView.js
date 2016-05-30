@@ -48,10 +48,10 @@ class RestaurantView extends Component {
         }];
     }
 
-    getImage() {
+    getImage(imgPath) {
         return(
             <View style={css.center}>
-            <Image style={[css.image]} source={require('./Resources/restaurant.png')} />
+            <Image style={[css.image]} source={{uri: imgPath}} />
         </View>
         )
     }
@@ -159,7 +159,7 @@ class RestaurantView extends Component {
 
         return (
             <View style={[css.container]}>
-                {this.getImage()}
+                {this.getImage(data.imgPath)}
                 <View style={css.separator}/>
                 {this.getInfo(data, markers)}
                 <View style={css.separator}/>

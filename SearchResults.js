@@ -36,12 +36,14 @@ class SearchResults extends Component {
     }
 
     renderRow(rowData, sectionID, rowID) {
-        console.log(rowData);
+        //console.log(rowData);
+
+        rowData.imgPath = rowData.imgPath.replace("open?", "uc?export=view&");
         return (
             <TouchableHighlight onPress={() => this.rowPressed(rowData.name)} underlayColor='#dddddd'>
                 <View>
                     <View style={[css.rowContainer, css.oneFifth]}>
-                        <Image style={css.thumb} source={require('./Resources/restaurant.png')}/>
+                        <Image style={css.thumb} source={{uri: rowData.imgPath}}/>
                         <View style={[css.textContainer, css.vCenter]}>
                             <Text style={[css.h2, css.skyblue, css.bold]}>{rowData.name}</Text>
                             <Text style={[css.h4]} numberOfLines={1}>{rowData.location}</Text>
