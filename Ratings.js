@@ -8,16 +8,8 @@ import {
     Text,
     Component,
     TouchableHighlight,
-    StyleSheet,
     AsyncStorage,
-    NavigatorIOS
 } from 'react-native';
-
-var styles = StyleSheet.create({
-    separator: {
-        height: 10
-    }
-});
 
 class Ratings extends Component {
     componentWillMount() {
@@ -52,11 +44,7 @@ class Ratings extends Component {
             };
 
             fetch(query, object)
-                .catch(error =>
-                    this.setState({
-                        isLoading: false,
-                        message: 'Something bad happened ' + error
-                    }));
+                .catch(error => console.log("Failed to POST rating"));
         }
 
         AsyncStorage.setItem(this.props.username, JSON.stringify({}), (err) => {
@@ -92,32 +80,15 @@ class Ratings extends Component {
     render() {
         return (
             <View style={[css.fill, css.lpad]}>
-                <View style={styles.separator} />
-                <View style={styles.separator} />
-                <View style={styles.separator} />
-                <View style={styles.separator} />
-                <View style={styles.separator} />
-
+                <View style={{ height: 50 }} />
                 {this.getHeader()}
-
-                <View style={styles.separator} />
-                <View style={styles.separator} />
-                <View style={styles.separator} />
-
+                <View style={{ height: 30 }} />
                 {this.getButton("Loved it! 😍😋", "love")}
-
-                <View style={styles.separator} />
-
+                <View style={{ height: 10 }} />
                 {this.getButton("Liked it. 😄😊", "like")}
-
-                <View style={styles.separator} />
-
+                <View style={{ height: 10 }} />
                 {this.getButton("Didn't like it... 😔😕", "dislike")}
-
-                <View style={styles.separator} />
-                <View style={styles.separator} />
-                <View style={styles.separator} />
-
+                <View style={{ height: 30 }} />
                 {this.getButton("Didn't go. 😬😰", "nogo")}
             </View>
         )

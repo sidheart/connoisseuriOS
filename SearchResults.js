@@ -16,7 +16,6 @@ class SearchResults extends Component {
 
     constructor(props) {
         super(props);
-        //console.log('Response: ' + JSON.stringify(this.response.listings));
 
         var dataSource = new ListView.DataSource(
             {rowHasChanged: (r1, r2) => r1.thumb_url !== r2.thumb_url});
@@ -35,10 +34,7 @@ class SearchResults extends Component {
         });
     }
 
-    renderRow(rowData, sectionID, rowID) {
-        //console.log(rowData);
-
-        rowData.imgPath = rowData.imgPath.replace("open?", "uc?export=view&");
+    renderRow(rowData) {
         return (
             <TouchableHighlight onPress={() => this.rowPressed(rowData.name)} underlayColor='#dddddd'>
                 <View>

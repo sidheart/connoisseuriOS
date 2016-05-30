@@ -58,8 +58,7 @@ class RestaurantMenu extends Component {
      // }],
      */
 
-    renderDishes(rowData, sectionID, rowID) {
-        console.log(rowData);
+    renderDishes(rowData) {
         return (
             <View style={[css.xspad, css.center, css.bkWhite]}>
                 <Text style={[css.h4, styles.c600]}>{rowData.dish_name}</Text>
@@ -75,7 +74,7 @@ class RestaurantMenu extends Component {
         )
     }
 
-    renderCategories(rowData, sectionID, rowID) {
+    renderCategories(rowData) {
         var dataSource = new ListView.DataSource(
             {rowHasChanged: (r1, r2) => r1 !== r2});
 
@@ -95,7 +94,7 @@ class RestaurantMenu extends Component {
         )
     }
 
-    renderMeal(rowData, sectionID, rowID) {
+    renderMeal(rowData) {
         var dataSource = new ListView.DataSource(
             {rowHasChanged: (r1, r2) => r1 !== r2});
 

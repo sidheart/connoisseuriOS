@@ -285,16 +285,16 @@ class SearchPage extends Component {
       <Animatable.View duration={600} style={[styles.content, isActive ? styles.active : styles.inactive]} transition="backgroundColor">
         <Animatable.View animation={isActive ? 'slideInLeft' : undefined}>
           <PickerIOS
-          selectedValue={this.state[name]}
-          onValueChange={this._handlePickerChange.bind(this, section.identifier)}
+            selectedValue={this.state[name]}
+            onValueChange={this._handlePickerChange.bind(this, section.identifier)}
           >
           {AccordionContent[section.identifier].options.map((valueName, valueIndex) => (
-                      <PickerItemIOS
-                        style={{color: 'red'}}
-                        key={section.identifier + ' ' + valueName}
-                        value={valueIndex}
-                        label={valueName}
-                      />
+            <PickerItemIOS
+              style={{color: 'red'}}
+              key={section.identifier + ' ' + valueName}
+              value={valueIndex}
+              label={valueName}
+            />
           ))}
           </PickerIOS>
         </Animatable.View>
@@ -346,7 +346,7 @@ class SearchPage extends Component {
         // 'time=' + this.state.time + '&foodType=' + this.state.foodType + '&partner=' + this.state.partner +
         //     '&location=' + this.state.location + '&budget=' + this.state.budget + '&otherPreference' + this.state.otherPreference;
 
-    console.log(query);
+    // console.log(query);
     this._executeQuery(query);
 
     //alert('day ' + AccordionContent['day'].options[this.state.day] + '; ' +
@@ -378,18 +378,6 @@ class SearchPage extends Component {
 
   }
 
-  _workpls () {
-    console.log("here");
-    this.props.navigator.push({
-      component: Ratings,
-      navigationBarHidden: true
-    });
-    this.props.navigator.push({
-      title: 'Results',
-      component: SearchResults,
-      passProps: {listings: {}}
-    });
-  }
   render() {
     return (
       <TouchableWithoutFeedback onPress={ () => { dismissKeyboard() } }>
