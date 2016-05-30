@@ -9,8 +9,16 @@ import {
     Component,
     MapView,
     TouchableHighlight,
-    AsyncStorage
+    AsyncStorage,
+    StyleSheet
 } from 'react-native';
+
+var styles = StyleSheet.create({
+    verticalSeparator: {
+        borderRightWidth: 2,
+        borderRightColor: '#EEEEEE'
+    }
+});
 
 class RestaurantView extends Component {
     componentWillMount() {
@@ -28,7 +36,7 @@ class RestaurantView extends Component {
                         console.log("No dine-here data");
                     } else {
                         restaurantValue = JSON.parse(restValue);
-                        if (restaurantValue && 
+                        if (restaurantValue &&
                             this.props.data.restaurantId === restaurantValue.restaurantId)
                             this.setState({chosenRestaurant: true});
                     }
@@ -84,7 +92,7 @@ class RestaurantView extends Component {
             
         return(
             <TouchableHighlight onPress={() => this._menuPressed(data)} underlayColor='#dddddd' style={[css[buttonSize], css.oneHalfWidth]}>
-                <View style={[css[buttonSize], css.center, css.bkGray]}>
+                <View style={[css[buttonSize], css.center, css.bkGray, styles.verticalSeparator]}>
                     <Text style={[css.h2, css.white, css.bold]}>{text}</Text>
                 </View>
             </TouchableHighlight>
