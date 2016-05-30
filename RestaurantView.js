@@ -22,12 +22,13 @@ class RestaurantView extends Component {
                 console.log("No user data");
             } else {
                 this.setState({username: userValue});
-                AsyncStorage.getItem('visitedRestaurant', (error, restValue) => {
+                var tokenName = 'visitedRestaurant' + userValue;
+                AsyncStorage.getItem(tokenName, (error, restValue) => {
                     if (error) {
-                        console.log("No visitedRestaurant data");
+                        console.log("No dine-here data");
                     } else {
                         restaurantValue = JSON.parse(restValue);
-                        if (restaurantValue && userValue === restaurantValue.username &&
+                        if (restaurantValue && 
                             this.props.data.restaurantId === restaurantValue.restaurantId)
                             this.setState({chosenRestaurant: true});
                     }
@@ -91,18 +92,19 @@ class RestaurantView extends Component {
     }
 
     _pickRestaurant(data) {
+        var tokenName = 'visitedRestaurant' + this.state.username;
         var currentdate = new Date();
 
         var object = {
-            username: this.state.username,
             restaurantId: data.restaurantId,
             restaurantName: data.name,
             timestamp: currentdate.getTime()
         };
-        AsyncStorage.setItem('visitedRestaurant', JSON.stringify(object), (err) => {
+
+        AsyncStorage.setItem(tokenName, JSON.stringify(object), (err) => {
             if (err) {
                 console.log(err);
-                alert('RestaurantId could not be saved');
+                alert('Dine-here data could not be saved');
             } else {
                 this.setState({chosenRestaurant: true});
             }

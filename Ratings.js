@@ -22,29 +22,15 @@ var styles = StyleSheet.create({
 class Ratings extends Component {
     componentWillMount() {
         this.setState({token: -1});
-        this.setState({restaurantId: -1});
-        this.setState({restaurantName: ""});
+        this.setState({restaurantId: this.props.visitedRestaurant.restaurantId});
+        this.setState({restaurantName: this.props.visitedRestaurant.restaurantName});
+        
         AsyncStorage.getItem('token', (error, value) => {
             if (error) {
                 alert('ERROR, can\'t find item: ' + err);
                 console.log('ERROR, can\'t find item: ' + err);
             } else {
                 this.setState({token: value});
-            }
-        });
-        AsyncStorage.getItem('visitedRestaurant', (error, value) => {
-            if (error) {
-                console.log("No visitedRestaurant data");
-            } else {
-                restaurantValue = JSON.parse(value);
-                this.setState({restaurantId: restaurantValue.restaurantId});
-                this.setState({restaurantName: restaurantValue.restaurantName});
-            }
-        });
-        AsyncStorage.setItem('visitedRestaurant', JSON.stringify({}), (err) => {
-            if (err) {
-                console.log(err);
-                alert('visitedRestaurant could not be saved');
             }
         });
     }
@@ -72,6 +58,13 @@ class Ratings extends Component {
                         message: 'Something bad happened ' + error
                     }));
         }
+
+        AsyncStorage.setItem(this.props.username, JSON.stringify({}), (err) => {
+            if (err) {
+                console.log(err);
+                alert('visitedRestaurant could not be saved');
+            }
+        });
 
         this.props.navigator.pop();
     }

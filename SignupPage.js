@@ -169,6 +169,13 @@ class SignupPage extends Component {
           })
         };
 
+        AsyncStorage.setItem('user', this.state.usernameString, (err) => {
+          if (err) {
+            console.log(err);
+            alert('username could not be saved');
+          }
+        });
+
         fetch(query, object)
           .then((response) => response.json())
           .then((json) => handlerFunc(json, params, this))
@@ -199,6 +206,13 @@ class SignupPage extends Component {
           password: params.password
         })
       };
+
+      AsyncStorage.setItem('user', params.username, (err) => {
+        if (err) {
+          console.log(err);
+          alert('username could not be saved');
+        }
+      });
 
       fetch(query, object)
         .then((response) => response.json())

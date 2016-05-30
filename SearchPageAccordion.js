@@ -1,4 +1,4 @@
-const no_rating_delay = false;
+const no_rating_delay = true;
 
 import React from 'react';
 import * as Animatable from 'react-native-animatable';
@@ -204,14 +204,15 @@ class SearchPage extends Component {
     });
   }
 
-  _gotoRatings() {
+  _gotoRatings(data, tokenName) {
     this.props.navigator.push({
       component: Ratings,
-      navigationBarHidden: true
+      navigationBarHidden: true,
+      passProps: {visitedRestaurant: data, username: tokenName}
     });
   }
 
-  _checkRatings (data) {
+  _checkRatings (data, tokenName) {
     var currentdate = new Date();
     var alertBool = (no_rating_delay)
       ? (currentdate.getTime() - data.timestamp)
@@ -221,7 +222,7 @@ class SearchPage extends Component {
       AlertIOS.alert(
           'You have a rating pending for ' + data.restaurantName + '!',
           null,
-          [{text: 'OK', onPress: () => this._gotoRatings()}]
+          [{text: 'OK', onPress: () => this._gotoRatings(data, tokenName)}]
       )
     }
   }
@@ -230,18 +231,32 @@ class SearchPage extends Component {
     this.setState({username: ""});
     this.setState({chosenRestaurant: false});
 
+    /*
+    AsyncStorage.getAllKeys((err, keys) => {
+      AsyncStorage.multiGet(keys, (err, stores) => {
+        stores.map((result, i, store) => {
+          // get at each store's key/value so you can work with it
+          let key = store[i][0];
+          let value = store[i][1];
+        });
+        console.log(stores);
+      });
+    });
+    */
+
     AsyncStorage.getItem('user', (error, userValue) => {
       if (error) {
         console.log("No user data");
       } else {
         this.setState({username: userValue});
-        AsyncStorage.getItem('visitedRestaurant', (error, restValue) => {
+        var tokenName = 'visitedRestaurant' + userValue;
+        AsyncStorage.getItem(tokenName, (error, restValue) => {
           if (error) {
-            console.log("No visitedRestaurant data");
+            console.log("No dine-here data");
           } else {
             var restaurantValue = JSON.parse(restValue);
-            if (restaurantValue && userValue === restaurantValue.username)
-              this._checkRatings(restaurantValue);
+            if (restaurantValue)
+              this._checkRatings(restaurantValue, tokenName);
           }
         });
       }
@@ -316,15 +331,12 @@ class SearchPage extends Component {
           });
       }
     });
-    console.log(object); console.log(query);
-
+    //console.log(object); console.log(query);
   }
 
   _handleSubmit() {
     var query;
-    // console.log('HIIIIIIIIII ' + this.state.foodType);
     if (this.state.foodType !== 0) {
-      // console.log('whould be herererere!');
       query = Routes.search + '?food_types={"' + AccordionContent['foodType'].options[this.state.foodType].toString().toLowerCase().replace(' ', '_') + '":true}';
     }
     else {
