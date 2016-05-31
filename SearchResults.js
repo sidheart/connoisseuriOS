@@ -16,7 +16,6 @@ class SearchResults extends Component {
 
     constructor(props) {
         super(props);
-        //console.log('Response: ' + JSON.stringify(this.response.listings));
 
         var dataSource = new ListView.DataSource(
             {rowHasChanged: (r1, r2) => r1.thumb_url !== r2.thumb_url});
@@ -35,13 +34,12 @@ class SearchResults extends Component {
         });
     }
 
-    renderRow(rowData, sectionID, rowID) {
-        console.log(rowData);
+    renderRow(rowData) {
         return (
             <TouchableHighlight onPress={() => this.rowPressed(rowData.name)} underlayColor='#dddddd'>
                 <View>
                     <View style={[css.rowContainer, css.oneFifth]}>
-                        <Image style={css.thumb} source={require('./Resources/restaurant.png')}/>
+                        <Image style={css.thumb} source={{uri: rowData.imgPath}}/>
                         <View style={[css.textContainer, css.vCenter]}>
                             <Text style={[css.h2, css.skyblue, css.bold]}>{rowData.name}</Text>
                             <Text style={[css.h4]} numberOfLines={1}>{rowData.location}</Text>

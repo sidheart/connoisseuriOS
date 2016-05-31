@@ -8,22 +8,15 @@ import {
     Text,
     Component,
     TouchableHighlight,
-    StyleSheet,
     AsyncStorage,
-    NavigatorIOS
 } from 'react-native';
-
-var styles = StyleSheet.create({
-    separator: {
-        height: 10
-    }
-});
 
 class Ratings extends Component {
     componentWillMount() {
         this.setState({token: -1});
-        this.setState({restaurantId: -1});
-        this.setState({restaurantName: ""});
+        this.setState({restaurantId: this.props.visitedRestaurant.restaurantId});
+        this.setState({restaurantName: this.props.visitedRestaurant.restaurantName});
+        
         AsyncStorage.getItem('token', (error, value) => {
             if (error) {
                 alert('ERROR, can\'t find item: ' + err);
@@ -32,16 +25,6 @@ class Ratings extends Component {
                 this.setState({token: value});
             }
         });
-        AsyncStorage.getItem('visitedRestaurant', (error, value) => {
-            if (error) {
-                console.log("No visitedRestaurant data");
-            } else {
-                restaurantValue = JSON.parse(value);
-                this.setState({restaurantId: restaurantValue.restaurantId});
-                this.setState({restaurantName: restaurantValue.restaurantName});
-            }
-        });
-
     }
 
     rowPressed(rating) {
@@ -61,12 +44,15 @@ class Ratings extends Component {
             };
 
             fetch(query, object)
-                .catch(error =>
-                    this.setState({
-                        isLoading: false,
-                        message: 'Something bad happened ' + error
-                    }));
+                .catch(error => console.log("Failed to POST rating"));
         }
+
+        AsyncStorage.setItem(this.props.username, JSON.stringify({}), (err) => {
+            if (err) {
+                console.log(err);
+                alert('visitedRestaurant could not be saved');
+            }
+        });
 
         this.props.navigator.pop();
     }
@@ -94,32 +80,15 @@ class Ratings extends Component {
     render() {
         return (
             <View style={[css.fill, css.lpad]}>
-                <View style={styles.separator} />
-                <View style={styles.separator} />
-                <View style={styles.separator} />
-                <View style={styles.separator} />
-                <View style={styles.separator} />
-
+                <View style={{ height: 50 }} />
                 {this.getHeader()}
-
-                <View style={styles.separator} />
-                <View style={styles.separator} />
-                <View style={styles.separator} />
-
+                <View style={{ height: 30 }} />
                 {this.getButton("Loved it! 😍😋", "love")}
-
-                <View style={styles.separator} />
-
+                <View style={{ height: 10 }} />
                 {this.getButton("Liked it. 😄😊", "like")}
-
-                <View style={styles.separator} />
-
+                <View style={{ height: 10 }} />
                 {this.getButton("Didn't like it... 😔😕", "dislike")}
-
-                <View style={styles.separator} />
-                <View style={styles.separator} />
-                <View style={styles.separator} />
-
+                <View style={{ height: 30 }} />
                 {this.getButton("Didn't go. 😬😰", "nogo")}
             </View>
         )

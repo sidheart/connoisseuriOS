@@ -148,14 +148,14 @@ class SignupPage extends Component {
   _executeQuery(query, params, handlerFunc) {
     var handler = handler || undefined;
     var params = params || null;
-    console.log(query);
+    // console.log(query);
     this.setState( {isLoading: true} );
 
     var object = {};
-    console.log('FACEBOOK PARAMS ARE ', params);
+    // console.log('FACEBOOK PARAMS ARE ', params);
     if (params === null) {
-      console.log('PARAMS ARE NULL');
-      console.log(params);
+      // console.log('PARAMS ARE NULL');
+      // console.log(params);
       if (this.state.usernameString.length > 0 && this.state.passwordString.length > 0) {
         object = {
           method: 'POST',
@@ -168,6 +168,13 @@ class SignupPage extends Component {
             password: this.state.passwordString
           })
         };
+
+        AsyncStorage.setItem('user', this.state.usernameString, (err) => {
+          if (err) {
+            console.log(err);
+            alert('username could not be saved');
+          }
+        });
 
         fetch(query, object)
           .then((response) => response.json())
@@ -187,7 +194,7 @@ class SignupPage extends Component {
       }
     } else {
       console.log('PARAMS ARE NOT NULL');
-      console.log(params);
+      // console.log(params);
       object = {
         method: 'POST',
         headers: {
@@ -199,6 +206,13 @@ class SignupPage extends Component {
           password: params.password
         })
       };
+
+      AsyncStorage.setItem('user', params.username, (err) => {
+        if (err) {
+          console.log(err);
+          alert('username could not be saved');
+        }
+      });
 
       fetch(query, object)
         .then((response) => response.json())

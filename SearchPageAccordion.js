@@ -1,3 +1,5 @@
+const no_rating_delay = true;
+
 import React from 'react';
 import * as Animatable from 'react-native-animatable';
 import Collapsible from 'react-native-collapsible';
@@ -5,6 +7,7 @@ import Accordion from 'react-native-collapsible/Accordion';
 import SearchResults from './SearchResults';
 import Routes from './Routes';
 import dismissKeyboard from 'dismissKeyboard';
+import Ratings from './Ratings';
 
 import {
   StyleSheet,
@@ -21,6 +24,7 @@ import {
   AsyncStorage,
   TouchableWithoutFeedback
 } from 'react-native';
+
 
 var PickerItemIOS = PickerIOS.Item;
 var { width, height } = Dimensions.get('window');
@@ -161,13 +165,14 @@ const styles = StyleSheet.create({
   }
 });
 
+
 function urlForQueryAndPage(AccordionContent) {
 
   AsyncStorage.getItem('token', (error, value) => {
     if (error) {
       console.log('ERROR, can\'t find item: ' + err);
     } else {
-      console.log('TOKEN SAVED: ' + value);
+      // console.log('TOKEN SAVED: ' + value);
     }
   });
 
@@ -194,7 +199,66 @@ class SearchPage extends Component {
         console.log('ERROR, can\'t find item: ' + err);
       } else {
         // alert(value);
-        console.log('TOKEN SAVED: ' + value);
+        // console.log('TOKEN SAVED: ' + value);
+      }
+    });
+  }
+
+  _gotoRatings(data, tokenName) {
+    this.props.navigator.push({
+      component: Ratings,
+      navigationBarHidden: true,
+      passProps: {visitedRestaurant: data, username: tokenName}
+    });
+  }
+
+  _checkRatings (data, tokenName) {
+    var currentdate = new Date();
+    var alertBool = (no_rating_delay)
+      ? (currentdate.getTime() - data.timestamp)
+      : (Math.floor((currentdate.getTime() - data.timestamp)/3600000));
+
+    if (alertBool > 0) {
+      AlertIOS.alert(
+          'You have a rating pending for ' + data.restaurantName + '!',
+          null,
+          [{text: 'OK', onPress: () => this._gotoRatings(data, tokenName)}]
+      )
+    }
+  }
+
+  componentWillMount() {
+    this.setState({username: ""});
+    this.setState({chosenRestaurant: false});
+
+    /*
+    AsyncStorage.getAllKeys((err, keys) => {
+      AsyncStorage.multiGet(keys, (err, stores) => {
+        stores.map((result, i, store) => {
+          // get at each store's key/value so you can work with it
+          let key = store[i][0];
+          let value = store[i][1];
+        });
+        console.log(stores);
+      });
+    });
+    */
+
+    AsyncStorage.getItem('user', (error, userValue) => {
+      if (error) {
+        console.log("No user data");
+      } else {
+        this.setState({username: userValue});
+        var tokenName = 'visitedRestaurant' + userValue;
+        AsyncStorage.getItem(tokenName, (error, restValue) => {
+          if (error) {
+            console.log("No dine-here data");
+          } else {
+            var restaurantValue = JSON.parse(restValue);
+            if (restaurantValue)
+              this._checkRatings(restaurantValue, tokenName);
+          }
+        });
       }
     });
   }
@@ -221,16 +285,16 @@ class SearchPage extends Component {
       <Animatable.View duration={600} style={[styles.content, isActive ? styles.active : styles.inactive]} transition="backgroundColor">
         <Animatable.View animation={isActive ? 'slideInLeft' : undefined}>
           <PickerIOS
-          selectedValue={this.state[name]}
-          onValueChange={this._handlePickerChange.bind(this, section.identifier)}
+            selectedValue={this.state[name]}
+            onValueChange={this._handlePickerChange.bind(this, section.identifier)}
           >
           {AccordionContent[section.identifier].options.map((valueName, valueIndex) => (
-                      <PickerItemIOS
-                        style={{color: 'red'}}
-                        key={section.identifier + ' ' + valueName}
-                        value={valueIndex}
-                        label={valueName}
-                      />
+            <PickerItemIOS
+              style={{color: 'red'}}
+              key={section.identifier + ' ' + valueName}
+              value={valueIndex}
+              label={valueName}
+            />
           ))}
           </PickerIOS>
         </Animatable.View>
@@ -239,7 +303,7 @@ class SearchPage extends Component {
   }
 
   _executeQuery(query) {
-    console.log(query);
+    // console.log(query);
     //this.setState( {isLoading: true} );
 
     var object = {
@@ -258,7 +322,7 @@ class SearchPage extends Component {
       } else {
         object.headers.Authorization = value;
         //alert('Your current token is: ' + value);
-        console.log('TOKEN SAVED: ' + value);
+        // console.log('TOKEN SAVED: ' + value);
         fetch(query, object)
           .then((response) => response.json())
           .then((json) => this._handleQueryResponse(json))
@@ -267,8 +331,7 @@ class SearchPage extends Component {
           });
       }
     });
-    console.log(object); console.log(query);
-
+    //console.log(object); console.log(query);
   }
 
   _handleSubmit() {
@@ -287,7 +350,7 @@ class SearchPage extends Component {
       query += '?' + q.join('&');
     }
 
-    console.log(query);
+    // console.log(query);
     this._executeQuery(query);
 
     //alert('day ' + AccordionContent['day'].options[this.state.day] + '; ' +

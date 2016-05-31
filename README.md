@@ -20,10 +20,7 @@ borderWidth: 1
 
 ```
 
-## Running
+## Run
 ```
-Make sure your node server is running
-$ open -a Xcode connoisseuriOS.xcworkspace/
-Proceed to build and run here
+$ npm start
 ```
-# connoisseuriOS

@@ -44,6 +44,12 @@ var css = StyleSheet.create({
     oneTenth: {
         height: hHeight*0.10
     },
+    one11: {
+        height: hHeight/11
+    },
+    one13: {
+        height: hHeight/13
+    },
     twoThirds: {
         height: hHeight*0.6667
     },
@@ -62,6 +68,9 @@ var css = StyleSheet.create({
     center: {
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    xspad: {
+        padding: 2
     },
     spad: {
         padding: 10
@@ -114,6 +123,9 @@ var css = StyleSheet.create({
     },
     white: {
         color: '#FFFFFF'
+    },
+    bkWhite: {
+        backgroundColor: '#FFFFFF'
     },
     gray: {
         color: '#656565'

@@ -1,7 +1,6 @@
 import React from 'react';
 import css from './CSS';
 import RestaurantMenu from './RestaurantMenu';
-import Ratings from './Ratings';
 
 import {
     Image,
@@ -10,7 +9,7 @@ import {
     Component,
     MapView,
     TouchableHighlight,
-    AsyncStorage
+    AsyncStorage,
 } from 'react-native';
 
 class RestaurantView extends Component {
@@ -18,18 +17,19 @@ class RestaurantView extends Component {
         this.setState({username: ""});
         this.setState({chosenRestaurant: false});
 
-        AsyncStorage.getItem('user', (error, userValue) => {
+        AsyncStorage.getItem('user', (error, username) => {
             if (error) {
                 console.log("No user data");
             } else {
-                this.setState({username: userValue});
-                AsyncStorage.getItem('visitedRestaurant', (error, restValue) => {
+                this.setState({username: username});
+                var tokenName = 'visitedRestaurant' + username;
+                AsyncStorage.getItem(tokenName, (error, vrToken) => {
                     if (error) {
-                        console.log("No visitedRestaurant data");
+                        console.log("No dine-here data");
                     } else {
-                        restaurantValue = JSON.parse(restValue);
-                        if (restaurantValue !== null && userValue === restaurantValue.username &&
-                            this.props.data.restaurantId === restaurantValue.restaurantId)
+                        restaurantData = JSON.parse(vrToken);
+                        if (restaurantData &&
+                            this.props.data.restaurantId === restaurantData.restaurantId)
                             this.setState({chosenRestaurant: true});
                     }
                 });
@@ -48,11 +48,11 @@ class RestaurantView extends Component {
         }];
     }
 
-    getImage() {
+    getImage(imgPath) {
         return(
             <View style={css.center}>
-            <Image style={[css.image]} source={require('./Resources/restaurant.png')} />
-        </View>
+                <Image style={[css.image]} source={{uri: imgPath}} />
+            </View>
         )
     }
 
@@ -62,36 +62,32 @@ class RestaurantView extends Component {
         var phone_number = (data.phone_number === undefined) ?
             "No phone number is available for this restaurant" : data.phone_number;
 
-        return(<View style={[css.fill, css.spad, css.center]}>
-            <Text style={[css.h1, css.skyblue, css.bold]}>{data.name}</Text>
-            <Text style={[css.h4, css.gray]}>{markers[0].subtitle}</Text>
-            <Text style={[css.h4, css.gray]}>{phone_number}</Text>
-            <Text style={[css.h3, css.black]}>${price}</Text>
-        </View>);
+        return(
+            <View style={[css.fill, css.spad, css.center]}>
+                <Text style={[css.h1, css.skyblue, css.bold]}>{data.name}</Text>
+                <Text style={[css.h4, css.gray]}>{markers[0].subtitle}</Text>
+                <Text style={[css.h4, css.gray]}>{phone_number}</Text>
+                <Text style={[css.h3, css.black]}>${price}</Text>
+            </View>
+        );
     }
 
     _menuPressed(data) {
-        this.props.navigator.push({
-            component: Ratings,
-            navigationBarHidden: true
-        });
-        /*
         this.props.navigator.push({
             title: 'Menu',
             component: RestaurantMenu,
             passProps: {data: data}
         });
-        */
     }
 
     getMenu(data, mapBool) {
-        var buttonBool = true;
         var buttonSize = mapBool ? "oneTenth" : "oneFourth";
-        var text = buttonBool ? "Menu" : "No Available Menu";
+        var text = data.menu ? "Menu" : "No Available Menu";
             
         return(
             <TouchableHighlight onPress={() => this._menuPressed(data)} underlayColor='#dddddd' style={[css[buttonSize], css.oneHalfWidth]}>
-                <View style={[css[buttonSize], css.center, css.bkGray]}>
+                <View style={[css[buttonSize], css.center, css.bkGray,
+                        {borderRightWidth: 2, borderRightColor: '#EEEEEE' }]}>
                     <Text style={[css.h2, css.white, css.bold]}>{text}</Text>
                 </View>
             </TouchableHighlight>
@@ -99,18 +95,17 @@ class RestaurantView extends Component {
     }
 
     _pickRestaurant(data) {
-        var currentdate = new Date();
-
+        var tokenName = 'visitedRestaurant' + this.state.username;
         var object = {
-            username: this.state.username,
             restaurantId: data.restaurantId,
             restaurantName: data.name,
-            timestamp: currentdate.getTime()
+            timestamp: new Date().getTime()
         };
-        AsyncStorage.setItem('visitedRestaurant', JSON.stringify(object), (err) => {
+
+        AsyncStorage.setItem(tokenName, JSON.stringify(object), (err) => {
             if (err) {
                 console.log(err);
-                alert('RestaurantId could not be saved');
+                alert('Dine-here data could not be saved');
             } else {
                 this.setState({chosenRestaurant: true});
             }
@@ -159,7 +154,7 @@ class RestaurantView extends Component {
 
         return (
             <View style={[css.container]}>
-                {this.getImage()}
+                {this.getImage(data.imgPath)}
                 <View style={css.separator}/>
                 {this.getInfo(data, markers)}
                 <View style={css.separator}/>
