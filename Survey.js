@@ -162,7 +162,7 @@ function urlForQueryAndPage(AccordionContent) {
 
   //var q = 'name' + '=' + value;
 
-  return Routes.search;// + q;// + querystring;
+  return Routes.updateUser;// + q;// + querystring;
 }
 
 class Survey extends Component {
@@ -228,7 +228,7 @@ class Survey extends Component {
     //this.setState( {isLoading: true} );
 
     var object = {
-      method: 'GET',
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -256,21 +256,21 @@ class Survey extends Component {
   }
 
   _handleSubmit() {
-    var query = Routes.search;
+    var query = Routes.updateUser;
     var q = [];
     if (this.state.age !== 0) {
       // TO-DO: RECONSTRUCT THE STRING HERE
-      // var tempStr = 'meals={"' + AccordionContent['time'].options[this.state.time].toString().toLowerCase().replace(' ', '_') + '":true}';
+      var tempStr = 'age=' + AccordionContent['age'].options[this.state.age].toString().toLowerCase().replace(' ', '_');
       q.push(tempStr);
     }
     if (this.state.gender !== 0) {
       // TO-DO: RECONSTRUCT THE STRING HERE
-      // var tempStr = 'food_types={"' + AccordionContent['foodType'].options[this.state.foodType].toString().toLowerCase().replace(' ', '_') + '":true}';
+      var tempStr = 'gender=' + AccordionContent['gender'].options[this.state.gender].toString().toLowerCase().replace(' ', '_');
       q.push(tempStr);
     }
     if (this.state.diet !== 0) {
       // TO-DO: RECONSTRUCT THE STRING HERE
-      // var tempStr = '';
+      var tempStr = 'dietary_preference=' + AccordionContent['diet'].options[this.state.diet].toString().toLowerCase().replace(' ', '_');
       q.push(tempStr);
     }
 
@@ -296,7 +296,7 @@ class Survey extends Component {
       isLoading: false,
       message: ''
     });
-    if (response.length > 0) {
+    if (response.success) {
       this.props.navigator.push({
         title: 'TabBarPlatform',
         component: TabBarPlatform,
@@ -304,7 +304,7 @@ class Survey extends Component {
       });
     } else {
       this.setState({
-        message: 'Profile Construction Failed.'
+        message: 'Profile Construction Failed: ' + response.message
       });
     }
   }
