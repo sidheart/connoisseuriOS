@@ -3,7 +3,7 @@ import * as Animatable from 'react-native-animatable';
 import Collapsible from 'react-native-collapsible';
 import Accordion from 'react-native-collapsible/Accordion';
 import LoginPage from './LoginPage';
-import TabBarPlatform from './TabBarPlatform';
+import Survey from './Survey';
 import FBSDK from 'react-native-fbsdk';
 import Routes from './Routes';
 import dismissKeyboard from 'dismissKeyboard';
@@ -259,8 +259,8 @@ class SignupPage extends Component {
           // Go to search page, now that you're logged in
           _this.setState({message: ' '});
           _this.props.navigator.push({
-            title: 'Search',
-            component: TabBarPlatform,
+            title: 'Profile Survey',
+            component: Survey,
             navigationBarHidden: true
           });
         }

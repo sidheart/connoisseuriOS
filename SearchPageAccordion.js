@@ -191,7 +191,9 @@ class SearchPage extends Component {
       partner: 0,
       location: 0,
       budget: 0,
-      otherPreference: 0
+      otherPreference: 0,
+      username: "",
+      chosenRestaurant: false
     };
     AsyncStorage.getItem('token', (error, value) => {
       if (error) {
@@ -200,6 +202,24 @@ class SearchPage extends Component {
       } else {
         // alert(value);
         // console.log('TOKEN SAVED: ' + value);
+      }
+    });
+
+    AsyncStorage.getItem('user', (error, userValue) => {
+      if (error) {
+        console.log("No user data");
+      } else {
+        this.setState({username: userValue});
+        var tokenName = 'visitedRestaurant' + userValue;
+        AsyncStorage.getItem(tokenName, (error, restValue) => {
+          if (error) {
+            console.log("No dine-here data");
+          } else {
+            var restaurantValue = JSON.parse(restValue);
+            if (restaurantValue)
+              this._checkRatings(restaurantValue, tokenName);
+          }
+        });
       }
     });
   }
@@ -227,42 +247,6 @@ class SearchPage extends Component {
     }
   }
 
-  componentWillMount() {
-    this.setState({username: ""});
-    this.setState({chosenRestaurant: false});
-
-    /*
-    AsyncStorage.getAllKeys((err, keys) => {
-      AsyncStorage.multiGet(keys, (err, stores) => {
-        stores.map((result, i, store) => {
-          // get at each store's key/value so you can work with it
-          let key = store[i][0];
-          let value = store[i][1];
-        });
-        console.log(stores);
-      });
-    });
-    */
-
-    AsyncStorage.getItem('user', (error, userValue) => {
-      if (error) {
-        console.log("No user data");
-      } else {
-        this.setState({username: userValue});
-        var tokenName = 'visitedRestaurant' + userValue;
-        AsyncStorage.getItem(tokenName, (error, restValue) => {
-          if (error) {
-            console.log("No dine-here data");
-          } else {
-            var restaurantValue = JSON.parse(restValue);
-            if (restaurantValue)
-              this._checkRatings(restaurantValue, tokenName);
-          }
-        });
-      }
-    });
-  }
-
   _toggleExpanded() {
     this.setState({collapsed: !this.state.collapsed});
   }
@@ -270,7 +254,7 @@ class SearchPage extends Component {
   _renderHeader(section, i, isActive) {
     return (
       <Animatable.View duration={600} style={[styles.header, isActive ? styles.active : styles.inactive]} transition="backgroundColor">
-        <Text style={[styles.headerText, isActive? styles.headerActive : styles.headerInactive]}>{section.title} {AccordionContent[section.identifier].options[this.state[section.identifier]] == 'No preference' ? '...' : AccordionContent[section.identifier].options[this.state[section.identifier]]}</Text>
+        <Text style={[styles.headerText, isActive? styles.headerActive : styles.headerInactive]}>{section.title} {this.state[section.identifier] == 0 ? '...' : AccordionContent[section.identifier].options[this.state[section.identifier]]}</Text>
       </Animatable.View>
     );
   }
@@ -290,7 +274,6 @@ class SearchPage extends Component {
           >
           {AccordionContent[section.identifier].options.map((valueName, valueIndex) => (
             <PickerItemIOS
-              style={{color: 'red'}}
               key={section.identifier + ' ' + valueName}
               value={valueIndex}
               label={valueName}
@@ -367,9 +350,6 @@ class SearchPage extends Component {
       isLoading: false,
       message: ''
     });
-
-    console.log('HI THERE');
-    console.log(response);
 
     if (response.length > 0) {
       this.props.navigator.push({
