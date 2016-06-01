@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 const COLOR_RED = '#8C2621';
+const COLOR_WHITE = '#EDEDED';
 
 var styles = StyleSheet.create({
   tabContent: {
@@ -61,7 +62,7 @@ class TabBarPlatform extends Component{
     return (
       <TabBarIOS
         tintColor={COLOR_RED}
-        translucent={true}>
+        barTintColor={COLOR_WHITE}>
         <TabBarIOS.Item
           icon={require('./Resources/icon_search.png')}
           selected={this.state.selectedTab === 'search'}

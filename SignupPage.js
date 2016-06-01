@@ -38,7 +38,7 @@ const FBLOGIN_TOP_POS = FORM_TOP_POS + 30;
 const SIGNUP_TOP_POS = FBLOGIN_TOP_POS + 15;
 const INPUT_WIDTH = width*0.7;
 const INPUT_MARGIN = width*0.15;
-const colorWhite = '#EDEDED';
+const COLOR_WHITE = '#EDEDED';
 const SMALL_FONT_SIZE = 15;
 const DESCRIPTION_MARGIN = width * 0.1;
 
@@ -47,7 +47,7 @@ var styles = StyleSheet.create({
     fontFamily: 'Bodoni 72',
     fontSize: 36,
     textAlign: 'center',
-    color: colorWhite,
+    color: COLOR_WHITE,
     backgroundColor: 'transparent'
   },
   container: {
@@ -59,7 +59,7 @@ var styles = StyleSheet.create({
     fontFamily: 'Avenir',
     fontSize: SMALL_FONT_SIZE,
     textAlign: 'center',
-    color: colorWhite,
+    color: COLOR_WHITE,
     backgroundColor: 'transparent',
     marginLeft: DESCRIPTION_MARGIN,
     marginRight: DESCRIPTION_MARGIN
@@ -77,14 +77,14 @@ var styles = StyleSheet.create({
     width: INPUT_WIDTH,
     fontSize: 15,
     borderWidth: 1,
-    borderColor: colorWhite,
-    color: colorWhite,
+    borderColor: COLOR_WHITE,
+    color: COLOR_WHITE,
     backgroundColor: 'rgba(237, 237, 237, 0.15)',
     fontFamily: 'Avenir',
   },
   buttonText: {
     fontSize: SMALL_FONT_SIZE,
-    color: colorWhite,
+    color: COLOR_WHITE,
     alignSelf: 'center',
     fontFamily: 'Avenir',
     backgroundColor: 'transparent'
@@ -95,7 +95,7 @@ var styles = StyleSheet.create({
     width: INPUT_WIDTH,
     marginRight: INPUT_MARGIN,
     marginLeft: INPUT_MARGIN,
-    borderColor: colorWhite,
+    borderColor: COLOR_WHITE,
     borderWidth: 1,
     borderBottomWidth: 1,
     alignSelf: 'stretch',

@@ -5,22 +5,47 @@ import {
     Dimensions
 } from 'react-native';
 
-var header = 65;
-var width = Dimensions.get('window').width;
-var height = Dimensions.get('window').height;
-var hHeight = height-header;
+var { width, height } = Dimensions.get('window');
+const header = 70 ;
+const containerHeight = height-header;
+const COLOR_WHITE = '#EDEDED';
 
 var css = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: header
+        width: null,
+        height: null
     },
     fill: {
         flex: 1
     },
+    rowContainer: {
+        flexDirection: 'row',
+        height: containerHeight*0.2,
+        padding: containerHeight*0.04
+    },
     thumb: {
-        width: hHeight*0.2,
-        height: hHeight*0.2
+        width: containerHeight*0.12,
+        height: containerHeight*0.12,
+        resizeMode: "stretch",
+        borderRadius: 5,
+        marginRight: 20
+    },
+    textContainer: {
+        flexDirection: 'column',
+        justifyContent: 'center'
+    },
+    restaurantTitle: {
+      fontFamily: 'Bodoni 72',
+      fontSize: 20,
+      fontWeight: '800',
+      width: width*0.4,
+      color: COLOR_WHITE
+    },
+    restaurantLocation: {
+      fontFamily: 'Avenir',
+      fontSize: 15,
+      color: COLOR_WHITE
     },
     image: {
         height: 300,
@@ -30,40 +55,37 @@ var css = StyleSheet.create({
         width: width*0.5
     },
     oneHalf: {
-        height: hHeight*0.5
+        height: containerHeight*0.5
     },
     oneThird: {
-        height: hHeight*0.3333
+        height: containerHeight*0.3333
     },
     oneFourth: {
-        height: hHeight*0.25
+        height: containerHeight*0.25
     },
     oneSixth: {
-        height: hHeight*0.1666
+        height: containerHeight*0.1666
     },
     oneTenth: {
-        height: hHeight*0.10
+        height: containerHeight*0.10
     },
     one11: {
-        height: hHeight/11
+        height: containerHeight/11
     },
     one13: {
-        height: hHeight/13
+        height: containerHeight/13
     },
     twoThirds: {
-        height: hHeight*0.6667
-    },
-    oneFifth: {
-        height: hHeight*0.2
+        height: containerHeight*0.6667
     },
     twoFifths: {
-        height: hHeight*0.4
+        height: containerHeight*0.4
     },
     threeFifths: {
-        height: hHeight*0.6
+        height: containerHeight*0.6
     },
     fourFifths: {
-        height: hHeight*0.8
+        height: containerHeight*0.8
     },
     center: {
         justifyContent: 'center',
@@ -81,21 +103,13 @@ var css = StyleSheet.create({
     lpad: {
         padding: 30
     },
-    vCenter: {
-        justifyContent: 'center'
-    },
     hCenter: {
         alignItems: 'center'
     },
-    textContainer: {
-        flexDirection: 'column'
-    },
-    rowContainer: {
-        flexDirection: 'row'
-    },
     separator: {
         height: 1,
-        backgroundColor: '#dddddd'
+        backgroundColor: COLOR_WHITE,
+        width: width*0.7
     },
     h1: {
         fontSize: 34

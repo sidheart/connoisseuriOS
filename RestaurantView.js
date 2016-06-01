@@ -83,7 +83,7 @@ class RestaurantView extends Component {
     getMenu(data, mapBool) {
         var buttonSize = mapBool ? "oneTenth" : "oneFourth";
         var text = data.menu ? "Menu" : "No Available Menu";
-            
+
         return(
             <TouchableHighlight onPress={() => this._menuPressed(data)} underlayColor='#dddddd' style={[css[buttonSize], css.oneHalfWidth]}>
                 <View style={[css[buttonSize], css.center, css.bkGray,

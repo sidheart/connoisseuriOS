@@ -4,7 +4,7 @@ import LoginPage from './LoginPage';
 
 var styles = React.StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   }
 });
 

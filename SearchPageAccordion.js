@@ -368,11 +368,21 @@ class SearchPage extends Component {
       message: ''
     });
 
+    console.log('HI THERE');
+    console.log(response);
+
     if (response.length > 0) {
       this.props.navigator.push({
         title: 'Results',
         component: SearchResults,
-        passProps: {listings: response}
+        passProps: {listings: response},
+        barTintColor: 'black',
+        tintColor: COLOR_WHITE,
+        titleTextColor: COLOR_WHITE,
+        leftButtonIcon: require('./Resources/icon_left.png'),
+        onLeftButtonPress: () => {
+          this.props.navigator.pop();
+        },
       });
     } else {
       this.setState({
