@@ -1957,22 +1957,26 @@ class BookMarked extends Component {
           } else {
             this.setState({token: value});
             console.log('TOKEN IS ' + this.state.token);
-              var query = Routes.getBookmarks;
-              var object = {
-                  method: 'GET',
-                  headers: {
-                      'Accept': 'application/json',
-                      'Content-Type': 'application/json',
-                      'Authorization': this.state.token
-                  }
-              };
-
-              fetch(query, object)
-                .then((response) => response.json())
-                .then((json) => this._handleQueryResponse(json))
-                .catch((error) => console.log("Failed to GET bookmarks " + error));
+              this._callBookmarkQuery();
           }
         });
+    }
+
+    _callBookmarkQuery() {
+        var query = Routes.getBookmarks;
+        var object = {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': this.state.token
+            }
+        };
+
+        fetch(query, object)
+            .then((response) => response.json())
+            .then((json) => this._handleQueryResponse(json))
+            .catch((error) => console.log("Failed to GET bookmarks " + error));
     }
 
     _handleQueryResponse(json) {
@@ -2003,6 +2007,7 @@ class BookMarked extends Component {
             leftButtonIcon: require('./Resources/icon_left.png'),
             onLeftButtonPress: () => {
               this.props.navigator.pop();
+                this._callBookmarkQuery();
             }
         });
     }
