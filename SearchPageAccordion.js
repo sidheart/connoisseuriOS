@@ -165,22 +165,6 @@ const styles = StyleSheet.create({
   }
 });
 
-
-// function urlForQueryAndPage(AccordionContent) {
-//
-//   AsyncStorage.getItem('token', (error, value) => {
-//     if (error) {
-//       console.log('ERROR, can\'t find item: ' + err);
-//     } else {
-//       // console.log('TOKEN SAVED: ' + value);
-//     }
-//   });
-//
-//   //var q = 'name' + '=' + value;
-//
-//   return Routes.search;// + q;// + querystring;
-// }
-
 class SearchPage extends Component {
   constructor(props) {
     super(props);
@@ -332,7 +316,8 @@ class SearchPage extends Component {
       query += '?' + q.join('&');
     }
 
-    // console.log(query);
+    console.log('HNJDNVJER');
+    console.log(query);
     this._executeQuery(query);
 
     //alert('day ' + AccordionContent['day'].options[this.state.day] + '; ' +
@@ -344,13 +329,16 @@ class SearchPage extends Component {
     //'budget ' + AccordionContent['budget'].options[this.state.budget] + ';');
   }
 
-  _handleQueryResponse(response) {
+  _handleQueryResponse(responses) {
     this.setState({
       isLoading: false,
       message: ''
     });
 
-    if (response.length > 0) {
+    // console.log('responsehnjerbnfhjs');
+    // console.log(response);
+
+    if (responses.length > 0) {
       var query = Routes.getBookmarks;
       var object = {
           method: 'GET',
@@ -363,7 +351,7 @@ class SearchPage extends Component {
 
       fetch(query, object)
         .then((response) => response.json())
-        .then((json) => this._handleBookmarkResponse(json, response))
+        .then((json) => this._handleBookmarkResponse(json, responses))
         .catch((error) => console.log("Failed to GET bookmarks " + error));
     } else {
       this.setState({
@@ -372,25 +360,30 @@ class SearchPage extends Component {
     }
   }
 
-  _handleBookmarkResponse(json, response) {
+  _handleBookmarkResponse(json, responses) {
     var length = json.message.length;
-    var restaurants = new Array();
-    for (var i = 0; i < length; i++) {
-      restaurants.push(json.message[i].restaurant[0]._id);
+    console.log('BHJEVF N');
+    console.log(length);
+
+    if (json.success === true) {
+      var restaurants = new Array();
+      for (var i = 0; i < length; i++) {
+        restaurants.push(json.message[i].restaurant[0]._id);
+      }
+      this.setState({bookmarkIds: restaurants});
     }
-    this.setState({bookmarkIds: restaurants});
 
     this.props.navigator.push({
       title: 'Results',
       component: SearchResults,
-      passProps: {listings: response, bookmarks: this.state.bookmarkIds},
+      passProps: {listings: responses, bookmarks: this.state.bookmarkIds},
       barTintColor: 'black',
       tintColor: COLOR_WHITE,
       titleTextColor: COLOR_WHITE,
       leftButtonIcon: require('./Resources/icon_left.png'),
       onLeftButtonPress: () => {
         this.props.navigator.pop();
-      },
+      }
     });
   }
 
