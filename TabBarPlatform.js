@@ -1,5 +1,6 @@
 import React from 'react';
 import SearchPage from './SearchPageAccordion';
+import BookMarked from './BookMarked';
 
 import {
   StyleSheet,
@@ -82,7 +83,7 @@ class TabBarPlatform extends Component{
               selectedTab: 'redTab'
             });
           }}>
-          {this._renderContent('#783E33', 'Red Tab', this.state.notifCount)}
+          <BookMarked {...this.props}></BookMarked>
         </TabBarIOS.Item>
         <TabBarIOS.Item
           icon={require('./Resources/icon_user.png')}

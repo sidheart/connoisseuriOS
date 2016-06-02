@@ -68,7 +68,8 @@ var css = StyleSheet.create({
       fontFamily: 'Avenir',
       fontSize: 15,
       marginTop: 10,
-      paddingHorizontal: width * 0.1
+      paddingHorizontal: width * 0.1,
+      textAlign: 'center'
     },
     button: {
       height: 40,
@@ -92,10 +93,12 @@ var css = StyleSheet.create({
       marginLeft: width*0.05
     },
     row: {
-      flex: 1,
       flexDirection: 'row',
       paddingHorizontal: width*0.10,
       marginTop: 20
+    },
+    extraPadding: {
+      marginTop: 40
     },
     mealHeader: {
       backgroundColor: 'transparent',

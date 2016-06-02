@@ -259,22 +259,18 @@ class Survey extends Component {
     var query = Routes.updateUser;
     var q = [];
     if (this.state.age !== 0) {
-      // TO-DO: RECONSTRUCT THE STRING HERE
       var tempStr = 'age=' + AccordionContent['age'].options[this.state.age].toString().toLowerCase().replace(' ', '_');
       q.push(tempStr);
     }
     if (this.state.gender !== 0) {
-      // TO-DO: RECONSTRUCT THE STRING HERE
       var tempStr = 'gender=' + AccordionContent['gender'].options[this.state.gender].toString().toLowerCase().replace(' ', '_');
       q.push(tempStr);
     }
     if (this.state.diet !== 0) {
-      // TO-DO: RECONSTRUCT THE STRING HERE
       var tempStr = 'dietary_preference=' + AccordionContent['diet'].options[this.state.diet].toString().toLowerCase().replace(' ', '_');
       q.push(tempStr);
     }
 
-    // TO-DO: need to know the format of the URL to be sent
     if (q.length > 0) {
       query += '?' + q.join('&');
     }

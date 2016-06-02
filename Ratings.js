@@ -12,11 +12,14 @@ import {
 } from 'react-native';
 
 class Ratings extends Component {
-    componentWillMount() {
-        this.setState({token: -1});
-        this.setState({restaurantId: this.props.visitedRestaurant.restaurantId});
-        this.setState({restaurantName: this.props.visitedRestaurant.restaurantName});
-        
+    constructor(props) {
+      super(props);
+      this.state = {
+        token: -1,
+        restaurantId: this.props.visitedRestaurant.restaurantId,
+        restaurantName: this.props.visitedRestaurant.restaurantName
+      }
+
         AsyncStorage.getItem('token', (error, value) => {
             if (error) {
                 alert('ERROR, can\'t find item: ' + err);

@@ -1626,15 +1626,19 @@ class SearchResults extends Component {
             // dataSource: dataSource.cloneWithRows(LISTING)
             dataSource: dataSource.cloneWithRows(this.props.listings)
         }
+        // console.log('HEVJBENSM');
+        // console.log(this.props.bookmarks);
     }
 
     rowPressed(restaurantGUID) {
         var data = this.props.listings.filter(prop => prop.name === restaurantGUID)[0];
+        var bookmarked = this.props.bookmarks.includes(data._id);
+        // console.log('HII' + bookmarked);
 
         this.props.navigator.push({
             title: restaurantGUID,
             component: RestaurantView,
-            passProps: {data: data},
+            passProps: {data: data, bookmarked: bookmarked},
             barTintColor: 'black',
             tintColor: COLOR_WHITE,
             titleTextColor: COLOR_WHITE,
@@ -1651,7 +1655,7 @@ class SearchResults extends Component {
                 <View>
                     <View style={css.rowContainer}>
                         <Image style={css.thumb} source={{uri: rowData.imgPath}}/>
-                        <View style={[css.textContainer, css.vCenter]}>
+                        <View style={[css.textContainer]}>
                             <Text style={[css.restaurantTitle]}>{rowData.name}</Text>
                             <Text style={[css.restaurantLocation]} numberOfLines={1}>{rowData.location}</Text>
                         </View>

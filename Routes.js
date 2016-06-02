@@ -15,6 +15,7 @@ var Routes = {
   addRating: url + 'addRating',
   addBookmark: url + 'addBookmark',
   getBookmarks: url + 'getBookmarks',
+  removeBookmark: url + 'removeBookmark'
 };
 
 module.exports = Routes;

@@ -166,20 +166,20 @@ const styles = StyleSheet.create({
 });
 
 
-function urlForQueryAndPage(AccordionContent) {
-
-  AsyncStorage.getItem('token', (error, value) => {
-    if (error) {
-      console.log('ERROR, can\'t find item: ' + err);
-    } else {
-      // console.log('TOKEN SAVED: ' + value);
-    }
-  });
-
-  //var q = 'name' + '=' + value;
-
-  return Routes.search;// + q;// + querystring;
-}
+// function urlForQueryAndPage(AccordionContent) {
+//
+//   AsyncStorage.getItem('token', (error, value) => {
+//     if (error) {
+//       console.log('ERROR, can\'t find item: ' + err);
+//     } else {
+//       // console.log('TOKEN SAVED: ' + value);
+//     }
+//   });
+//
+//   //var q = 'name' + '=' + value;
+//
+//   return Routes.search;// + q;// + querystring;
+// }
 
 class SearchPage extends Component {
   constructor(props) {
@@ -193,15 +193,15 @@ class SearchPage extends Component {
       budget: 0,
       otherPreference: 0,
       username: "",
-      chosenRestaurant: false
+      chosenRestaurant: false,
+      token: "",
+      bookmarkIds: []
     };
     AsyncStorage.getItem('token', (error, value) => {
       if (error) {
-        // alert(err);
         console.log('ERROR, can\'t find item: ' + err);
       } else {
-        // alert(value);
-        // console.log('TOKEN SAVED: ' + value);
+        this.setState({token: value});
       }
     });
 
@@ -314,7 +314,6 @@ class SearchPage extends Component {
           });
       }
     });
-    //console.log(object); console.log(query);
   }
 
   _handleSubmit() {
@@ -352,24 +351,47 @@ class SearchPage extends Component {
     });
 
     if (response.length > 0) {
-      this.props.navigator.push({
-        title: 'Results',
-        component: SearchResults,
-        passProps: {listings: response},
-        barTintColor: 'black',
-        tintColor: COLOR_WHITE,
-        titleTextColor: COLOR_WHITE,
-        leftButtonIcon: require('./Resources/icon_left.png'),
-        onLeftButtonPress: () => {
-          this.props.navigator.pop();
-        },
-      });
+      var query = Routes.getBookmarks;
+      var object = {
+          method: 'GET',
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'Authorization': this.state.token
+          }
+      };
+
+      fetch(query, object)
+        .then((response) => response.json())
+        .then((json) => this._handleBookmarkResponse(json, response))
+        .catch((error) => console.log("Failed to GET bookmarks " + error));
     } else {
       this.setState({
         message: 'No results found. Please try a different selection.'
       });
     }
+  }
 
+  _handleBookmarkResponse(json, response) {
+    var length = json.message.length;
+    var restaurants = new Array();
+    for (var i = 0; i < length; i++) {
+      restaurants.push(json.message[i].restaurant[0]._id);
+    }
+    this.setState({bookmarkIds: restaurants});
+
+    this.props.navigator.push({
+      title: 'Results',
+      component: SearchResults,
+      passProps: {listings: response, bookmarks: this.state.bookmarkIds},
+      barTintColor: 'black',
+      tintColor: COLOR_WHITE,
+      titleTextColor: COLOR_WHITE,
+      leftButtonIcon: require('./Resources/icon_left.png'),
+      onLeftButtonPress: () => {
+        this.props.navigator.pop();
+      },
+    });
   }
 
   render() {

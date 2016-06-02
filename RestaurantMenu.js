@@ -6,32 +6,8 @@ import {
     Text,
     Component,
     ListView,
-    StyleSheet,
     Image
 } from 'react-native';
-
-var styles = StyleSheet.create({
-    c50: { color: '#ECEFF1' },
-    bkc50: { backgroundColor: '#ECEFF1' },
-    c100: { color: '#CFD8DC' },
-    bkc100: { backgroundColor: '#CFD8DC' },
-    c200: { color: '#B0BEC5' },
-    bkc200: { backgroundColor: '#B0BEC5' },
-    c300: { color: '#90A4AE' },
-    bkc300: { backgroundColor: '#90A4AE' },
-    c400: { color: '#78909C' },
-    bkc400: { backgroundColor: '#78909C' },
-    c500: { color: '#607D8B' },
-    bkc500: { backgroundColor: '#607D8B' },
-    c600: { color: '#546E7A' },
-    bkc600: { backgroundColor: '#546E7A' },
-    c700: { color: '#455A64' },
-    bkc700: { backgroundColor: '#455A64' },
-    c800: { color: '#37474F' },
-    bkc800: { backgroundColor: '#37474F' },
-    c900: { color: '#263238' },
-    bkc900: { backgroundColor: '#263238' },
-});
 
 class RestaurantMenu extends Component {
 
