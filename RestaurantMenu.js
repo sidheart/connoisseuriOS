@@ -6,7 +6,8 @@ import {
     Text,
     Component,
     ListView,
-    StyleSheet
+    StyleSheet,
+    Image
 } from 'react-native';
 
 var styles = StyleSheet.create({
@@ -60,16 +61,16 @@ class RestaurantMenu extends Component {
 
     renderDishes(rowData) {
         return (
-            <View style={[css.xspad, css.center, css.bkWhite]}>
-                <Text style={[css.h4, styles.c600]}>{rowData.dish_name}</Text>
+            <View style={css.dish}>
+                <Text style={css.dishText}>{rowData.dish_name}</Text>
             </View>
         )
     }
 
     renderCategoriesHeader() {
         return (
-            <View style={[css.spad, css.center, styles.bkc700]}>
-                <Text style={[css.h3, css.white]}>{this}</Text>
+            <View style={css.categoryHeader}>
+                <Text style={css.categoryHeaderText}>{this}</Text>
             </View>
         )
     }
@@ -88,8 +89,9 @@ class RestaurantMenu extends Component {
 
     renderMealHeader() {
         return (
-            <View style={[css.oneTenth, css.center, styles.bkc900]}>
-                <Text style={[css.h2, styles.c50, css.bold]}>{this}</Text>
+            <View style={css.mealHeader}>
+                <Text style={css.mealHeaderText}>{this}</Text>
+                <View style={css.separator}/>
             </View>
         )
     }
@@ -108,9 +110,11 @@ class RestaurantMenu extends Component {
 
     render() {
         return (
+          <Image source={require('./Resources/landing_background_6.jpg')} style={css.container}>
             <ListView
                 dataSource={this.state.dataSource}
                 renderRow={this.renderMeal.bind(this)}/>
+          </Image>
         );
     }
 }
