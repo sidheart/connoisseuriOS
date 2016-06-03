@@ -9,6 +9,7 @@ import {
     Component,
     TouchableHighlight,
     AsyncStorage,
+    Image
 } from 'react-native';
 
 class Ratings extends Component {
@@ -63,9 +64,9 @@ class Ratings extends Component {
     getButton(buttonText, rating) {
         return(
             <TouchableHighlight onPress={() => this.rowPressed(rating)}
-                                underlayColor='#dddddd' style={[css.oneSixth]}>
-                <View style={[css.oneSixth, css.center, css.bkGray]}>
-                    <Text style={[css.h2, css.white, css.bold, css.center]}>{buttonText}</Text>
+                                underlayColor='#dddddd'>
+                <View style={[css.surveyButton]}>
+                    <Text style={css.buttonText}>{buttonText}</Text>
                 </View>
             </TouchableHighlight>
         );
@@ -74,26 +75,23 @@ class Ratings extends Component {
     getHeader() {
         var name = (this.state.restaurantName) ? this.state.restaurantName : "the restaurant";
         return (
-            <View style={[css.oneTenth, css.center]}>
-                <Text style={[css.h2, css.gray, css.bold]}>How did you feel about {name}?</Text>
+            <View style={css.surveyTitlePosition}>
+                <Text style={css.surveyTitle}>How did you feel about {name}?</Text>
             </View>
         );
     }
 
     render() {
         return (
-            <View style={[css.fill, css.lpad]}>
-                <View style={{ height: 50 }} />
-                {this.getHeader()}
-                <View style={{ height: 30 }} />
-                {this.getButton("Loved it! 😍😋", "love")}
-                <View style={{ height: 10 }} />
-                {this.getButton("Liked it. 😄😊", "like")}
-                <View style={{ height: 10 }} />
-                {this.getButton("Didn't like it... 😔😕", "dislike")}
-                <View style={{ height: 30 }} />
-                {this.getButton("Didn't go. 😬😰", "nogo")}
+          <Image style={css.container} source={require('./Resources/landing_background_7.jpg')}>
+            <View stylle={css.textContainer}>
+              {this.getHeader()}
             </View>
+            {this.getButton("Loved it!", "love")}
+            {this.getButton("Liked it.", "like")}
+            {this.getButton("Didn't like it", "dislike")}
+            {this.getButton("Didn't go.", "nogo")}
+          </Image>
         )
     }
 }

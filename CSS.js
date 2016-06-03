@@ -9,6 +9,7 @@ var { width, height } = Dimensions.get('window');
 const header = 70 ;
 const containerHeight = height-header;
 const COLOR_WHITE = '#EDEDED';
+const COLOR_RED = '#8C2621';
 
 var css = StyleSheet.create({
     container: {
@@ -134,6 +135,27 @@ var css = StyleSheet.create({
       color: COLOR_WHITE,
       backgroundColor: 'transparent',
       marginLeft: width * 0.1
+    },
+    surveyTitlePosition: {
+      marginTop: height*0.17
+    },
+    surveyTitle: {
+      fontFamily: 'Bodoni 72',
+      fontSize: 25,
+      fontWeight: '800',
+      color: COLOR_WHITE,
+      backgroundColor: 'transparent',
+      justifyContent: 'center',
+      textAlign: 'center',
+      marginBottom: 40
+    },
+    surveyButton: {
+      backgroundColor: COLOR_WHITE,
+      height: 40,
+      paddingVertical: 10,
+      marginLeft: width*0.15,
+      marginRight: width*0.15,
+      marginTop: height* 0.03
     },
     oneHalfWidth: {
         width: width*0.5
