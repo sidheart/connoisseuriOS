@@ -56,6 +56,9 @@ class RestaurantView extends Component {
       });
     }
 
+    componentWillReceiveProps(nextProps) {
+    }
+
     getLocationData(data) {
         if (data.address === undefined)
             return [];
@@ -162,7 +165,6 @@ class RestaurantView extends Component {
       }
 
       if (this.state.token && this.props.data.restaurantId && this.state.bookMarkStatus === 'Bookmarked') {
-        console.log('REMOVING NOW!!!');
           var query = Routes.removeBookmark;
           var object = {
               method: 'POST',
@@ -212,7 +214,7 @@ class RestaurantView extends Component {
 
         return (
             <MapView
-                style={{marginTop: 20, height: 200}}
+                style={{marginTop: 20, height: 250}}
                 region={{
                     latitude: markers[0].latitude,
                     longitude: markers[0].longitude,

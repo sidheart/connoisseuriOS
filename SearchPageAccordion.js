@@ -316,8 +316,6 @@ class SearchPage extends Component {
       query += '?' + q.join('&');
     }
 
-    console.log('HNJDNVJER');
-    console.log(query);
     this._executeQuery(query);
 
     //alert('day ' + AccordionContent['day'].options[this.state.day] + '; ' +
@@ -362,8 +360,6 @@ class SearchPage extends Component {
 
   _handleBookmarkResponse(json, responses) {
     var length = json.message.length;
-    console.log('BHJEVF N');
-    console.log(length);
 
     if (json.success === true) {
       var restaurants = new Array();

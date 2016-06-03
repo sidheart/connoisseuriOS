@@ -1,5 +1,3 @@
-const no_rating_delay = true;
-
 import React from 'react';
 import * as Animatable from 'react-native-animatable';
 import Collapsible from 'react-native-collapsible';

@@ -1,6 +1,8 @@
 import React from 'react';
 import SearchPage from './SearchPageAccordion';
 import BookMarked from './BookMarked';
+import UserProfile from './UserProfile';
+import Routes from './Routes';
 
 import {
   StyleSheet,
@@ -8,7 +10,9 @@ import {
   Text,
   View,
   Component,
-  NavigatorIOS
+  NavigatorIOS,
+  AsyncStorage,
+  Image
 } from 'react-native';
 
 const COLOR_RED = '#8C2621';
@@ -28,35 +32,62 @@ var styles = StyleSheet.create({
   }
 });
 
-// <NavigatorIOS
-//   {...this.props}
-//   style={styles.container}
-//     initialRoute={{
-//         title : 'SearchPage',
-//         component: SearchPage,
-//         navigationBarHidden: true
-//        }}
-// />
-
-// <SearchPage navigator={this.props.navigator}></SearchPage>
-
 class TabBarPlatform extends Component{
   constructor(props) {
     super(props);
     this.state = {
       selectedTab: 'search',
+      lastTab: 'search',
       notifCount: 0,
-      presses: 0
+      presses: 0,
+      token: "",
+      bookmarks: null
     };
+
+    AsyncStorage.getItem('token', (error, value) => {
+      if (error) {
+        alert('ERROR, can\'t find item: ' + err);
+        console.log('ERROR, can\'t find item: ' + err);
+      } else {
+        this.setState({token: value});
+      }
+    });
   }
 
-  _renderContent(color: string, pageText: string, num?: number) {
-    return (
-      <View style={[styles.tabContent, {backgroundColor: color}]}>
-        <Text style={styles.tabText}>{pageText}</Text>
-        <Text style={styles.tabText}>{num} re-renders of the {pageText}</Text>
-      </View>
-    );
+  _handleQueryResponse(json) {
+    // console.log('XXXYYYZZZ');
+    this.setState({bookmarks: json});
+    // console.log(this.state.bookmarks);
+    this.props.navigator.push({
+      title: 'Bookmarked',
+      component: BookMarked,
+      passProps: {data: this.state.bookmarks, token: this.state.token},
+      barTintColor: 'black',
+      tintColor: COLOR_WHITE,
+      titleTextColor: COLOR_WHITE,
+      leftButtonIcon: require('./Resources/icon_left.png'),
+      onLeftButtonPress: () => {
+        this.props.navigator.pop();
+        this.setState({selectedTab: this.state.lastTab});
+      }
+    });
+  }
+
+  _getBookmarks() {
+    var query = Routes.getBookmarks;
+    var object = {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': this.state.token
+        }
+    };
+
+    fetch(query, object)
+        .then((response) => response.json())
+        .then((json) => this._handleQueryResponse(json))
+        .catch((error) => console.log("Failed to GET bookmarks " + error));
   }
 
   render() {
@@ -71,29 +102,30 @@ class TabBarPlatform extends Component{
             this.setState({
               selectedTab: 'search'
             });
-          }}
-          >
-          <SearchPage {...this.props}></SearchPage>
+          }}>
+          <SearchPage {...this.props} token={this.state.token}></SearchPage>
         </TabBarIOS.Item>
         <TabBarIOS.Item
           icon={require('./Resources/icon_heart.png')}
-          selected={this.state.selectedTab === 'redTab'}
+          selected={this.state.selectedTab === 'bookmarked'}
           onPress={() => {
+            this._getBookmarks();
             this.setState({
-              selectedTab: 'redTab'
+              lastTab: this.state.selectedTab,
+              selectedTab: 'bookmarked'
             });
           }}>
-          <BookMarked {...this.props}></BookMarked>
+          <Image source={require('./Resources/landing_background_4.jpg')}></Image>
         </TabBarIOS.Item>
         <TabBarIOS.Item
           icon={require('./Resources/icon_user.png')}
-          selected={this.state.selectedTab === 'greenTab'}
+          selected={this.state.selectedTab === 'profile'}
           onPress={() => {
             this.setState({
-              selectedTab: 'greenTab'
+              selectedTab: 'profile'
             });
           }}>
-          {this._renderContent('#21551C', 'Green Tab', this.state.presses)}
+          <UserProfile {...this.props}></UserProfile>
         </TabBarIOS.Item>
       </TabBarIOS>
     );

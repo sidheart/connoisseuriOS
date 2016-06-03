@@ -21,20 +21,6 @@ class RestaurantMenu extends Component {
         }
     }
 
-    /*
-     // menu: [{
-     //    meal: String,
-     //    categories: [{
-     //        category_name: String,
-     //        dishes: [{
-     //            dish_name: String,
-     //            description: String,
-     //            price: Number
-     //        }]
-     //    }]
-     // }],
-     */
-
     renderDishes(rowData) {
         return (
             <View style={css.dish}>

@@ -23,22 +23,13 @@ class BookMarked extends Component {
         var dataSource = new ListView.DataSource(
             {rowHasChanged: (r1, r2) => r1.thumb_url !== r2.thumb_url});
 
-        this.state = {
-          listings: "",
-          token: "",
-          dataSource: dataSource.cloneWithRows([])
-        }
+        var listings = this._retrieveRestaurants(this.props.data);
 
-        AsyncStorage.getItem('token', (error, value) => {
-          if (error) {
-            alert('ERROR, can\'t find item: ' + err);
-            console.log('ERROR, can\'t find item: ' + err);
-          } else {
-            this.setState({token: value});
-            console.log('TOKEN IS ' + this.state.token);
-              this._callBookmarkQuery();
-          }
-        });
+        this.state = {
+          listings: listings,
+          token: this.props.token,
+          dataSource: dataSource.cloneWithRows(listings),
+        }
     }
 
     _callBookmarkQuery() {
@@ -59,19 +50,19 @@ class BookMarked extends Component {
     }
 
     _handleQueryResponse(json) {
-      console.log('HAIIII GETTING NEW LIST');
-      console.log(json);
+      var dataSource = new ListView.DataSource(
+          {rowHasChanged: (r1, r2) => r1.thumb_url !== r2.thumb_url});
+      var listings = this._retrieveRestaurants(json);
+      this.setState({listings: listings, dataSource: dataSource.cloneWithRows(listings)})
+    }
+
+    _retrieveRestaurants(json) {
       var length = json.message.length;
       var restaurants = new Array();
       for (var i = 0; i < length; i++) {
         restaurants.push(json.message[i].restaurant[0]);
       }
-      // console.log(restaurants);
-
-      var dataSource = new ListView.DataSource(
-          {rowHasChanged: (r1, r2) => r1.thumb_url !== r2.thumb_url});
-      this.setState({dataSource: dataSource.cloneWithRows(restaurants)});
-      this.setState({listings: restaurants});
+      return restaurants;
     }
 
     rowPressed(restaurantGUID) {
@@ -87,7 +78,7 @@ class BookMarked extends Component {
             leftButtonIcon: require('./Resources/icon_left.png'),
             onLeftButtonPress: () => {
               this.props.navigator.pop();
-                this._callBookmarkQuery();
+              this._callBookmarkQuery();
             }
         });
     }
