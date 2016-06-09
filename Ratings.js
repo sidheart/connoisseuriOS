@@ -64,10 +64,9 @@ class Ratings extends Component {
     getButton(buttonText, rating) {
         return(
             <TouchableHighlight onPress={() => this.rowPressed(rating)}
-                                underlayColor='#dddddd'>
-                <View style={[css.surveyButton]}>
+                                style={[css.surveyButton]}
+                                underlayColor='white'>
                     <Text style={css.buttonText}>{buttonText}</Text>
-                </View>
             </TouchableHighlight>
         );
     }
