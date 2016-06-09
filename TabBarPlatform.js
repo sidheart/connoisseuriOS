@@ -55,9 +55,7 @@ class TabBarPlatform extends Component{
   }
 
   _handleQueryResponse(json) {
-    // console.log('XXXYYYZZZ');
     this.setState({bookmarks: json});
-    // console.log(this.state.bookmarks);
     this.props.navigator.push({
       title: 'Bookmarked',
       component: BookMarked,

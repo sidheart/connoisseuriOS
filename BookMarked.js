@@ -19,6 +19,7 @@ const COLOR_WHITE = '#EDEDED';
 class BookMarked extends Component {
 
     constructor(props) {
+      console.log('ASDFJVNJER');
         super(props);
         var dataSource = new ListView.DataSource(
             {rowHasChanged: (r1, r2) => r1.thumb_url !== r2.thumb_url});
@@ -57,6 +58,9 @@ class BookMarked extends Component {
     }
 
     _retrieveRestaurants(json) {
+      if (json.message === 'No bookmarks found for this user') {
+        return {};
+      }
       var length = json.message.length;
       var restaurants = new Array();
       for (var i = 0; i < length; i++) {
