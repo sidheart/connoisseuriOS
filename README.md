@@ -3,6 +3,7 @@
 ## Setup
 ```
 $ sudo gem install cocoapods
+$ npm install -g react-native-cli
 $ git clone https://github.com/tygiacalone/connoisseuriOS.git
 $ git pull
 $ sudo npm install
