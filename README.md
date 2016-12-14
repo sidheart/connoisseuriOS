@@ -2,6 +2,7 @@
 
 ## Setup
 ```
+$ sudo gem install cocoapods
 $ git clone https://github.com/tygiacalone/connoisseuriOS.git
 $ git pull
 $ sudo npm install
