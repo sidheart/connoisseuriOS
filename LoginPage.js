@@ -34,10 +34,11 @@ var { width, height } = Dimensions.get('window');
 const HEADER_TOP_POS = height * 0.15;
 const FORM_TOP_POS = height * 0.20;
 const FBLOGIN_TOP_POS = FORM_TOP_POS + 30;
-const SIGNUP_TOP_POS = FBLOGIN_TOP_POS + 15;
+const SIGNUP_TOP_POS = FBLOGIN_TOP_POS + 1;
 const INPUT_WIDTH = width*0.7;
 const INPUT_MARGIN = width*0.15;
 const COLOR_WHITE = '#EDEDED';
+const COLOR_BLACK = '#000000'
 const SMALL_FONT_SIZE = 15;
 const DESCRIPTION_MARGIN = width * 0.1;
 
@@ -78,7 +79,7 @@ var styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLOR_WHITE,
     color: COLOR_WHITE,
-    backgroundColor: 'rgba(237, 237, 237, 0.15)',
+    backgroundColor: 'rgba(119, 136, 153, 0.9)',
     fontFamily: 'Avenir',
   },
   buttonText: {
@@ -97,7 +98,22 @@ var styles = StyleSheet.create({
     borderColor: COLOR_WHITE,
     borderWidth: 1,
     borderBottomWidth: 1,
+    backgroundColor: 'rgba(119, 136, 153, 0.9)',
     alignSelf: 'stretch',
+                               
+    justifyContent: 'center'
+  },
+  signupbutton: {
+    height: 40,
+    flex: 1,
+    borderRadius: 40,
+    width: INPUT_WIDTH - 150,
+    borderColor: COLOR_WHITE,
+    borderWidth: 1,
+    borderBottomWidth: 1,
+    backgroundColor: 'rgba(1, 166, 17, 1)',
+    alignSelf: 'center',
+
     justifyContent: 'center'
   },
   formGroup: {
@@ -109,6 +125,9 @@ var styles = StyleSheet.create({
   },
   signup: {
     top: SIGNUP_TOP_POS
+  },
+  logo: {
+    alignSelf: 'center'
   },
   facebookButton: {
     height: 40,
@@ -246,7 +265,7 @@ class LoginPage extends Component {
 
     return (
       <TouchableWithoutFeedback onPress={ () => { dismissKeyboard() } }>
-        <Image source={require('./Resources/landing_background.jpg')} style={styles.container}>
+        <Image source={require('./Resources/login_page.jpg')} style={styles.container}>
           <View style={styles.headerGroup}>
             <Text style={styles.header}>
               Connoisseur
@@ -282,10 +301,8 @@ class LoginPage extends Component {
             <Text style={styles.description}>{this.state.message}</Text>
           </View>
           <View style={styles.signup}>
-            <Text style={styles.buttonText}>dont have an account?</Text>
             <TouchableHighlight onPress={this.onSignupPressed.bind(this)}
-                                underlayColor='transparent'
-                                style={{marginBottom: 10}}>
+                                style={styles.signupbutton}>
               <Text style={[styles.buttonText, {fontWeight: '800'}]}>sign up</Text>
             </TouchableHighlight>
             {spinner}

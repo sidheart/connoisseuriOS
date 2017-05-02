@@ -288,7 +288,7 @@ class SignupPage extends Component {
 
     return (
       <TouchableWithoutFeedback onPress={ () => { dismissKeyboard() } }>
-        <Image source={require('./Resources/landing_background_3.jpg')} style={styles.container}>
+        <Image source={require('./Resources/signup_page.jpg')} style={styles.container}>
           <View style={styles.headerGroup}>
             <Text style={styles.header}>
               Connoisseur
