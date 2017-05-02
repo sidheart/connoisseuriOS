@@ -65,4 +65,6 @@ SPEC CHECKSUMS:
   react-native-fbsdklogin: 9857d698accf58ab07039fd39320df9476eb40a6
   react-native-fbsdkshare: 30022ca3609aa4bfe5daf0a77a7444084e8e7c9f
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 4ffa4c03b36d70a922d4507cb3310839bb6e3d16
+
+COCOAPODS: 1.2.1

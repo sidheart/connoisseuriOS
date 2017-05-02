@@ -1,6 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <Group
+      location = "container:"
+      name = "JS">
+      <FileRef
+         location = "group:../BookMarked.js">
+      </FileRef>
+      <FileRef
+         location = "group:../CSS.js">
+      </FileRef>
+      <FileRef
+         location = "group:../index.ios.js">
+      </FileRef>
+      <FileRef
+         location = "group:../LoginPage.js">
+      </FileRef>
+      <FileRef
+         location = "group:../package.json">
+      </FileRef>
+      <FileRef
+         location = "group:../Ratings.js">
+      </FileRef>
+      <FileRef
+         location = "group:../README.md">
+      </FileRef>
+      <FileRef
+         location = "group:../RegisterPage.js">
+      </FileRef>
+      <FileRef
+         location = "group:../RestaurantMenu.js">
+      </FileRef>
+      <FileRef
+         location = "group:../RestaurantView.js">
+      </FileRef>
+      <FileRef
+         location = "group:../Routes.js">
+      </FileRef>
+      <FileRef
+         location = "group:../SearchPageAccordion.js">
+      </FileRef>
+      <FileRef
+         location = "group:../SearchPageOld.js">
+      </FileRef>
+      <FileRef
+         location = "group:../SearchResults.js">
+      </FileRef>
+      <FileRef
+         location = "group:../SignupPage.js">
+      </FileRef>
+      <FileRef
+         location = "group:../Survey.js">
+      </FileRef>
+      <FileRef
+         location = "group:../TabBarPlatform.js">
+      </FileRef>
+      <FileRef
+         location = "group:../UserProfile.js">
+      </FileRef>
+      <FileRef
+         location = "group:../WelcomePage.js">
+      </FileRef>
+      <FileRef
+         location = "group:../WelcomePageBranch.js">
+      </FileRef>
+   </Group>
    <FileRef
       location = "group:connoisseuriOS.xcodeproj">
    </FileRef>
