@@ -7,3 +7,5 @@ ios/Pods/*
 ios/build/ModuleCache/*
 ios/build/Build/*
 ios/connoisseurIOSanto.xcworkspace/*
+ios/connoisseuriOS.xcworkspace/xcuserdata/milk.xcuserdatad/*
+ios/connoisseuriOS.xcworkspace/xcuserdata/milk.xcuserdatad/UserInterfaceState.xcuserstate
