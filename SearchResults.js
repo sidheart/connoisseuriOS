@@ -67,7 +67,7 @@ class SearchResults extends Component {
 
     render() {
       return (
-        <Image source={require('./Resources/landing_background_4.jpg')} style={css.container}>
+        <Image source={require('./Resources/results_page.jpg')} style={css.container}>
           <ListView
             dataSource={this.state.dataSource}
             renderRow={this.renderRow.bind(this)}/>

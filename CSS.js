@@ -23,6 +23,7 @@ var css = StyleSheet.create({
     },
     rowContainer: {
         flexDirection: 'row',
+        backgroundColor: 'rgba(255, 255, 255, .5)',
         height: containerHeight*0.2,
         padding: containerHeight*0.04
     },
@@ -38,16 +39,16 @@ var css = StyleSheet.create({
         justifyContent: 'center'
     },
     restaurantTitle: {
-      fontFamily: 'Bodoni 72',
+      fontFamily: 'Avenir',
       fontSize: 20,
       fontWeight: '800',
-      width: width*0.4,
-      color: COLOR_WHITE
+      width: width*0.5,
+      color: 'black'
     },
     restaurantLocation: {
       fontFamily: 'Avenir',
       fontSize: 15,
-      color: COLOR_WHITE
+      color: 'black'
     },
     restaurantImage: {
       width: width,
@@ -165,9 +166,8 @@ var css = StyleSheet.create({
         alignItems: 'center'
     },
     separator: {
-        height: 1,
-        backgroundColor: COLOR_WHITE,
-        width: width*0.7
+        height: 2,
+        backgroundColor: 'black'
     },
 });
 
