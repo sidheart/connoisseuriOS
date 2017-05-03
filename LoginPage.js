@@ -32,7 +32,7 @@ import {
 
 var { width, height } = Dimensions.get('window');
 const HEADER_TOP_POS = height * 0.15;
-const FORM_TOP_POS = height * 0.20;
+const FORM_TOP_POS = height * 0.05;
 const FBLOGIN_TOP_POS = FORM_TOP_POS + 30;
 const SIGNUP_TOP_POS = FBLOGIN_TOP_POS + 1;
 const INPUT_WIDTH = width*0.7;
@@ -56,6 +56,7 @@ var styles = StyleSheet.create({
     height: null
   },
   description: {
+    height: 30,
     fontFamily: 'Avenir',
     fontSize: SMALL_FONT_SIZE,
     textAlign: 'center',
@@ -65,7 +66,6 @@ var styles = StyleSheet.create({
     marginRight: DESCRIPTION_MARGIN
   },
   headerGroup: {
-    top: HEADER_TOP_POS
   },
   searchInput: {
     height: 40,
@@ -127,6 +127,7 @@ var styles = StyleSheet.create({
     top: SIGNUP_TOP_POS
   },
   logo: {
+    marginBottom: -30,
     alignSelf: 'center'
   },
   facebookButton: {
@@ -267,12 +268,7 @@ class LoginPage extends Component {
       <TouchableWithoutFeedback onPress={ () => { dismissKeyboard() } }>
         <Image source={require('./Resources/login_page.jpg')} style={styles.container}>
           <View style={styles.headerGroup}>
-            <Text style={styles.header}>
-              Connoisseur
-            </Text>
-            <Text style={styles.description}>
-              where we match your taste
-            </Text>
+            <Image source={require('./Resources/logo.png')} style={styles.logo}></Image>
           </View>
           <View style={styles.formGroup}>
             <TextInput
