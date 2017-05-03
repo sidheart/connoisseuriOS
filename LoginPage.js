@@ -111,7 +111,7 @@ var styles = StyleSheet.create({
     borderColor: COLOR_WHITE,
     borderWidth: 1,
     borderBottomWidth: 1,
-    backgroundColor: 'rgba(1, 166, 17, 1)',
+    backgroundColor: 'rgba(119, 136, 153, 1)',
     alignSelf: 'center',
 
     justifyContent: 'center'
