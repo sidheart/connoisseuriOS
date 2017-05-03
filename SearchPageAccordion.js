@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Avenir',
     fontSize: SMALL_FONT_SIZE,
     textAlign: 'center',
-    color: COLOR_WHITE,
+    color: 'black',
     backgroundColor: 'transparent',
     marginLeft: DESCRIPTION_MARGIN,
     marginRight: DESCRIPTION_MARGIN
@@ -123,14 +123,18 @@ const styles = StyleSheet.create({
     fontSize: SMALL_FONT_SIZE,
     fontWeight: '500'
   },
+  headerInactive: {
+    color: 'white',
+    borderColor: COLOR_WHITE,
+    borderWidth: 1,
+    width: INPUT_WIDTH,
+    backgroundColor: 'rgba(119, 136, 153, 0.8)',
+    padding: 5,
+  },
   headerActive: {
     color: 'black',
-    backgroundColor: COLOR_WHITE,
-    width: INPUT_WIDTH,
-    padding: 10
-  },
-  headerInactive: {
-    color: COLOR_WHITE
+    backgroundColor: 'rgba(255, 255, 255, .5)',
+    padding: 5
   },
   content: {
     flex: 1
@@ -147,18 +151,19 @@ const styles = StyleSheet.create({
   submitButton: {
     height: 40,
     flex: 1,
-    width: INPUT_WIDTH,
+    borderRadius: 40,
+    width: INPUT_WIDTH - 100,
     borderColor: COLOR_WHITE,
-    backgroundColor: COLOR_WHITE,
+    backgroundColor: 'rgba(144, 238, 144, 1)',
     borderWidth: 1,
     borderBottomWidth: 1,
-    alignSelf: 'stretch',
+    alignSelf: 'center',
     justifyContent: 'center',
     marginTop: 0
   },
   buttonText: {
     fontFamily: 'Avenir',
-    color: 'black',
+    color: 'white',
     alignSelf: 'center',
     fontWeight: '700',
     fontSize: SMALL_FONT_SIZE
@@ -386,7 +391,7 @@ class SearchPage extends Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={ () => { dismissKeyboard() } }>
-        <Image source={require('./Resources/landing_background_3.jpg')} style={styles.container}>
+        <Image source={require('./Resources/home_page.jpg')} style={styles.container}>
           <View style={styles.accordion}>
             <Accordion
               sections={AccordionList}
