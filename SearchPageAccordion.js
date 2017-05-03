@@ -48,11 +48,6 @@ const AccordionList = [
     identifier: 'foodType'
   },
   {
-    // Partner
-    title: 'I am with',
-    identifier: 'partner'
-  },
-  {
     // Location
     title: 'We would like to eat near',
     identifier: 'location'
@@ -61,11 +56,6 @@ const AccordionList = [
     // Budget
     title: 'We want to pay per person',
     identifier: 'budget'
-  },
-  {
-    // Other Preference
-    title: 'And it should be somewhere',
-    identifier: 'otherPreference'
   }
 ];
 
@@ -78,18 +68,11 @@ const AccordionContent = {
             'Indian', 'Italian', 'Japanese', 'Korean', 'Mexican', 'Middle Eastern', 'Pizza', 'Seafood', 'Seasonal or Local', 'South_american',
             'Steakhouse', 'Sushi', 'Sushi Bar', 'Tapas', 'Thai', 'Vegan']
   },
-  partner: {
-    options: ['No preference', 'Clients', 'A hot date', 'Friends', 'Children', 'My dog', 'A group of friends', 'A vegan', 'My parents', 'Someone I want to impress']
-  },
   location: {
     options: ['No preference', 'Santa Monica', 'West Los Angeles']
   },
   budget: {
     options: ['No preference', '<20', '20~40', '40~80', '80~150', '150+']
-  },
-  otherPreference: {
-    options: ['No preference', 'I can bring my dog', 'Vegetarian friendly', 'With a good happy hour', 'With healthy options', 'With a good review',
-              'That takes reservations', 'Good for groups', 'With valet', 'With a patio', 'Where I can see celebrities']
   }
 };
 
