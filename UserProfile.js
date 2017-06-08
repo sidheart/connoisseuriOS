@@ -5,9 +5,8 @@ import Accordion from 'react-native-collapsible/Accordion';
 import TabBarPlatform from './TabBarPlatform';
 import Routes from './Routes';
 import dismissKeyboard from 'dismissKeyboard';
-
+import styles from './CSS';
 import {
-  StyleSheet,
   Text,
   TextInput,
   View,
@@ -23,97 +22,8 @@ import {
 
 
 var PickerItemIOS = PickerIOS.Item;
-var { width, height } = Dimensions.get('window');
-const COLOR_RED = '#8C2621';
-const SMALL_FONT_SIZE = 15;
-const ACCORDION_TOP = height*0.1;
-const COLOR_WHITE = '#EDEDED';
-const INPUT_WIDTH = width*0.7;
-const INPUT_MARGIN = width*0.15;
-const DESCRIPTION_MARGIN = width * 0.1;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingLeft: INPUT_MARGIN,
-    paddingRight: INPUT_MARGIN,
-    width: null,
-    height: null
-  },
-  intro: {
-    top: -80
-  },
-  introText: {
-    fontFamily: 'Bodoni 72',
-    fontSize: 25,
-    color: COLOR_WHITE,
-    backgroundColor: 'transparent',
-    fontWeight: '800',
-    justifyContent: 'center',
-    textAlign: 'center'
-  },
-  description: {
-    fontFamily: 'Avenir',
-    fontSize: SMALL_FONT_SIZE,
-    textAlign: 'center',
-    color: COLOR_WHITE,
-    backgroundColor: 'transparent',
-    marginLeft: DESCRIPTION_MARGIN,
-    marginRight: DESCRIPTION_MARGIN,
-    fontWeight: '700',
-    paddingVertical: 10
-  },
-  header: {
-    paddingVertical: 10
-  },
-  headerText: {
-    fontFamily: 'Avenir',
-    textAlign: 'center',
-    fontSize: SMALL_FONT_SIZE,
-    fontWeight: '500'
-  },
-  headerActive: {
-    color: 'black',
-    backgroundColor: COLOR_WHITE,
-    width: INPUT_WIDTH,
-    padding: 10
-  },
-  headerInactive: {
-    color: COLOR_WHITE
-  },
-  content: {
-    flex: 1
-  },
-  active: {
-    backgroundColor: 'transparent'
-  },
-  inactive: {
-    backgroundColor: 'transparent'
-  },
-  submitButtonView: {
-    marginTop: -30
-  },
-  submitButton: {
-    height: 40,
-    flex: 1,
-    width: INPUT_WIDTH,
-    borderColor: COLOR_WHITE,
-    backgroundColor: COLOR_WHITE,
-    borderWidth: 1,
-    borderBottomWidth: 1,
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    marginTop: 0
-  },
-  buttonText: {
-    fontFamily: 'Avenir',
-    color: 'black',
-    alignSelf: 'center',
-    fontWeight: '700',
-    fontSize: SMALL_FONT_SIZE
-  }
-});
+
 
 class Survey extends Component {
   constructor(props) {
@@ -156,14 +66,14 @@ class Survey extends Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={ () => { dismissKeyboard() } }>
-        <Image source={require('./Resources/landing_background_5.jpg')} style={styles.container}>
+        <Image source={require('./Resources/landing_background_5.jpg')} style={styles.containerUserAccordionSurvey}>
           <View style={styles.intro}>
               <Text style={styles.introText}>Everything about you...</Text>
           </View>
           <View>
-              <Text style={styles.description}>Age - {this.state.age}</Text>
-              <Text style={styles.description}>Gender - {this.state.gender}</Text>
-              <Text style={styles.description}>Dietary Preference - {this.state.diet}</Text>
+              <Text style={styles.descriptionUser}>Age - {this.state.age}</Text>
+              <Text style={styles.descriptionUser}>Gender - {this.state.gender}</Text>
+              <Text style={styles.descriptionUser}>Dietary Preference - {this.state.diet}</Text>
           </View>
         </Image>
       </TouchableWithoutFeedback>

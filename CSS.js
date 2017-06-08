@@ -10,14 +10,112 @@ const header = 70 ;
 const containerHeight = height-header;
 const COLOR_WHITE = '#EDEDED';
 const COLOR_RED = '#8C2621';
+const SMALL_FONT_SIZE = 15;
+const INPUT_WIDTH = width*0.7;
+const INPUT_MARGIN = width*0.15;
+const DESCRIPTION_MARGIN = width * 0.1;
+const HEADER_TOP_POS = height * 0.15;
+const FORM_TOP_POS = height * 0.20;
+const FBLOGIN_TOP_POS = FORM_TOP_POS + 30;
+const SIGNUP_TOP_POS = FBLOGIN_TOP_POS + 15;
 
 var css = StyleSheet.create({
+    header: {
+    fontFamily: 'Bodoni 72',
+    fontSize: 36,
+    textAlign: 'center',
+    color: COLOR_WHITE,
+    backgroundColor: 'transparent'
+  },
+  headerGroupSignup: {
+    top: HEADER_TOP_POS
+  },
+  headerGroup:{
+
+  },
+  logo: {
+    marginBottom: -30,
+    alignSelf: 'center'
+  },
+    containerLoginSignup: {//for loginpage.js and signuppage.js
+    flex: 1,
+    width: null,
+    height: null
+  },
+    containerUserAccordionSurvey:{//for userprofile.js, searchpageaccordion.js, and survey.js
+    flex: 1,
+    justifyContent: 'center',
+    paddingLeft: INPUT_MARGIN,
+    paddingRight: INPUT_MARGIN,
+    width: null,
+    height: null
+    },
     container: {
         flex: 1,
         width: null,
         height: null,
         backgroundColor: 'black'
     },
+    description: {
+    fontFamily: 'Avenir',
+    fontSize: SMALL_FONT_SIZE,
+    textAlign: 'center',
+    color: COLOR_WHITE,
+    backgroundColor: 'transparent',
+    marginLeft: DESCRIPTION_MARGIN,
+    marginRight: DESCRIPTION_MARGIN
+  },
+  descriptionUser: {//for userprofile.js
+    fontFamily: 'Avenir',
+    fontSize: SMALL_FONT_SIZE,
+    textAlign: 'center',
+    color: COLOR_WHITE,
+    backgroundColor: 'transparent',
+    marginLeft: DESCRIPTION_MARGIN,
+    marginRight: DESCRIPTION_MARGIN,
+    fontWeight: '700',
+    paddingVertical: 10
+  },
+  descriptionAccordion: {
+    fontFamily: 'Avenir',
+    fontSize: SMALL_FONT_SIZE,
+    textAlign: 'center',
+    color: 'black',
+    backgroundColor: 'transparent',
+    marginLeft: DESCRIPTION_MARGIN,
+    marginRight: DESCRIPTION_MARGIN
+  },
+  searchInputLogin: {
+    height: 40,
+    paddingLeft: SMALL_FONT_SIZE,
+    marginRight: INPUT_MARGIN,
+    marginLeft: INPUT_MARGIN,
+    marginBottom: 10,
+    flex: 1,
+    width: INPUT_WIDTH,
+    fontSize: 15,
+    borderWidth: 1,
+    borderColor: COLOR_WHITE,
+    color: COLOR_WHITE,
+    backgroundColor: 'rgba(119, 136, 153, 0.9)',
+    fontFamily: 'Avenir',
+  },
+  searchInputSignup: {
+    height: 40,
+    paddingLeft: SMALL_FONT_SIZE,
+    marginRight: INPUT_MARGIN,
+    marginLeft: INPUT_MARGIN,
+    marginBottom: 10,
+    flex: 1,
+    width: INPUT_WIDTH,
+    fontSize: 15,
+    borderWidth: 1,
+    borderColor: COLOR_WHITE,
+    color: COLOR_WHITE,
+    backgroundColor: 'rgba(237, 237, 237, 0.15)',
+    fontFamily: 'Avenir',
+  },
+
     fill: {
         flex: 1
     },
@@ -84,6 +182,19 @@ var css = StyleSheet.create({
       justifyContent: 'center',
       marginTop: -30
     },
+    buttonLoginSignup:{
+      height: 40,
+      flex: 1,
+      width: INPUT_WIDTH,
+      marginRight: INPUT_MARGIN,
+      marginLeft: INPUT_MARGIN,
+      borderColor: COLOR_WHITE,
+      borderWidth: 1,
+      borderBottomWidth: 1,
+      backgroundColor: 'rgba(119, 136, 153, 0.9)',
+      alignSelf: 'stretch',             
+      justifyContent: 'center'
+    },
     buttonText: {
       fontFamily: 'Avenir',
       color: 'black',
@@ -91,6 +202,31 @@ var css = StyleSheet.create({
       fontWeight: '700',
       fontSize: 15
     },
+    buttonTextLoginSignup:{
+    fontSize: SMALL_FONT_SIZE,
+    color: COLOR_WHITE,
+    alignSelf: 'center',
+    fontFamily: 'Avenir',
+    backgroundColor: 'transparent'
+  },
+  facebookButton: {
+    height: 40,
+    width: INPUT_WIDTH,
+    backgroundColor: '#4267B2',
+    marginLeft: INPUT_MARGIN,
+    marginRight: INPUT_MARGIN,
+    marginBottom: 10
+  }
+  formGroup: {
+    top: FORM_TOP_POS
+  },
+    loginInfo: {
+    justifyContent: 'center',
+    top: FBLOGIN_TOP_POS
+  },
+  signup: {
+    top: SIGNUP_TOP_POS
+  },
     buttonRight: {
       marginLeft: width*0.05
     },
@@ -169,6 +305,88 @@ var css = StyleSheet.create({
         height: 2,
         backgroundColor: 'black'
     },
+    intro: {
+    top: -80
+  },
+  introText: {
+    fontFamily: 'Bodoni 72',
+    fontSize: 25,
+    color: COLOR_WHITE,
+    backgroundColor: 'transparent',
+    fontWeight: '800',
+    justifyContent: 'center',
+    textAlign: 'center'
+  },
+  accordion: {
+    top: -50
+  },
+  header: {
+    paddingVertical: 10
+  },
+  headerText: {
+    fontFamily: 'Avenir',
+    textAlign: 'center',
+    fontSize: SMALL_FONT_SIZE,
+    fontWeight: '500'
+  },
+  headerActive: {
+    color: 'black',
+    backgroundColor: COLOR_WHITE,
+    width: INPUT_WIDTH,
+    padding: 10
+  },
+  headerInactive: {
+    color: COLOR_WHITE
+  },
+  headerInactiveAccordion: {
+    color: 'white',
+    borderColor: COLOR_WHITE,
+    borderWidth: 1,
+    width: INPUT_WIDTH,
+    backgroundColor: 'rgba(119, 136, 153, 0.8)',
+    padding: 5,
+  },
+  headerActiveAccordion: {
+    color: 'black',
+    backgroundColor: 'rgba(255, 255, 255, .5)',
+    padding: 5
+  },
+  content: {
+    flex: 1
+  },
+  active: {
+    backgroundColor: 'transparent'
+  },
+  inactive: {
+    backgroundColor: 'transparent'
+  },
+  submitButtonView: {
+    marginTop: -30
+  },
+  submitButton: {
+    height: 40,
+    flex: 1,
+    width: INPUT_WIDTH,
+    borderColor: COLOR_WHITE,
+    backgroundColor: COLOR_WHITE,
+    borderWidth: 1,
+    borderBottomWidth: 1,
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    marginTop: 0
+  },
+  signupbutton: {
+    height: 40,
+    flex: 1,
+    borderRadius: 40,
+    width: INPUT_WIDTH - 150,
+    borderColor: COLOR_WHITE,
+    borderWidth: 1,
+    borderBottomWidth: 1,
+    backgroundColor: 'rgba(119, 136, 153, 1)',
+    alignSelf: 'center',
+    justifyContent: 'center'
+  }
 });
 
 module.exports = css;

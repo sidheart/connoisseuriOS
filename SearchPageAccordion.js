@@ -8,9 +8,9 @@ import SearchResults from './SearchResults';
 import Routes from './Routes';
 import dismissKeyboard from 'dismissKeyboard';
 import Ratings from './Ratings';
+import styles from './CSS';
 
 import {
-  StyleSheet,
   Text,
   TextInput,
   View,
@@ -27,14 +27,7 @@ import {
 
 
 var PickerItemIOS = PickerIOS.Item;
-var { width, height } = Dimensions.get('window');
-const COLOR_RED = '#8C2621';
-const SMALL_FONT_SIZE = 15;
-const ACCORDION_TOP = height*0.1;
-const COLOR_WHITE = '#EDEDED';
-const INPUT_WIDTH = width*0.7;
-const INPUT_MARGIN = width*0.15;
-const DESCRIPTION_MARGIN = width * 0.1;
+
 
 const AccordionList = [
   {
@@ -76,82 +69,7 @@ const AccordionContent = {
   }
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingLeft: INPUT_MARGIN,
-    paddingRight: INPUT_MARGIN,
-    width: null,
-    height: null
-  },
-  accordion: {
-    top: -50
-  },
-  description: {
-    fontFamily: 'Avenir',
-    fontSize: SMALL_FONT_SIZE,
-    textAlign: 'center',
-    color: 'black',
-    backgroundColor: 'transparent',
-    marginLeft: DESCRIPTION_MARGIN,
-    marginRight: DESCRIPTION_MARGIN
-  },
-  header: {
-    paddingVertical: 10
-  },
-  headerText: {
-    fontFamily: 'Avenir',
-    textAlign: 'center',
-    fontSize: SMALL_FONT_SIZE,
-    fontWeight: '500'
-  },
-  headerInactive: {
-    color: 'white',
-    borderColor: COLOR_WHITE,
-    borderWidth: 1,
-    width: INPUT_WIDTH,
-    backgroundColor: 'rgba(119, 136, 153, 0.8)',
-    padding: 5,
-  },
-  headerActive: {
-    color: 'black',
-    backgroundColor: 'rgba(255, 255, 255, .5)',
-    padding: 5
-  },
-  content: {
-    flex: 1
-  },
-  active: {
-    backgroundColor: 'transparent'
-  },
-  inactive: {
-    backgroundColor: 'transparent'
-  },
-  submitButtonView: {
-    marginTop: -30
-  },
-  submitButton: {
-    height: 40,
-    flex: 1,
-    borderRadius: 40,
-    width: INPUT_WIDTH - 100,
-    borderColor: COLOR_WHITE,
-    backgroundColor: 'rgba(144, 238, 144, 1)',
-    borderWidth: 1,
-    borderBottomWidth: 1,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    marginTop: 0
-  },
-  buttonText: {
-    fontFamily: 'Avenir',
-    color: 'white',
-    alignSelf: 'center',
-    fontWeight: '700',
-    fontSize: SMALL_FONT_SIZE
-  }
-});
+
 
 class SearchPage extends Component {
   constructor(props) {
@@ -226,7 +144,7 @@ class SearchPage extends Component {
   _renderHeader(section, i, isActive) {
     return (
       <Animatable.View duration={600} style={[styles.header, isActive ? styles.active : styles.inactive]} transition="backgroundColor">
-        <Text style={[styles.headerText, isActive? styles.headerActive : styles.headerInactive]}>{section.title} {this.state[section.identifier] == 0 ? '...' : AccordionContent[section.identifier].options[this.state[section.identifier]]}</Text>
+        <Text style={[styles.headerText, isActive? styles.headerActiveAccordion : styles.headerInactiveAccordion]}>{section.title} {this.state[section.identifier] == 0 ? '...' : AccordionContent[section.identifier].options[this.state[section.identifier]]}</Text>
       </Animatable.View>
     );
   }
@@ -374,7 +292,7 @@ class SearchPage extends Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={ () => { dismissKeyboard() } }>
-        <Image source={require('./Resources/home_page.jpg')} style={styles.container}>
+        <Image source={require('./Resources/home_page.jpg')} style={styles.containerUserAccordionSurvey}>
           <View style={styles.accordion}>
             <Accordion
               sections={AccordionList}
@@ -390,7 +308,7 @@ class SearchPage extends Component {
               <Text style={styles.buttonText}>submit</Text>
             </TouchableHighlight>
           </View>
-          <Text style={styles.description}>{this.state.message}</Text>
+          <Text style={styles.descriptionAccordion}>{this.state.message}</Text>
         </Image>
       </TouchableWithoutFeedback>
     );

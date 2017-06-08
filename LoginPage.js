@@ -7,7 +7,7 @@ import TabBarPlatform from './TabBarPlatform';
 import FBSDK from 'react-native-fbsdk';
 import Routes from './Routes';
 import dismissKeyboard from 'dismissKeyboard';
-
+import styles from './CSS';
 const {
   LoginButton,
   GraphRequest,
@@ -15,7 +15,6 @@ const {
   } = FBSDK;
 
 import {
-  StyleSheet,
   Text,
   TextInput,
   View,
@@ -30,115 +29,7 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 
-var { width, height } = Dimensions.get('window');
-const HEADER_TOP_POS = height * 0.15;
-const FORM_TOP_POS = height * 0.05;
-const FBLOGIN_TOP_POS = FORM_TOP_POS + 30;
-const SIGNUP_TOP_POS = FBLOGIN_TOP_POS + 1;
-const INPUT_WIDTH = width*0.7;
-const INPUT_MARGIN = width*0.15;
-const COLOR_WHITE = '#EDEDED';
-const COLOR_BLACK = '#000000'
-const SMALL_FONT_SIZE = 15;
-const DESCRIPTION_MARGIN = width * 0.1;
 
-var styles = StyleSheet.create({
-  header: {
-    fontFamily: 'Bodoni 72',
-    fontSize: 36,
-    textAlign: 'center',
-    color: COLOR_WHITE,
-    backgroundColor: 'transparent'
-  },
-  container: {
-    flex: 1,
-    width: null,
-    height: null
-  },
-  description: {
-    height: 30,
-    fontFamily: 'Avenir',
-    fontSize: SMALL_FONT_SIZE,
-    textAlign: 'center',
-    color: COLOR_WHITE,
-    backgroundColor: 'transparent',
-    marginLeft: DESCRIPTION_MARGIN,
-    marginRight: DESCRIPTION_MARGIN
-  },
-  headerGroup: {
-  },
-  searchInput: {
-    height: 40,
-    paddingLeft: SMALL_FONT_SIZE,
-    marginRight: INPUT_MARGIN,
-    marginLeft: INPUT_MARGIN,
-    marginBottom: 10,
-    flex: 1,
-    width: INPUT_WIDTH,
-    fontSize: 15,
-    borderWidth: 1,
-    borderColor: COLOR_WHITE,
-    color: COLOR_WHITE,
-    backgroundColor: 'rgba(119, 136, 153, 0.9)',
-    fontFamily: 'Avenir',
-  },
-  buttonText: {
-    fontSize: SMALL_FONT_SIZE,
-    color: COLOR_WHITE,
-    alignSelf: 'center',
-    fontFamily: 'Avenir',
-    backgroundColor: 'transparent'
-  },
-  button: {
-    height: 40,
-    flex: 1,
-    width: INPUT_WIDTH,
-    marginRight: INPUT_MARGIN,
-    marginLeft: INPUT_MARGIN,
-    borderColor: COLOR_WHITE,
-    borderWidth: 1,
-    borderBottomWidth: 1,
-    backgroundColor: 'rgba(119, 136, 153, 0.9)',
-    alignSelf: 'stretch',
-                               
-    justifyContent: 'center'
-  },
-  signupbutton: {
-    height: 40,
-    flex: 1,
-    borderRadius: 40,
-    width: INPUT_WIDTH - 150,
-    borderColor: COLOR_WHITE,
-    borderWidth: 1,
-    borderBottomWidth: 1,
-    backgroundColor: 'rgba(119, 136, 153, 1)',
-    alignSelf: 'center',
-
-    justifyContent: 'center'
-  },
-  formGroup: {
-    top: FORM_TOP_POS
-  },
-  loginInfo: {
-    justifyContent: 'center',
-    top: FBLOGIN_TOP_POS
-  },
-  signup: {
-    top: SIGNUP_TOP_POS
-  },
-  logo: {
-    marginBottom: -30,
-    alignSelf: 'center'
-  },
-  facebookButton: {
-    height: 40,
-    width: INPUT_WIDTH,
-    backgroundColor: '#4267B2',
-    marginLeft: INPUT_MARGIN,
-    marginRight: INPUT_MARGIN,
-    marginBottom: 10
-  }
-});
 
 class LoginPage extends Component {
 
@@ -266,28 +157,28 @@ class LoginPage extends Component {
 
     return (
       <TouchableWithoutFeedback onPress={ () => { dismissKeyboard() } }>
-        <Image source={require('./Resources/login_page.jpg')} style={styles.container}>
+        <Image source={require('./Resources/login_page.jpg')} style={styles.containerLoginSignup}>
           <View style={styles.headerGroup}>
             <Image source={require('./Resources/logo.png')} style={styles.logo}></Image>
           </View>
           <View style={styles.formGroup}>
             <TextInput
-                style={styles.searchInput}
+                style={styles.searchInputLogin}
                 value={this.state.usernameString}
                 onChange={this.onUsernameTextChanged.bind(this)}
                 placeholder='username'
                 placeholderTextColor='white'/>
             <TextInput
                 secureTextEntry={true}
-                style={styles.searchInput}
+                style={styles.searchInputLogin}
                 value={this.state.passwordString}
                 onChange={this.onPasswordTextChanged.bind(this)}
                 placeholder='password'
                 placeholderTextColor='white'/>
-            <TouchableHighlight style={styles.button}
+            <TouchableHighlight style={styles.buttonLoginSignup}
                                 onPress={this.onSearchPressed.bind(this)}
                                 underlayColor='white'>
-              <Text style={styles.buttonText}>login</Text>
+              <Text style={styles.buttonTextLoginSignup}>login</Text>
             </TouchableHighlight>
           </View>
           <View style={styles.loginInfo}>
@@ -299,7 +190,7 @@ class LoginPage extends Component {
           <View style={styles.signup}>
             <TouchableHighlight onPress={this.onSignupPressed.bind(this)}
                                 style={styles.signupbutton}>
-              <Text style={[styles.buttonText, {fontWeight: '800'}]}>sign up</Text>
+              <Text style={[styles.buttonTextLoginSignup, {fontWeight: '800'}]}>sign up</Text>
             </TouchableHighlight>
             {spinner}
           </View>
