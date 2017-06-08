@@ -216,7 +216,7 @@ var css = StyleSheet.create({
     marginLeft: INPUT_MARGIN,
     marginRight: INPUT_MARGIN,
     marginBottom: 10
-  }
+  },
   formGroup: {
     top: FORM_TOP_POS
   },
