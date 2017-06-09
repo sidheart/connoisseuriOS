@@ -60,13 +60,13 @@ class RestaurantView extends Component {
     }
 
     getLocationData(data) {
-        if (data.address === undefined)
+        if (data.displayAddress === null)
             return [];
         return [{
             latitude: data.latitude,
             longitude: data.longitude,
             title: data.name,
-            subtitle: data.address
+            subtitle: data.displayAddress[0]
         }];
     }
 
@@ -81,14 +81,14 @@ class RestaurantView extends Component {
     getInfo(data, markers) {
         var price = (data.price === undefined) ?
             "No pricing is available for this restaurant" : data.price;
-        var phone_number = (data.phone_number === undefined) ?
-            "No phone number is available for this restaurant" : data.phone_number;
-
+        var phone_number = (data.displayPhone === undefined) ?
+            "No phone number is available for this restaurant" : data.displayPhone;
+        var subtitle = (markers[0] === undefined) ? '' : markers[0].subtitle;
         // TO-DO: need to see how price works
         return(
             <View style={css.center}>
                 <Text style={css.restaurantName}>{data.name}</Text>
-                <Text style={css.restaurantSub}>{markers[0].subtitle}</Text>
+                <Text style={css.restaurantSub}>{subtitle}</Text>
                 <Text style={css.restaurantSub}>{phone_number}     ${price}</Text>
                 <Text style={css.restaurantSub}></Text>
             </View>
@@ -233,7 +233,7 @@ class RestaurantView extends Component {
 
         return (
             <View style={[css.container]}>
-                {this.getImage(data.imgPath)}
+                {this.getImage(data.imageUrl)}
                 {this.getInfo(data, markers)}
                 <View style={css.row}>
                     {this.getMenu(data, markers.length)}

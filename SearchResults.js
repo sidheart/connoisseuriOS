@@ -53,7 +53,7 @@ class SearchResults extends Component {
             <TouchableHighlight onPress={() => this.rowPressed(rowData.name)} underlayColor='#dddddd'>
                 <View>
                     <View style={css.rowContainer}>
-                        <Image style={css.thumb} source={{uri: rowData.imgPath}}/>
+                        <Image style={css.thumb} source={{uri: rowData.imageUrl}}/>
                         <View style={[css.textContainer]}>
                             <Text style={[css.restaurantTitle]}>{rowData.name}</Text>
                             <Text style={[css.restaurantLocation]} numberOfLines={1}>{rowData.location}</Text>

@@ -4,14 +4,16 @@
 
 const use_ec2 = true;
 var localhost = 'http://localhost:3000/';
+var userServer = 'http://localhost:8090/';
+var restaurantServer = 'http://localhost:8020/';
 var ec2 = 'http://52.11.254.37:3000/';
 var url = localhost;
 
 var Routes = {
-  addUser: url + 'addUser',
+  addUser: userServer + 'ws-account/api/register',
   updateUser: url + 'updateUser',
-  auth: url + 'auth',
-  search: url + 'search',
+  auth: userServer + 'ws-account/api/loginsession',
+  search: restaurantServer + 'restaurant/city/Westwood',
   addRating: url + 'addRating',
   addBookmark: url + 'addBookmark',
   getBookmarks: url + 'getBookmarks',
